@@ -30,10 +30,6 @@ Acesso rápido aos trabalhos anteriores
 
 Formato ODT (LibreOffice)
 
-HTML
-
-TXT simples
-
 🌍 Suporte a internacionalização:
 
 Traduções via gettext
@@ -61,14 +57,7 @@ GtkSourceView 3
 
 Pacotes Python: PyGObject, odfpy
 
-bash
-# No BigLinux/Manjaro
-sudo pacman -S python-gobject python-odfpy gtksourceview3
-Executando o aplicativo
-bash
-git clone https://github.com/seu-usuario/tac-writer.git
-cd tac-writer
-python3 tac.py
+
 Como Usar
 Clique em "COMEÇAR A ESCREVER"
 
@@ -90,28 +79,9 @@ Salve seu projeto para continuar depois
 
 Exporte para ODT quando finalizado
 
-Capturas de Tela
-Menu Principal	Editor	Formatação
-https://screenshots/main-menu.png	https://screenshots/editor.png	https://screenshots/formatting.png
-Estrutura do Projeto
-text
-tac-writer/
-├── data/              # Armazenamento de projetos
-├── po/                # Arquivos de tradução
-├── src/               # Código fonte
-│   ├── application.py # Aplicação principal
-│   ├── config.py      # Configurações
-│   ├── editor.py      # Componente editor
-│   ├── export.py      # Exportação de documentos
-│   ├── main.py        # Ponto de entrada
-│   ├── paragraph.py   # Editor de parágrafos
-│   ├── project.py     # Gerenciamento de projetos
-│   └── window.py      # Janela principal
-├── tac.py             # Script de execução
-└── README.md          # Este arquivo
 Contribuição
 Contribuições são bem-vindas! Por favor, abra uma issue para discutir mudanças significativas antes de enviar um pull request.
 
 Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
+Este projeto está licenciado sob a Licença GPL 3.0 - veja o arquivo LICENSE para detalhes.
 
