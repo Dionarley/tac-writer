@@ -6,7 +6,7 @@ Dialog windows for the TAC application using GTK4 and libadwaita
 import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, GObject, Gio
+from gi.repository import Gtk, Adw, GObject, Gio, Pango
 
 from core.models import Project, DEFAULT_TEMPLATES
 from core.services import ProjectManager, ExportService
@@ -312,17 +312,68 @@ class FormatDialog(Adw.Window):
         self.font_row = Adw.ComboRow()
         self.font_row.set_title("Font Family")
         font_model = Gtk.StringList()
-        fonts = ["Liberation Sans", "Liberation Serif", "Times New Roman", "Arial", "Calibri"]
-        for font in fonts:
-            font_model.append(font)
+        
+        # Get system fonts
+        try:
+            # Method 1: Try PangoCairo
+            gi.require_version('PangoCairo', '1.0')
+            from gi.repository import PangoCairo
+            font_map = PangoCairo.font_map_get_default()
+            families = font_map.list_families()
+            
+        except:
+            try:
+                # Method 2: Try Pango context
+                context = Pango.Context()
+                font_map = context.get_font_map()
+                families = font_map.list_families()
+                
+            except:
+                try:
+                    # Method 3: Use fontconfig command
+                    import subprocess
+                    result = subprocess.run(['fc-list', ':', 'family'], capture_output=True, text=True)
+                    if result.returncode == 0:
+                        font_names = set()
+                        for line in result.stdout.strip().split('\n'):
+                            if line:
+                                family = line.split(',')[0].strip()
+                                font_names.add(family)
+                        
+                        font_names = sorted(list(font_names))
+                        for font_name in font_names:
+                            font_model.append(font_name)
+                        families = None  # Skip the normal processing below
+                    else:
+                        families = []
+                except:
+                    families = []
+        
+        # Process Pango families if we got them
+        if families is not None:
+            font_names = []
+            for family in families:
+                font_names.append(family.get_name())
+            
+            font_names.sort()
+            for font_name in font_names:
+                font_model.append(font_name)
+        
+        # If still no fonts, use fallback
+        if font_model.get_n_items() == 0:
+            print("Using fallback fonts in FormatDialog")
+            basic_fonts = ["Liberation Sans", "Liberation Serif", "DejaVu Sans", "Ubuntu", "Cantarell"]
+            for font in basic_fonts:
+                font_model.append(font)
+        
         self.font_row.set_model(font_model)
         font_group.add(self.font_row)
         
         # Font size
+        size_adjustment = Gtk.Adjustment(value=12, lower=8, upper=72, step_increment=1, page_increment=2)
         self.size_row = Adw.SpinRow()
         self.size_row.set_title("Font Size")
-        self.size_row.set_range(8, 72)
-        self.size_row.set_increments(1, 2)
+        self.size_row.set_adjustment(size_adjustment)
         font_group.add(self.size_row)
         
         # Style group
@@ -347,24 +398,54 @@ class FormatDialog(Adw.Window):
         
         # Spacing group
         spacing_group = Adw.PreferencesGroup()
-        spacing_group.set_title("Spacing")
+        spacing_group.set_title("Spacing & Alignment")
         prefs_page.add(spacing_group)
         
         # Line spacing
+        line_spacing_adj = Gtk.Adjustment(value=1.5, lower=1.0, upper=3.0, step_increment=0.1, page_increment=0.5)
         self.line_spacing_row = Adw.SpinRow()
         self.line_spacing_row.set_title("Line Spacing")
-        self.line_spacing_row.set_range(1.0, 3.0)
-        self.line_spacing_row.set_increments(0.1, 0.5)
+        self.line_spacing_row.set_subtitle("Space between lines")
+        self.line_spacing_row.set_adjustment(line_spacing_adj)
         self.line_spacing_row.set_digits(1)
         spacing_group.add(self.line_spacing_row)
         
         # First line indent
+        indent_adj = Gtk.Adjustment(value=1.25, lower=0.0, upper=5.0, step_increment=0.1, page_increment=0.5)
         self.indent_row = Adw.SpinRow()
         self.indent_row.set_title("First Line Indent (cm)")
-        self.indent_row.set_range(0.0, 5.0)
-        self.indent_row.set_increments(0.1, 0.5)
+        self.indent_row.set_subtitle("Indentation of the first line")
+        self.indent_row.set_adjustment(indent_adj)
         self.indent_row.set_digits(1)
         spacing_group.add(self.indent_row)
+        
+        # Left margin
+        left_margin_adj = Gtk.Adjustment(value=0.0, lower=0.0, upper=10.0, step_increment=0.1, page_increment=0.5)
+        self.left_margin_row = Adw.SpinRow()
+        self.left_margin_row.set_title("Left Margin (cm)")
+        self.left_margin_row.set_subtitle("Left side margin")
+        self.left_margin_row.set_adjustment(left_margin_adj)
+        self.left_margin_row.set_digits(1)
+        spacing_group.add(self.left_margin_row)
+        
+        # Right margin
+        right_margin_adj = Gtk.Adjustment(value=0.0, lower=0.0, upper=10.0, step_increment=0.1, page_increment=0.5)
+        self.right_margin_row = Adw.SpinRow()
+        self.right_margin_row.set_title("Right Margin (cm)")
+        self.right_margin_row.set_subtitle("Right side margin")
+        self.right_margin_row.set_adjustment(right_margin_adj)
+        self.right_margin_row.set_digits(1)
+        spacing_group.add(self.right_margin_row)
+        
+        # Text alignment
+        self.alignment_row = Adw.ComboRow()
+        self.alignment_row.set_title("Text Alignment")
+        alignment_model = Gtk.StringList()
+        alignments = ["Left", "Center", "Right", "Justify"]
+        for alignment in alignments:
+            alignment_model.append(alignment)
+        self.alignment_row.set_model(alignment_model)
+        spacing_group.add(self.alignment_row)
     
     def _load_current_formatting(self):
         """Load current formatting into controls"""
@@ -390,12 +471,23 @@ class FormatDialog(Adw.Window):
         # Spacing
         self.line_spacing_row.set_value(self.formatting.get('line_spacing', 1.5))
         self.indent_row.set_value(self.formatting.get('indent_first_line', 1.25))
+        self.left_margin_row.set_value(self.formatting.get('indent_left', 0.0))
+        self.right_margin_row.set_value(self.formatting.get('indent_right', 0.0))
+        
+        # Alignment
+        alignment = self.formatting.get('alignment', 'left')
+        alignment_map = {'left': 0, 'center': 1, 'right': 2, 'justify': 3}
+        self.alignment_row.set_selected(alignment_map.get(alignment, 0))
     
     def _on_apply_clicked(self, button):
         """Apply formatting changes"""
         # Update formatting dictionary
         model = self.font_row.get_model()
         selected_font = model.get_string(self.font_row.get_selected())
+        
+        # Map alignment
+        alignment_names = ['left', 'center', 'right', 'justify']
+        selected_alignment = alignment_names[self.alignment_row.get_selected()]
         
         self.formatting.update({
             'font_family': selected_font,
@@ -404,7 +496,10 @@ class FormatDialog(Adw.Window):
             'italic': self.italic_row.get_active(),
             'underline': self.underline_row.get_active(),
             'line_spacing': self.line_spacing_row.get_value(),
-            'indent_first_line': self.indent_row.get_value()
+            'indent_first_line': self.indent_row.get_value(),
+            'indent_left': self.left_margin_row.get_value(),
+            'indent_right': self.right_margin_row.get_value(),
+            'alignment': selected_alignment
         })
         
         # Apply to paragraph if provided
@@ -484,17 +579,15 @@ class ExportDialog(Adw.Window):
         self.format_row.set_title("Format")
         format_model = Gtk.StringList()
         formats = [
-            ("Plain Text (TXT)", "txt"),
-            ("HTML Document", "html"),
-            ("LibreOffice Document (ODT)", "odt"),
-            ("Rich Text Format (RTF)", "rtf")
+            ("LibreOffice Document (ODT)", "odt"),  # Default first
+            ("Plain Text (TXT)", "txt")
         ]
         self.format_data = []
         for display_name, format_code in formats:
             format_model.append(display_name)
             self.format_data.append(format_code)
         self.format_row.set_model(format_model)
-        self.format_row.set_selected(0)
+        self.format_row.set_selected(0)  # ODT as default
         export_group.add(self.format_row)
         
         # Include metadata
@@ -660,18 +753,69 @@ class PreferencesDialog(Adw.PreferencesWindow):
         self.font_family_row = Adw.ComboRow()
         self.font_family_row.set_title("Font Family")
         font_model = Gtk.StringList()
-        fonts = ["Liberation Sans", "Liberation Serif", "Times New Roman", "Arial", "Calibri"]
-        for font in fonts:
-            font_model.append(font)
+        
+        # Get system fonts
+        try:
+            # Method 1: Try PangoCairo
+            gi.require_version('PangoCairo', '1.0')
+            from gi.repository import PangoCairo
+            font_map = PangoCairo.font_map_get_default()
+            families = font_map.list_families()
+            
+        except:
+            try:
+                # Method 2: Try Pango context
+                context = Pango.Context()
+                font_map = context.get_font_map()
+                families = font_map.list_families()
+                
+            except:
+                try:
+                    # Method 3: Use fontconfig command
+                    import subprocess
+                    result = subprocess.run(['fc-list', ':', 'family'], capture_output=True, text=True)
+                    if result.returncode == 0:
+                        font_names = set()
+                        for line in result.stdout.strip().split('\n'):
+                            if line:
+                                family = line.split(',')[0].strip()
+                                font_names.add(family)
+                        
+                        font_names = sorted(list(font_names))
+                        for font_name in font_names:
+                            font_model.append(font_name)
+                        families = None  # Skip the normal processing below
+                    else:
+                        families = []
+                except:
+                    families = []
+        
+        # Process Pango families if we got them
+        if families is not None:
+            font_names = []
+            for family in families:
+                font_names.append(family.get_name())
+            
+            font_names.sort()
+            for font_name in font_names:
+                font_model.append(font_name)
+        
+        # If still no fonts, use fallback
+        if font_model.get_n_items() == 0:
+            print("Using fallback fonts")
+            basic_fonts = ["Liberation Sans", "Liberation Serif", "DejaVu Sans", "Ubuntu", "Cantarell"]
+            for font in basic_fonts:
+                font_model.append(font)
+        
         self.font_family_row.set_model(font_model)
         self.font_family_row.connect('notify::selected', self._on_font_family_changed)
         font_group.add(self.font_family_row)
         
         # Font size
+        adjustment = Gtk.Adjustment(value=12, lower=8, upper=72, step_increment=1, page_increment=2)
         self.font_size_row = Adw.SpinRow()
         self.font_size_row.set_title("Font Size")
-        self.font_size_row.set_range(8, 72)
-        self.font_size_row.set_increments(1, 2)
+        self.font_size_row.set_adjustment(adjustment)
         self.font_size_row.connect('notify::value', self._on_font_size_changed)
         font_group.add(self.font_size_row)
         

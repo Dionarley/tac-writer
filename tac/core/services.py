@@ -243,7 +243,7 @@ class ExportService:
     """Service for exporting projects to various formats"""
     
     def __init__(self):
-        self.supported_formats = ['txt', 'html', 'odt', 'rtf']
+        self.supported_formats = ['odt', 'txt']  # Only ODT and TXT as requested
     
     def export_project(self, project: Project, output_path: str, format_type: str = 'txt') -> bool:
         """Export project to specified format"""
@@ -285,7 +285,7 @@ class ExportService:
             
             # Content
             for i, paragraph in enumerate(project.paragraphs):
-                if paragraph.type == ParagraphType.ARGUMENT_QUOTE:
+                if paragraph.type == ParagraphType.QUOTE:
                     f.write(f"[QUOTE {i+1}]\n")
                     # Indent quoted text
                     lines = paragraph.content.split('\n')
@@ -360,7 +360,7 @@ class ExportService:
         for paragraph in project.paragraphs:
             content = paragraph.content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             
-            if paragraph.type == ParagraphType.ARGUMENT_QUOTE:
+            if paragraph.type == ParagraphType.QUOTE:
                 html_content += f'    <div class="quote">{content}</div>\n'
             else:
                 html_content += f'    <p class="paragraph">{content}</p>\n'
@@ -439,7 +439,7 @@ class ExportService:
         for paragraph in project.paragraphs:
             p_content = paragraph.content.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
             
-            if paragraph.type == ParagraphType.ARGUMENT_QUOTE:
+            if paragraph.type == ParagraphType.QUOTE:
                 content += f'            <text:p text:style-name="Quotations">{p_content}</text:p>\n'
             else:
                 content += f'            <text:p text:style-name="Standard">{p_content}</text:p>\n'
@@ -462,8 +462,8 @@ class ExportService:
         for paragraph in project.paragraphs:
             content = paragraph.content.replace('\\', '\\\\').replace('{', '\\{').replace('}', '\\}')
             
-            if paragraph.type == ParagraphType.ARGUMENT_QUOTE:
-                rtf_content += f'\\li720\\i {content}\\i0\\li0\\par\\par\n'
+            if paragraph.type == ParagraphType.QUOTE:
+                rtf_content += f'\\li720\\ri720\\i {content}\\i0\\li0\\ri0\\par\\par\n'  # Added right indent
             else:
                 rtf_content += f'\\fi720 {content}\\par\\par\n'
         

@@ -11,11 +11,11 @@ from enum import Enum
 
 class ParagraphType(Enum):
     """Types of paragraphs in academic writing"""
+    INTRODUCTION = "introduction"      # Introduction paragraph
     TOPIC = "topic"                    # Topic sentence paragraph
     ARGUMENT = "argument"              # Argumentation paragraph
-    ARGUMENT_QUOTE = "argument_quote"  # Argumentation with quotation
+    QUOTE = "quote"                    # Quote paragraph (renamed from argument_quote)
     CONCLUSION = "conclusion"          # Conclusion paragraph
-    INTRODUCTION = "introduction"      # Introduction paragraph
     TRANSITION = "transition"          # Transition paragraph
 
 
@@ -46,9 +46,10 @@ class Paragraph:
         }
         
         # Special formatting for quotes
-        if paragraph_type == ParagraphType.ARGUMENT_QUOTE:
+        if paragraph_type == ParagraphType.QUOTE:
             self.formatting.update({
-                'indent_left': 4.0,
+                'indent_left': 4.0,      # 4cm as requested
+                'indent_right': 4.0,     # 4cm right indent too
                 'italic': True,
                 'font_size': 11
             })
@@ -88,8 +89,13 @@ class Paragraph:
     @classmethod
     def from_dict(cls, data: Dict[str, Any]) -> 'Paragraph':
         """Create paragraph from dictionary"""
+        # Handle migration from old 'argument_quote' to new 'quote'
+        paragraph_type_str = data['type']
+        if paragraph_type_str == 'argument_quote':
+            paragraph_type_str = 'quote'
+        
         paragraph = cls(
-            paragraph_type=ParagraphType(data['type']),
+            paragraph_type=ParagraphType(paragraph_type_str),
             content=data.get('content', ''),
             paragraph_id=data.get('id')
         )
@@ -315,26 +321,15 @@ ACADEMIC_ESSAY_TEMPLATE = DocumentTemplate(
     description="Standard academic essay structure"
 )
 ACADEMIC_ESSAY_TEMPLATE.paragraph_structure = [
-    ParagraphType.INTRODUCTION,
-    ParagraphType.TOPIC,
-    ParagraphType.ARGUMENT,
-    ParagraphType.ARGUMENT_QUOTE,
-    ParagraphType.CONCLUSION
+    ParagraphType.INTRODUCTION  # Start with only Introduction
 ]
 
 RESEARCH_PAPER_TEMPLATE = DocumentTemplate(
-    name="Research Paper",
+    name="Research Paper", 
     description="Extended research paper structure"
 )
 RESEARCH_PAPER_TEMPLATE.paragraph_structure = [
-    ParagraphType.INTRODUCTION,
-    ParagraphType.TOPIC,
-    ParagraphType.ARGUMENT,
-    ParagraphType.ARGUMENT_QUOTE,
-    ParagraphType.TRANSITION,
-    ParagraphType.ARGUMENT,
-    ParagraphType.ARGUMENT_QUOTE,
-    ParagraphType.CONCLUSION
+    ParagraphType.INTRODUCTION  # Start with only Introduction
 ]
 
 DEFAULT_TEMPLATES = [

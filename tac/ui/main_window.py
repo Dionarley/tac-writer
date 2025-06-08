@@ -267,21 +267,29 @@ class MainWindow(Adw.ApplicationWindow):
         toolbar_box.set_margin_bottom(20)
         toolbar_box.add_css_class("toolbar")
         
-        # Add paragraph buttons
+        # Add paragraph menu button
+        add_button = Gtk.MenuButton()
+        add_button.set_label("Add Paragraph")
+        add_button.set_icon_name("list-add-symbolic")
+        add_button.add_css_class("suggested-action")
+        
+        # Create menu model
+        menu_model = Gio.Menu()
+        
         paragraph_types = [
-            ("Introduction", ParagraphType.INTRODUCTION, "list-add-symbolic"),
-            ("Topic", ParagraphType.TOPIC, "format-text-bold-symbolic"),
-            ("Argument", ParagraphType.ARGUMENT, "format-justify-left-symbolic"),
-            ("Quote", ParagraphType.ARGUMENT_QUOTE, "format-quote-close-symbolic"),
-            ("Conclusion", ParagraphType.CONCLUSION, "object-select-symbolic"),
+            ("Introduction", ParagraphType.INTRODUCTION),
+            ("Topic Sentence", ParagraphType.TOPIC), 
+            ("Argument", ParagraphType.ARGUMENT),
+            ("Quote", ParagraphType.QUOTE),  # Updated name
+            ("Transition", ParagraphType.TRANSITION),
+            ("Conclusion", ParagraphType.CONCLUSION),
         ]
         
-        for label, ptype, icon in paragraph_types:
-            button = Gtk.Button()
-            button.set_label(f"Add {label}")
-            button.set_icon_name(icon)
-            button.connect('clicked', lambda btn, pt=ptype: self._add_paragraph(pt))
-            toolbar_box.append(button)
+        for label, ptype in paragraph_types:
+            menu_model.append(label, f"win.add_paragraph('{ptype.value}')")
+        
+        add_button.set_menu_model(menu_model)
+        toolbar_box.append(add_button)
         
         return toolbar_box
     
@@ -302,6 +310,7 @@ class MainWindow(Adw.ApplicationWindow):
             paragraph_editor = ParagraphEditor(paragraph)
             paragraph_editor.connect('content-changed', self._on_paragraph_changed)
             paragraph_editor.connect('remove-requested', self._on_paragraph_remove_requested)
+            # Removed paragraph-reorder for now - will implement later
             self.paragraphs_box.append(paragraph_editor)
     
     def _update_header_for_view(self, view_name: str):
@@ -389,8 +398,47 @@ class MainWindow(Adw.ApplicationWindow):
     
     def show_open_project_dialog(self):
         """Show open project dialog"""
-        # For now, just show the sidebar if not visible
-        self.leaflet.set_visible_child(self.sidebar)
+        file_chooser = Gtk.FileChooserNative.new(
+            "Open Project",
+            self,
+            Gtk.FileChooserAction.OPEN,
+            "Open",
+            "Cancel"
+        )
+        
+        # Set initial folder to projects directory
+        projects_dir = self.project_manager.projects_dir
+        if projects_dir.exists():
+            file_chooser.set_current_folder(Gio.File.new_for_path(str(projects_dir)))
+        
+        # Add file filter for JSON files
+        filter_json = Gtk.FileFilter()
+        filter_json.set_name("TAC Projects (*.json)")
+        filter_json.add_pattern("*.json")
+        file_chooser.add_filter(filter_json)
+        
+        filter_all = Gtk.FileFilter()
+        filter_all.set_name("All Files")
+        filter_all.add_pattern("*")
+        file_chooser.add_filter(filter_all)
+        
+        def on_response(dialog, response):
+            if response == Gtk.ResponseType.ACCEPT:
+                file = dialog.get_file()
+                if file:
+                    file_path = file.get_path()
+                    # Load project by file path
+                    project = self.project_manager.load_project(file_path)
+                    if project:
+                        self.current_project = project
+                        self._show_editor_view()
+                        self._show_toast(f"Opened project: {project.name}")
+                    else:
+                        self._show_toast("Failed to open project", Adw.ToastPriority.HIGH)
+            dialog.destroy()
+        
+        file_chooser.connect('response', on_response)
+        file_chooser.show()
     
     def save_current_project(self) -> bool:
         """Save the current project"""

@@ -6,7 +6,7 @@ Reusable UI components for the TAC application
 import gi
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw, GObject, Pango
+from gi.repository import Gtk, Adw, GObject
 
 from core.models import Paragraph, ParagraphType, DEFAULT_TEMPLATES
 from core.services import ProjectManager
@@ -178,13 +178,38 @@ class ProjectListWidget(Gtk.Box):
         name_label = Gtk.Label()
         name_label.set_text(project_info['name'])
         name_label.set_halign(Gtk.Align.START)
-        name_label.set_ellipsize(Pango.EllipsizeMode.END)
+        name_label.set_ellipsize(3)  # PANGO_ELLIPSIZE_END = 3
         name_label.add_css_class("heading")
         header_box.append(name_label)
         
         # Spacer
-        header_box.append(Gtk.Box())
-        header_box.set_hexpand(True)
+        spacer = Gtk.Box()
+        spacer.set_hexpand(True)
+        header_box.append(spacer)
+        
+        # Action buttons (initially hidden)
+        actions_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
+        actions_box.set_visible(False)
+        
+        # Edit button (pencil)
+        edit_button = Gtk.Button()
+        edit_button.set_icon_name("edit-symbolic")
+        edit_button.set_tooltip_text("Rename project")
+        edit_button.add_css_class("flat")
+        edit_button.add_css_class("circular")
+        edit_button.connect('clicked', lambda b: self._on_edit_project(project_info))
+        actions_box.append(edit_button)
+        
+        # Delete button (trash)
+        delete_button = Gtk.Button()
+        delete_button.set_icon_name("user-trash-symbolic")
+        delete_button.set_tooltip_text("Delete project")
+        delete_button.add_css_class("flat")
+        delete_button.add_css_class("circular")
+        delete_button.connect('clicked', lambda b: self._on_delete_project(project_info))
+        actions_box.append(delete_button)
+        
+        header_box.append(actions_box)
         
         # Modification date
         if project_info.get('modified_at'):
@@ -214,6 +239,12 @@ class ProjectListWidget(Gtk.Box):
             stats_label.add_css_class("dim-label")
             box.append(stats_label)
         
+        # Setup hover effect
+        hover_controller = Gtk.EventControllerMotion()
+        hover_controller.connect('enter', lambda c, x, y: actions_box.set_visible(True))
+        hover_controller.connect('leave', lambda c: actions_box.set_visible(False))
+        row.add_controller(hover_controller)
+        
         row.set_child(box)
         return row
     
@@ -238,6 +269,81 @@ class ProjectListWidget(Gtk.Box):
             return search_text in project_name or search_text in project_desc
         
         return True
+    
+    def _on_edit_project(self, project_info):
+        """Handle project rename"""
+        dialog = Adw.MessageDialog.new(
+            self.get_root(),
+            "Rename Project",
+            f"Enter new name for '{project_info['name']}'"
+        )
+        
+        # Add entry for new name
+        entry = Gtk.Entry()
+        entry.set_text(project_info['name'])
+        entry.set_margin_start(20)
+        entry.set_margin_end(20)
+        entry.set_margin_top(10)
+        entry.set_margin_bottom(10)
+        
+        # Select all text for easy replacement
+        entry.grab_focus()
+        entry.select_region(0, -1)
+        
+        dialog.set_extra_child(entry)
+        
+        dialog.add_response("cancel", "Cancel")
+        dialog.add_response("rename", "Rename")
+        dialog.set_response_appearance("rename", Adw.ResponseAppearance.SUGGESTED)
+        dialog.set_default_response("rename")
+        
+        def save_name():
+            """Save the new name"""
+            new_name = entry.get_text().strip()
+            if new_name and new_name != project_info['name']:
+                # Load, rename and save project
+                project = self.project_manager.load_project(project_info['id'])
+                if project:
+                    project.name = new_name
+                    self.project_manager.save_project(project)
+                    self.refresh_projects()
+            dialog.destroy()
+        
+        def on_response(dialog, response):
+            if response == "rename":
+                save_name()
+            else:
+                dialog.destroy()
+        
+        # Handle Enter key in entry
+        def on_entry_activate(entry):
+            save_name()
+        
+        entry.connect('activate', on_entry_activate)
+        dialog.connect('response', on_response)
+        dialog.present()
+
+    def _on_delete_project(self, project_info):
+        """Handle project deletion"""
+        dialog = Adw.MessageDialog.new(
+            self.get_root(),
+            f"Delete '{project_info['name']}'?",
+            "This project will be moved to trash and can be recovered."
+        )
+        dialog.add_response("cancel", "Cancel")
+        dialog.add_response("delete", "Delete")
+        dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
+        dialog.set_default_response("cancel")
+        
+        def on_response(dialog, response):
+            if response == "delete":
+                success = self.project_manager.delete_project(project_info['id'])
+                if success:
+                    self.refresh_projects()
+            dialog.destroy()
+        
+        dialog.connect('response', on_response)
+        dialog.present()
 
 
 class ParagraphEditor(Gtk.Box):
@@ -300,13 +406,16 @@ class ParagraphEditor(Gtk.Box):
         self._update_word_count()
         header_box.append(self.word_count_label)
         
-        # Format button
-        format_button = Gtk.Button()
-        format_button.set_icon_name("format-text-bold-symbolic")
-        format_button.set_tooltip_text("Format paragraph")
-        format_button.add_css_class("flat")
-        format_button.connect('clicked', self._on_format_clicked)
-        header_box.append(format_button)
+        # Format button with popover
+        self.format_button = Gtk.MenuButton()
+        self.format_button.set_icon_name("format-text-bold-symbolic")
+        self.format_button.set_tooltip_text("Format paragraph")
+        self.format_button.add_css_class("flat")
+        
+        # Create format popover
+        self._create_format_popover()
+        self.format_button.set_popover(self.format_popover)
+        header_box.append(self.format_button)
         
         # Remove button
         remove_button = Gtk.Button()
@@ -348,48 +457,65 @@ class ParagraphEditor(Gtk.Box):
         """Get display label for paragraph type"""
         type_labels = {
             ParagraphType.INTRODUCTION: "Introduction",
-            ParagraphType.TOPIC: "Topic Sentence",
+            ParagraphType.TOPIC: "Topic Sentence", 
             ParagraphType.ARGUMENT: "Argument",
-            ParagraphType.ARGUMENT_QUOTE: "Argument with Quote",
+            ParagraphType.QUOTE: "Quote",
             ParagraphType.CONCLUSION: "Conclusion",
             ParagraphType.TRANSITION: "Transition"
         }
         return type_labels.get(self.paragraph.type, "Paragraph")
     
     def _apply_formatting(self):
-        """Apply formatting to text view based on paragraph settings"""
+        """Apply formatting using TextBuffer tags (GTK4 way)"""
         formatting = self.paragraph.formatting
         
-        # Create CSS for font styling
+        print(f"Applying formatting with tags: {formatting}")
+        
+        # Create or get text tags
+        tag_table = self.text_buffer.get_tag_table()
+        
+        # Remove existing "format" tag if it exists
+        existing_tag = tag_table.lookup("format")
+        if existing_tag:
+            tag_table.remove(existing_tag)
+        
+        # Create new formatting tag
+        format_tag = self.text_buffer.create_tag("format")
+        
+        # Apply font family and size
         font_family = formatting.get('font_family', 'Liberation Sans')
         font_size = formatting.get('font_size', 12)
         
-        css_style = f"""
-        textview {{
-            font-family: "{font_family}";
-            font-size: {font_size}pt;
-        }}
-        """
+        format_tag.set_property("family", font_family)
+        format_tag.set_property("size-points", float(font_size))
         
-        # Apply bold/italic through CSS if needed
+        # Apply bold/italic/underline
         if formatting.get('bold', False):
-            css_style += "textview { font-weight: bold; }"
+            format_tag.set_property("weight", 700)  # Pango.Weight.BOLD
         
         if formatting.get('italic', False):
-            css_style += "textview { font-style: italic; }"
+            format_tag.set_property("style", 2)  # Pango.Style.ITALIC
+            
+        if formatting.get('underline', False):
+            format_tag.set_property("underline", 1)  # Pango.Underline.SINGLE
         
-        # Create CSS provider
-        css_provider = Gtk.CssProvider()
-        css_provider.load_from_data(css_style.encode())
+        # Apply tag to all text
+        start_iter = self.text_buffer.get_start_iter()
+        end_iter = self.text_buffer.get_end_iter()
+        self.text_buffer.apply_tag(format_tag, start_iter, end_iter)
         
-        # Apply to text view
-        style_context = self.text_view.get_style_context()
-        style_context.add_provider(css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
+        # Apply margins
+        left_margin = formatting.get('indent_left', 0.0)
+        right_margin = formatting.get('indent_right', 0.0)
         
-        # Apply indentation for quotes
-        if self.paragraph.type == ParagraphType.ARGUMENT_QUOTE:
-            self.text_view.set_left_margin(40)
-            self.text_view.set_right_margin(40)
+        if self.paragraph.type == ParagraphType.QUOTE:
+            left_margin += 4.0
+            right_margin += 4.0
+        
+        self.text_view.set_left_margin(int(left_margin * 28))
+        self.text_view.set_right_margin(int(right_margin * 28))
+        
+        print(f"Tags applied successfully")
     
     def _update_word_count(self):
         """Update word count display"""
@@ -406,6 +532,9 @@ class ParagraphEditor(Gtk.Box):
         # Update paragraph content
         self.paragraph.update_content(text)
         
+        # Reapply formatting to new text
+        self._apply_formatting()
+        
         # Update word count
         self._update_word_count()
         
@@ -414,8 +543,10 @@ class ParagraphEditor(Gtk.Box):
     
     def _on_format_clicked(self, button):
         """Handle format button click"""
-        # TODO: Show format dialog
-        print(f"Format paragraph {self.paragraph.id}")
+        from .dialogs import FormatDialog
+        dialog = FormatDialog(self.get_root(), self.paragraph)
+        dialog.connect('destroy', lambda d: self._apply_formatting())  # Refresh after formatting
+        dialog.present()
     
     def _on_remove_clicked(self, button):
         """Handle remove button click"""
@@ -439,6 +570,177 @@ class ParagraphEditor(Gtk.Box):
         if response == "remove":
             self.emit('remove-requested', self.paragraph.id)
         dialog.destroy()
+    
+    def _create_format_popover(self):
+        """Create format popover with all formatting options"""
+        self.format_popover = Gtk.Popover()
+        self.format_popover.set_size_request(320, 400)
+        
+        # Main box
+        main_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        main_box.set_margin_start(12)
+        main_box.set_margin_end(12)
+        main_box.set_margin_top(12)
+        main_box.set_margin_bottom(12)
+        
+        # Font section
+        font_group = Adw.PreferencesGroup()
+        font_group.set_title("Font")
+        
+        # Font family
+        self.font_combo = Gtk.ComboBoxText()
+        fonts = ["Liberation Sans", "Liberation Serif", "Times New Roman", "Arial", "Ubuntu"]
+        for font in fonts:
+            self.font_combo.append_text(font)
+        self.font_combo.set_active(0)
+        self.font_combo.connect('changed', self._on_popover_font_changed)
+        
+        font_row = Adw.ActionRow()
+        font_row.set_title("Font Family")
+        font_row.add_suffix(self.font_combo)
+        font_group.add(font_row)
+        
+        # Font size
+        size_adj = Gtk.Adjustment(value=12, lower=8, upper=72, step_increment=1)
+        self.size_spin = Gtk.SpinButton()
+        self.size_spin.set_adjustment(size_adj)
+        self.size_spin.connect('value-changed', self._on_popover_size_changed)
+        
+        size_row = Adw.ActionRow()
+        size_row.set_title("Font Size")
+        size_row.add_suffix(self.size_spin)
+        font_group.add(size_row)
+        
+        main_box.append(font_group)
+        
+        # Style section
+        style_group = Adw.PreferencesGroup()
+        style_group.set_title("Style")
+        
+        # Bold
+        self.bold_switch = Gtk.Switch()
+        self.bold_switch.set_valign(Gtk.Align.CENTER)
+        self.bold_switch.set_halign(Gtk.Align.END)
+        self.bold_switch.connect('notify::active', self._on_popover_bold_changed)
+        bold_row = Adw.ActionRow()
+        bold_row.set_title("Bold")
+        bold_row.add_suffix(self.bold_switch)
+        bold_row.set_activatable_widget(self.bold_switch)
+        style_group.add(bold_row)
+        
+        # Italic
+        self.italic_switch = Gtk.Switch()
+        self.italic_switch.set_valign(Gtk.Align.CENTER)
+        self.italic_switch.set_halign(Gtk.Align.END)
+        self.italic_switch.connect('notify::active', self._on_popover_italic_changed)
+        italic_row = Adw.ActionRow()
+        italic_row.set_title("Italic")
+        italic_row.add_suffix(self.italic_switch)
+        italic_row.set_activatable_widget(self.italic_switch)
+        style_group.add(italic_row)
+        
+        # Underline
+        self.underline_switch = Gtk.Switch()
+        self.underline_switch.set_valign(Gtk.Align.CENTER)
+        self.underline_switch.set_halign(Gtk.Align.END)
+        self.underline_switch.connect('notify::active', self._on_popover_underline_changed)
+        underline_row = Adw.ActionRow()
+        underline_row.set_title("Underline")
+        underline_row.add_suffix(self.underline_switch)
+        underline_row.set_activatable_widget(self.underline_switch)
+        style_group.add(underline_row)
+        
+        main_box.append(style_group)
+        
+        # Margins section
+        margin_group = Adw.PreferencesGroup()
+        margin_group.set_title("Margins")
+        
+        # Left margin
+        left_adj = Gtk.Adjustment(value=0, lower=0, upper=10, step_increment=0.5)
+        self.left_spin = Gtk.SpinButton()
+        self.left_spin.set_adjustment(left_adj)
+        self.left_spin.set_digits(1)
+        self.left_spin.connect('value-changed', self._on_popover_margin_changed)
+        
+        left_row = Adw.ActionRow()
+        left_row.set_title("Left Margin (cm)")
+        left_row.add_suffix(self.left_spin)
+        margin_group.add(left_row)
+        
+        # Right margin
+        right_adj = Gtk.Adjustment(value=0, lower=0, upper=10, step_increment=0.5)
+        self.right_spin = Gtk.SpinButton()
+        self.right_spin.set_adjustment(right_adj)
+        self.right_spin.set_digits(1)
+        self.right_spin.connect('value-changed', self._on_popover_margin_changed)
+        
+        right_row = Adw.ActionRow()
+        right_row.set_title("Right Margin (cm)")
+        right_row.add_suffix(self.right_spin)
+        margin_group.add(right_row)
+        
+        main_box.append(margin_group)
+        
+        self.format_popover.set_child(main_box)
+        
+        # Load current formatting
+        self._load_popover_formatting()
+
+    def _load_popover_formatting(self):
+        """Load current formatting into popover controls"""
+        formatting = self.paragraph.formatting
+        
+        # Font
+        font_family = formatting.get('font_family', 'Liberation Sans')
+        for i in range(self.font_combo.get_model().iter_n_children(None)):
+            if self.font_combo.get_active_text() == font_family:
+                self.font_combo.set_active(i)
+                break
+        
+        self.size_spin.set_value(formatting.get('font_size', 12))
+        
+        # Style
+        self.bold_switch.set_active(formatting.get('bold', False))
+        self.italic_switch.set_active(formatting.get('italic', False))
+        self.underline_switch.set_active(formatting.get('underline', False))
+        
+        # Margins
+        self.left_spin.set_value(formatting.get('indent_left', 0.0))
+        self.right_spin.set_value(formatting.get('indent_right', 0.0))
+
+    def _on_popover_font_changed(self, combo):
+        """Handle font family change in popover"""
+        font_family = combo.get_active_text()
+        self.paragraph.formatting['font_family'] = font_family
+        self._apply_formatting()
+
+    def _on_popover_size_changed(self, spin):
+        """Handle font size change in popover"""
+        font_size = int(spin.get_value())
+        self.paragraph.formatting['font_size'] = font_size
+        self._apply_formatting()
+
+    def _on_popover_bold_changed(self, switch, pspec):
+        """Handle bold change in popover"""
+        self.paragraph.formatting['bold'] = switch.get_active()
+        self._apply_formatting()
+
+    def _on_popover_italic_changed(self, switch, pspec):
+        """Handle italic change in popover"""
+        self.paragraph.formatting['italic'] = switch.get_active()
+        self._apply_formatting()
+
+    def _on_popover_underline_changed(self, switch, pspec):
+        """Handle underline change in popover"""
+        self.paragraph.formatting['underline'] = switch.get_active()
+        self._apply_formatting()
+
+    def _on_popover_margin_changed(self, spin):
+        """Handle margin changes in popover"""
+        self.paragraph.formatting['indent_left'] = self.left_spin.get_value()
+        self.paragraph.formatting['indent_right'] = self.right_spin.get_value()
+        self._apply_formatting()
 
 
 class TextEditor(Gtk.Box):
@@ -546,7 +848,9 @@ class FormatToolbar(Gtk.Box):
         # Update font family
         font_family = formatting.get('font_family', 'Liberation Sans')
         for i in range(self.font_combo.get_model().iter_n_children(None)):
-            if self.font_combo.get_model().get_value(self.font_combo.get_model().iter_nth_child(None, i), 0) == font_family:
+            model = self.font_combo.get_model()
+            iter_val = model.iter_nth_child(None, i)
+            if model.get_value(iter_val, 0) == font_family:
                 self.font_combo.set_active(i)
                 break
         
