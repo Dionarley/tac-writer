@@ -49,7 +49,7 @@ pkgver=$(date +%y.%m.%d)
 pkgrel=$(date +%H%M)
 arch=('any')
 license=('MIT')
-url="https://github.com/big-comm/${pkgname}"
+url="https://github.com/narayanls/${pkgname}"
 source=("git+${url}.git")
 md5sums=('SKIP')
 

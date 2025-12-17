@@ -19,10 +19,10 @@ from utils.i18n import _
 try:
     import gtkspellcheck
     SPELL_CHECK_AVAILABLE = True
-    print("PyGTKSpellcheck available - spell checking enabled")
+    print("PyGTKSpellcheck available - spell checking enabled", flush=True)
 except ImportError:
     SPELL_CHECK_AVAILABLE = False
-    print("PyGTKSpellcheck not available - spell checking disabled")
+    print("PyGTKSpellcheck not available - spell checking disabled", flush=True)
 
 # Global CSS provider cache
 _css_cache = {}
@@ -487,40 +487,92 @@ class SpellCheckHelper:
 
         try:
             import enchant
+            # Tenta listar os ditados que o enchant realmente vê
+            try:
+                broker = enchant.Broker()
+                dicts = broker.list_dicts()
+                print(f"DEBUG: Dicionários brutos encontrados pelo Enchant: {[d[0] for d in dicts]}", flush=True)
+            except:
+                pass
+
             self.available_languages = []
-            for lang in ['pt_BR', 'en_US', 'en_GB', 'es_ES', 'fr_FR', 'de_DE', 'it_IT']:
+            # Lista expandida para tentar pegar variações
+            candidates = ['pt_BR', 'pt-BR', 'pt', 'en_US', 'en-US', 'en', 'es_ES', 'es']
+            
+            for lang in candidates:
                 try:
                     if enchant.dict_exists(lang):
                         self.available_languages.append(lang)
                 except Exception as e:
-                    print(_("Error checking dictionary {}: {}").format(lang, e))
+                    print(f"Error checking dictionary {lang}: {e}", flush=True)
 
         except ImportError as e:
-            print(_("Enchant not available for spell checking: {}").format(e))
-            self.available_languages = ['pt_BR', 'en_US', 'es_ES', 'fr_FR', 'de_DE']
+            print(f"Enchant not available for spell checking: {e}", flush=True)
 
     def setup_spell_check(self, text_view, language=None):
         """Setup spell checking for a TextView using PyGTKSpellcheck"""
         if not SPELL_CHECK_AVAILABLE:
+            print("DEBUG: Spell check not available (module import failed)", flush=True)
             return None
 
         try:
+            # Determina o idioma
             if language:
-                spell_language = language
+                target_lang = language
             elif self.config:
-                spell_language = self.config.get_spell_check_language()
+                target_lang = self.config.get_spell_check_language()
             else:
-                spell_language = 'pt_BR'
+                target_lang = 'pt_BR'
 
-            spell_checker = gtkspellcheck.SpellChecker(text_view, language=spell_language)
+            print(f"DEBUG: Configurando SpellChecker para TextView {id(text_view)} com idioma '{target_lang}'", flush=True)
 
-            checker_id = id(text_view)
-            self.spell_checkers[checker_id] = spell_checker
+            spell_checker = None
+            
+            # Tenta criar com o idioma exato (SEM O ARGUMENTO enable=True)
+            try:
+                spell_checker = gtkspellcheck.SpellChecker(text_view, language=target_lang)
+            except Exception as e1:
+                print(f"DEBUG: Falha inicial com '{target_lang}': {e1}", flush=True)
+                
+                # Tenta variações comuns no Linux/Arch
+                alternatives = []
+                if '_' in target_lang:
+                    alternatives.append(target_lang.replace('_', '-')) # pt_BR -> pt-BR
+                elif '-' in target_lang:
+                    alternatives.append(target_lang.replace('-', '_')) # pt-BR -> pt_BR
+                
+                # Tenta só o código do idioma (ex: pt)
+                base_lang = target_lang.split('_')[0].split('-')[0]
+                if base_lang != target_lang:
+                    alternatives.append(base_lang)
 
-            return spell_checker
+                for alt in alternatives:
+                    try:
+                        print(f"DEBUG: Tentando alternativa '{alt}'...", flush=True)
+                        # SEM O ARGUMENTO enable=True AQUI TAMBÉM
+                        spell_checker = gtkspellcheck.SpellChecker(text_view, language=alt)
+                        print(f"DEBUG: Sucesso com '{alt}'!", flush=True)
+                        break
+                    except Exception as e_alt:
+                        print(f"DEBUG: Falha com alternativa '{alt}': {e_alt}", flush=True)
+                        continue
+
+            if spell_checker:
+                # Força a habilitação AGORA, após a criação
+                spell_checker.enabled = True
+                
+                checker_id = id(text_view)
+                self.spell_checkers[checker_id] = spell_checker
+                print(f"DEBUG: SpellChecker ANEXADO com sucesso. Idioma: {spell_checker.language}. Ativado: {spell_checker.enabled}", flush=True)
+                return spell_checker
+            else:
+                print("DEBUG: Não foi possível inicializar o SpellChecker com nenhum idioma compatível.", flush=True)
+                return None
 
         except Exception as e:
-            print(_("Spell check setup failed: {}").format(e))
+            print(f"DEBUG: Erro fatal no setup_spell_check: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
             return None
 
     def enable_spell_check(self, text_view, enabled=True):
@@ -533,12 +585,10 @@ class SpellCheckHelper:
             spell_checker = self.spell_checkers.get(checker_id)
 
             if spell_checker:
-                if enabled:
-                    spell_checker.enable()
-                else:
-                    spell_checker.disable()
+                spell_checker.enabled = enabled
+                print(f"DEBUG: Spell check alternado para {enabled} no widget {checker_id}", flush=True)
         except Exception as e:
-            print(_("Error toggling spell check: {}").format(e))
+            print(f"Error toggling spell check: {e}", flush=True)
 
 
 class WelcomeView(Gtk.Box):
@@ -971,20 +1021,21 @@ class ParagraphEditor(Gtk.Box):
         self._create_header()
         # Setup drag and drop
         self._setup_drag_and_drop()
-        # Connect realize signal to apply initial formatting
-        self.connect('realize', self._on_realize)
+        
+        # --- ALTERAÇÃO: Usar 'map' em vez de 'realize' ---
+        self.connect('map', self._on_map)
 
-    def _on_realize(self, widget):
-        """Called when widget is shown for the first time"""
+    def _on_map(self, widget):
+        """Called when widget is mapped to screen (visible)"""
         try:
             formatting = self.paragraph.formatting
             font_family = formatting.get('font_family', 'Adwaita Sans')
             font_size = formatting.get('font_size', 12)
-            
+
             # Use CSS cache instead of creating individual provider
             css_cache = get_cached_css_provider(font_family, font_size)
             self.text_view.add_css_class(css_cache['class_name'])
-            
+
             # Apply provider globally only once
             if not hasattr(self.__class__, '_css_applied'):
                 display = Gdk.Display.get_default()
@@ -995,34 +1046,53 @@ class ParagraphEditor(Gtk.Box):
                         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
                     )
                 self.__class__._css_applied = True
-            
+
             self._apply_formatting()
             
-            # Setup spell check synchronously after text_view is ready
-            self._setup_spell_check()
+            # --- DEBUG: Confirmação visual no terminal ---
+            print(f"DEBUG: ParagraphEditor {self.paragraph.id[:8]} MAPPED", flush=True)
             
+            # --- NOVO: Inicia o spell check aqui ---
+            GLib.timeout_add(200, self._setup_spell_check)
+        
         except Exception as e:
-            print(_("Error during paragraph editor initialization: {}").format(e))
+            print(f"Error during paragraph editor initialization: {e}", flush=True)
+
 
     def _setup_spell_check(self):
         """Setup spell check once when text view is ready"""
-        if self._spell_check_setup or not self.text_view or not self.config:
-            return
+        # --- DEBUG: Rastreamento de chamada ---
+        print(f"DEBUG: Tentando setup spell check para {self.paragraph.id[:8]}...", flush=True)
+
+        if self._spell_check_setup or not self.text_view:
+            return False # Retorna False para parar o timeout
         
-        if not self.config.get_spell_check_enabled():
-            return
+        if not self.config or not self.config.get_spell_check_enabled():
+            print("DEBUG: Spell check desabilitado na config ou config ausente.", flush=True)
+            return False
         
         try:
-            # Use shared spell helper from main window if available
-            if hasattr(self.get_root(), 'spell_helper'):
-                self.spell_helper = self.get_root().spell_helper
+            # Tenta pegar o helper da janela principal, senão cria um novo
+            # Correção para o problema do get_root() retornando None
+            root = self.get_root()
+            if root and hasattr(root, 'spell_helper'):
+                self.spell_helper = root.spell_helper
             else:
-                self.spell_helper = SpellCheckHelper(self.config)
+                if not hasattr(self, 'local_spell_helper'):
+                    self.local_spell_helper = SpellCheckHelper(self.config)
+                self.spell_helper = self.local_spell_helper
             
             self.spell_checker = self.spell_helper.setup_spell_check(self.text_view)
-            self._spell_check_setup = True
+            
+            if self.spell_checker:
+                self._spell_check_setup = True
+            
         except Exception as e:
-            print(_("Spell check setup failed: {}").format(e))
+            print(f"Spell check setup failed: {e}", flush=True)
+            import traceback
+            traceback.print_exc()
+            
+        return False # Para parar o timeout do GLib
 
     def _create_header(self):
         """Create paragraph header with type and controls"""
@@ -1147,6 +1217,9 @@ class ParagraphEditor(Gtk.Box):
         scrolled.set_child(self.text_view)
 
         self.append(scrolled)
+
+        # Usar GLib.idle_add garante que será chamado DEPOIS de toda a inicialização
+        # GLib.idle_add(self._setup_spell_check)
 
     def _setup_drag_and_drop(self):
         """Setup drag and drop functionality for reordering paragraphs"""
