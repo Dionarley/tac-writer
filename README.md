@@ -84,10 +84,10 @@ The Continuous Argumentation Technique emphasizes interconnected paragraphs that
 ### Recommended
 - **Memory**: 4GB+ RAM for large documents
 - **Display**: 1920x1080 or higher resolution
-- **Storage**: 1GB+ for project storage and backups
+- **Storage**: 500MB+ for project storage and backups
 
 ## Installation
-### 🔍 Escolha Seu Pacote:
+### 🔍 Choose your package:
 
 - **Arch Linux users**: Download the `.pkg.tar.zst` file, open the terminal in the folder and install with `sudo pacman -U package-name.pkg.tar.zst` (Tac Writer will be added to your menu/launcher, you can open it from there)
 - **Debian/Ubuntu and derivative users**: Download the `.deb` file and install it with `sudo dpkg -i package-name.deb` or double-click it in your distribution's package manager (Tac Writer will be added to your menu/launcher, you can open it from there).
@@ -144,29 +144,6 @@ TAC Writer follows XDG Base Directory specification:
 - **Shortcuts**: Customize keyboard shortcuts
 
 
-## Development
-
-```
-
-### Code Standards
-
-- **Python Style**: PEP 8 compliance, formatted with Black
-- **Type Hints**: Use type annotations for better code clarity
-- **Documentation**: Docstrings for all public functions and classes
-- **Testing**: Unit tests for core functionality
-- **Commits**: Follow Conventional Commits specification
-
-### Running Tests
-
-```bash
-# Run all tests
-python -m pytest
-
-# Run with coverage
-python -m pytest --cov=src
-
-# Run specific test file
-python -m pytest tests/test_models.py
 ```
 
 ## How to Contribute
