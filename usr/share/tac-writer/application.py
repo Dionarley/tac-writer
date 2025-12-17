@@ -187,8 +187,8 @@ class TacApplication(Adw.Application):
     
     def _suppress_warnings(self):
         """Suppress system warnings for cleaner output"""
-        # Suppress enchant warnings (spell checker plugins)
-        warnings.filterwarnings("ignore", category=UserWarning, module="enchant")
+        # COMENTADO: Não suprima erros do enchant enquanto estiver debugando
+        # warnings.filterwarnings("ignore", category=UserWarning, module="enchant")
         
         # Suppress mesa OpenGL warnings
         os.environ.setdefault('MESA_GLTHREAD', 'false')
@@ -196,70 +196,75 @@ class TacApplication(Adw.Application):
         # Suppress GTK debug messages
         os.environ.setdefault('G_MESSAGES_DEBUG', '')
         
-        # Suppress libenchant warnings about missing plugins
-        os.environ.setdefault('G_MESSAGES_DEBUG', '')
-        
-        # Redirect enchant warnings to null
-        import logging
-        logging.getLogger('enchant').setLevel(logging.ERROR)
-    
+        # COMENTADO: Precisamos ver os erros do enchant no Arch
+        # import logging
+        # logging.getLogger('enchant').setLevel(logging.ERROR)
+
     def _check_spell_dependencies(self):
         """Check and configure spell checking dependencies"""
         if not SPELL_CHECK_AVAILABLE:
-            if os.environ.get('TAC_DEBUG'):
-                print(_("PyGTKSpellcheck not installed - disabling spell checking"))
+            print(_("PyGTKSpellcheck not installed - disabling spell checking"))
             self.config.set_spell_check_enabled(False)
             return
         
         if not ENCHANT_AVAILABLE:
-            if os.environ.get('TAC_DEBUG'):
-                print(_("Enchant backend not available - disabling spell checking"))
+            print(_("Enchant backend not available - disabling spell checking"))
             self.config.set_spell_check_enabled(False)
             return
         
         try:
+            # Debug: Listar backends e dicionários encontrados
+            try:
+                broker = enchant.Broker()
+                print(f"DEBUG: Enchant Backends: {broker.describe()}")
+                print(f"DEBUG: Enchant Provider: {broker.get_provider()}")
+            except:
+                pass
+
             # Check for available dictionaries
+            # Arch Fix: Testar tanto 'pt_BR' quanto 'pt-BR'
+            target_langs = ['pt_BR', 'pt-BR', 'en_US', 'en-US', 'en_GB', 'es_ES', 'fr_FR', 'de_DE', 'it_IT']
             available_dicts = []
-            for lang in ['pt_BR', 'en_US', 'en_GB', 'es_ES', 'fr_FR', 'de_DE', 'it_IT']:
+            
+            for lang in target_langs:
                 try:
                     if enchant.dict_exists(lang):
-                        available_dicts.append(lang)
+                        # Normalizar para o formato que o app usa (com underscore)
+                        norm_lang = lang.replace('-', '_')
+                        if norm_lang not in available_dicts:
+                            available_dicts.append(norm_lang)
                 except Exception as e:
-                    if os.environ.get('TAC_DEBUG'):
-                        print(_("Error checking dictionary {}: {}").format(lang, e))
+                    print(f"DEBUG: Error checking dict {lang}: {e}")
 
             if available_dicts:
-                if os.environ.get('TAC_DEBUG'):
-                    print(_("Available spell check dictionaries: {}").format(available_dicts))
+                print(f"DEBUG: Available spell check dictionaries: {available_dicts}")
                 
-                # Update config with actually available languages
                 self.config.set('spell_check_available_languages', available_dicts)
                 
-                # Use auto-detected language if available
+                # Tenta usar a linguagem detectada, mas verifica se ela realmente existe na lista
                 if DETECTED_SPELLCHECK_LANGUAGE in available_dicts:
-                    detected_language = DETECTED_SPELLCHECK_LANGUAGE
-                    if os.environ.get('TAC_DEBUG'):
-                        print(_("Using auto-detected language: {}").format(detected_language))
+                    detected = DETECTED_SPELLCHECK_LANGUAGE
+                elif DETECTED_SPELLCHECK_LANGUAGE.replace('-', '_') in available_dicts:
+                    detected = DETECTED_SPELLCHECK_LANGUAGE.replace('-', '_')
                 else:
-                    # Fallback to first available
-                    detected_language = available_dicts[0]
-                    if os.environ.get('TAC_DEBUG'):
-                        print(_("Auto-detected language not available, using fallback: {}").format(detected_language))
+                    detected = available_dicts[0]
                 
-                self.config.set_spell_check_language(detected_language)
+                print(f"DEBUG: Setting spell language to: {detected}")
+                self.config.set_spell_check_language(detected)
                 
             else:
-                if os.environ.get('TAC_DEBUG'):
-                    print(_("No spell check dictionaries found - disabling spell checking"))
+                print(_("No spell check dictionaries found - disabling spell checking"))
+                # No Arch, às vezes dicts existem mas o enchant não vê sem configuração
+                # Não desabilite forçadamente se houver dúvida, apenas logue.
                 self.config.set_spell_check_enabled(False)
                 
         except ImportError as e:
-            if os.environ.get('TAC_DEBUG'):
-                print(_("Import error while checking spell dependencies: {}").format(e))
+            print(_("Import error while checking spell dependencies: {}").format(e))
             self.config.set_spell_check_enabled(False)
         except Exception as e:
-            if os.environ.get('TAC_DEBUG'):
-                print(_("Unexpected error checking spell dependencies: {}").format(e))
+            print(_("Unexpected error checking spell dependencies: {}").format(e))
+            import traceback
+            traceback.print_exc()
             self.config.set_spell_check_enabled(False)
     
     def _setup_icon_theme(self):
