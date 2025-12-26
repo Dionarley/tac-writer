@@ -1,0 +1,3233 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the tac-writer package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tac-writer\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: attranslate\n"
+
+#
+# File: usr/share/tac-writer/main.py, line: 42
+#: usr/share/tac-writer/main.py:42
+msgid ""
+"Please install: python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adwaita-1"
+msgstr ""
+"Veuillez installer : python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-"
+"adwaita-1"
+
+#
+# File: usr/share/tac-writer/main.py, line: 50
+#: usr/share/tac-writer/main.py:50
+msgid "Error: GTK 4.0 or higher is required"
+msgstr "Erreur : GTK 4.0 ou supérieur est requis"
+
+#
+# File: usr/share/tac-writer/main.py, line: 41
+#: usr/share/tac-writer/main.py:41
+msgid "Error: Required dependencies not found: {}"
+msgstr "Erreur : Dépendances requises non trouvées : {}"
+
+#
+# File: usr/share/tac-writer/main.py, line: 73
+#: usr/share/tac-writer/main.py:73
+msgid "Application interrupted by user."
+msgstr "Application interrompue par l'utilisateur."
+
+#
+# File: usr/share/tac-writer/main.py, line: 55
+#: usr/share/tac-writer/main.py:55
+msgid "Error checking dependencies: {}"
+msgstr "Erreur lors de la vérification des dépendances : {}"
+
+#
+# File: usr/share/tac-writer/main.py, line: 76
+#: usr/share/tac-writer/main.py:76
+msgid "Critical error during startup: {}"
+msgstr "Erreur critique lors du démarrage : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 210
+#: usr/share/tac-writer/application.py:206
+msgid "PyGTKSpellcheck not installed - disabling spell checking"
+msgstr ""
+"PyGTKSpellcheck non installé - désactivation de la vérification "
+"orthographique"
+
+#
+# File: usr/share/tac-writer/application.py, line: 216
+#: usr/share/tac-writer/application.py:211
+msgid "Enchant backend not available - disabling spell checking"
+msgstr ""
+"Backend Enchant non disponible - désactivation de la vérification "
+"orthographique"
+
+#
+# File: usr/share/tac-writer/application.py, line: 520
+#: usr/share/tac-writer/application.py:577
+msgid "No config available for spell check debug"
+msgstr ""
+"Aucune configuration disponible pour le débogage de la vérification "
+"orthographique"
+
+#
+# File: usr/share/tac-writer/application.py, line: 253
+#: usr/share/tac-writer/application.py:256
+msgid "No spell check dictionaries found - disabling spell checking"
+msgstr ""
+"Aucun dictionnaire de vérification orthographique trouvé - désactivation de "
+"la vérification orthographique"
+
+#
+# File: usr/share/tac-writer/application.py, line: 295
+#: usr/share/tac-writer/application.py:329
+msgid "Main window presented"
+msgstr "Fenêtre principale présentée"
+
+#
+# File: usr/share/tac-writer/application.py, line: 508
+#: usr/share/tac-writer/application.py:565
+msgid "Application shutdown complete"
+msgstr "Fermeture de l'application terminée"
+
+#
+# File: usr/share/tac-writer/application.py, line: 291
+#: usr/share/tac-writer/application.py:325
+msgid "Main window created"
+msgstr "Fenêtre principale créée"
+
+#
+# File: usr/share/tac-writer/application.py, line: 502
+#: usr/share/tac-writer/application.py:559
+msgid "Configuration saved"
+msgstr "Configuration enregistrée"
+
+#
+# File: usr/share/tac-writer/application.py, line: 258
+#: usr/share/tac-writer/application.py:262
+msgid "Import error while checking spell dependencies: {}"
+msgstr ""
+"Erreur d'importation lors de la vérification des dépendances d'orthographe : "
+"{}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 262
+#: usr/share/tac-writer/application.py:265
+msgid "Unexpected error checking spell dependencies: {}"
+msgstr ""
+"Erreur inattendue lors de la vérification des dépendances de l'orthographe : "
+"{}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 278
+#: usr/share/tac-writer/application.py:312
+msgid "Error during application startup: {}: {}"
+msgstr "Erreur lors du démarrage de l'application : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 298
+#: usr/share/tac-writer/application.py:332
+msgid "Error activating application: {}: {}"
+msgstr "Erreur d'activation de l'application : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 320
+#: usr/share/tac-writer/application.py:355
+msgid "Error setting up actions: {}: {}"
+msgstr "Erreur lors de la configuration des actions : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 343
+#: usr/share/tac-writer/application.py:379
+msgid "Error setting up menu: {}: {}"
+msgstr "Erreur lors de la configuration du menu : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 436
+#: usr/share/tac-writer/application.py:485
+msgid "Error setting up theme: {}: {}"
+msgstr "Erreur lors de la configuration du thème : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 446
+#: usr/share/tac-writer/application.py:495
+msgid "Error showing new project dialog: {}: {}"
+msgstr ""
+"Erreur lors de l'affichage de la boîte de dialogue du nouveau projet : {} : "
+"{}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 454
+#: usr/share/tac-writer/application.py:503
+msgid "Error showing open project dialog: {}: {}"
+msgstr ""
+"Erreur lors de l'affichage de la boîte de dialogue d'ouverture du projet : "
+"{} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 462
+#: usr/share/tac-writer/application.py:511
+msgid "Error saving project: {}: {}"
+msgstr "Erreur lors de l'enregistrement du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 470
+#: usr/share/tac-writer/application.py:519
+msgid "Error showing export dialog: {}: {}"
+msgstr ""
+"Erreur lors de l'affichage de la boîte de dialogue d'exportation : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 478
+#: usr/share/tac-writer/application.py:527
+msgid "Error showing preferences dialog: {}: {}"
+msgstr ""
+"Erreur lors de l'affichage de la boîte de dialogue des préférences : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 486
+#: usr/share/tac-writer/application.py:535
+msgid "Error showing about dialog: {}: {}"
+msgstr "Erreur lors de l'affichage de la boîte de dialogue À propos : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 583
+#: usr/share/tac-writer/application.py:543
+msgid "Error opening AI assistant: {}: {}"
+msgstr "Erreur lors de l'ouverture de l'assistant IA : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 493
+#: usr/share/tac-writer/application.py:550
+msgid "Error quitting application: {}: {}"
+msgstr "Erreur lors de la fermeture de l'application : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 511
+#: usr/share/tac-writer/application.py:568
+msgid "Error during shutdown: {}: {}"
+msgstr "Erreur lors de l'arrêt : {} : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 285
+#: usr/share/tac-writer/application.py:290
+msgid "Custom icons loaded with priority: {}"
+msgstr "Icônes personnalisées chargées avec priorité : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 289
+#: usr/share/tac-writer/application.py:294
+msgid "Warning: Could not setup icon theme: {}"
+msgstr "Avertissement : Impossible de configurer le thème d'icônes : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 433
+#: usr/share/tac-writer/application.py:482
+msgid "Could not apply CSS: {}"
+msgstr "Impossible d'appliquer le CSS : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 127
+#: usr/share/tac-writer/application.py:127
+msgid "Warning: Could not set system locale: {}"
+msgstr "Avertissement : Impossible de définir la locale système : {}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 233
+#: usr/share/tac-writer/core/ai_assistant.py:218
+msgid "Gemini did not return any usable content."
+msgstr "Gemini n'a pas renvoyé de contenu utilisable."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 422
+#: usr/share/tac-writer/core/ai_assistant.py:407
+msgid "Unknown error."
+msgstr "Erreur inconnue."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 111
+#: usr/share/tac-writer/core/ai_assistant.py:117
+msgid "Select an AI provider in Preferences ▸ AI Assistant."
+msgstr "Sélectionnez un fournisseur d'IA dans Préférences ▸ Assistant IA."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 141
+#: usr/share/tac-writer/core/ai_assistant.py:144
+msgid "Revise o texto a seguir e responda apenas com a versão corrigida."
+msgstr ""
+"Révisez le texte suivant et répondez uniquement avec la version corrigée."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 186
+#: usr/share/tac-writer/core/ai_assistant.py:171
+msgid "Configure the Gemini API key in Preferences."
+msgstr "Configurer la clé API Gemini dans les Préférences."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 240
+#: usr/share/tac-writer/core/ai_assistant.py:225
+msgid "Configure the OpenRouter API key in Preferences."
+msgstr "Configurer la clé API OpenRouter dans les Préférences."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 278
+#: usr/share/tac-writer/core/ai_assistant.py:263
+msgid "The AI provider returned an empty response."
+msgstr "Le fournisseur d'IA a renvoyé une réponse vide."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 290
+#: usr/share/tac-writer/core/ai_assistant.py:275
+msgid "The AI provider did not return any usable content."
+msgstr "Le fournisseur d'IA n'a pas renvoyé de contenu utilisable."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 446
+#: usr/share/tac-writer/core/ai_assistant.py:431
+msgid "OpenRouter respondeu com HTTP {status}: {message}{detail}"
+msgstr "OpenRouter a répondu avec HTTP {status} : {message}{detail}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 472
+#: usr/share/tac-writer/core/ai_assistant.py:441
+msgid "Biblioteca pypdf não instalada."
+msgstr "Bibliothèque pypdf non installée."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 67
+#: usr/share/tac-writer/core/ai_assistant.py:73
+msgid "The AI assistant is already processing another request."
+msgstr "L'assistant IA est déjà en train de traiter une autre demande."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 150
+#: usr/share/tac-writer/core/ai_assistant.py:162
+msgid "Provider '{provider}' is not supported."
+msgstr "Le fournisseur '{provider}' n'est pas pris en charge."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 217
+#: usr/share/tac-writer/core/ai_assistant.py:202
+msgid "Gemini returned an invalid JSON response."
+msgstr "Gemini a renvoyé une réponse JSON invalide."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 274
+#: usr/share/tac-writer/core/ai_assistant.py:259
+msgid "AI provider returned an invalid JSON response."
+msgstr "Le fournisseur d'IA a renvoyé une réponse JSON invalide."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 426
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 432
+#: usr/share/tac-writer/core/ai_assistant.py:417
+msgid "OpenRouter respondeu com HTTP {status}: {message}"
+msgstr "OpenRouter a répondu avec HTTP {status} : {message}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 480
+#: usr/share/tac-writer/core/ai_assistant.py:449
+msgid "O assistente já está processando uma solicitação."
+msgstr "L'assistant est déjà en train de traiter une demande."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 508
+#: usr/share/tac-writer/core/ai_assistant.py:476
+msgid "Não foi possível extrair texto do PDF (pode ser uma imagem ou vazio)."
+msgstr ""
+"Impossible d'extraire le texte du PDF (il peut s'agir d'une image ou être "
+"vide)."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 130
+#: usr/share/tac-writer/core/ai_assistant.py:133
+msgid ""
+"Instrução do usuário:\n"
+"{instruction}\n"
+"\n"
+"Texto para revisão:\n"
+"{context}"
+msgstr ""
+"Instruction de l'utilisateur :  \n"
+"{instruction}  \n"
+"\n"
+"Texte à réviser :  \n"
+"{context}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 137
+#: usr/share/tac-writer/core/ai_assistant.py:140
+msgid ""
+"Revise o texto a seguir, corrigindo apenas o necessário e mantendo o tom "
+"acadêmico:\n"
+"{context}"
+msgstr ""
+"Révisez le texte suivant, en corrigeant uniquement ce qui est nécessaire et "
+"en maintenant le ton académique :  \n"
+"{context}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 209
+#: usr/share/tac-writer/core/ai_assistant.py:194
+msgid "Gemini responded with HTTP {status}: {detail}"
+msgstr "Gemini a répondu avec HTTP {status} : {detail}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 95
+#: usr/share/tac-writer/core/ai_assistant.py:101
+msgid "AI assistant error: {error}"
+msgstr "Erreur de l'assistant IA : {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 204
+#: usr/share/tac-writer/core/ai_assistant.py:189
+msgid "Failed to contact Gemini: {error}"
+msgstr "Échec de la connexion à Gemini : {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 262
+#: usr/share/tac-writer/core/ai_assistant.py:247
+msgid "Failed to contact OpenRouter: {error}"
+msgstr "Échec de la connexion à OpenRouter : {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 556
+#: usr/share/tac-writer/core/ai_assistant.py:524
+msgid "Erro IA: {}"
+msgstr "Erreur IA : {}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 502
+#: usr/share/tac-writer/core/ai_assistant.py:473
+msgid "Erro ao ler PDF: {}"
+msgstr "Erreur de lecture du PDF : {}"
+
+#
+# File: usr/share/tac-writer/core/models.py, line: 440
+#: usr/share/tac-writer/core/models.py:535
+msgid "Academic Essay"
+msgstr "Essai académique"
+
+#
+# File: usr/share/tac-writer/core/models.py, line: 441
+#: usr/share/tac-writer/core/models.py:536
+msgid "Standard academic essay structure"
+msgstr "Structure standard d'un essai académique"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 825
+#: usr/share/tac-writer/core/services.py:834
+msgid "Warning: ODT export not available (missing xml dependencies)"
+msgstr ""
+"Avertissement : exportation ODT non disponible (dépendances XML manquantes)"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 827
+#: usr/share/tac-writer/core/services.py:836
+msgid "Warning: PDF export not available (missing reportlab)"
+msgstr "Avertissement : exportation PDF non disponible (reportlab manquant)"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 49
+#: usr/share/tac-writer/core/services.py:58
+msgid "ProjectManager initialized with database: {}"
+msgstr "Gestionnaire de projet initialisé avec la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 136
+#: usr/share/tac-writer/core/services.py:145
+msgid "Migration aborted: Could not create backup"
+msgstr "Migration annulée : Impossible de créer une sauvegarde"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 163
+#: usr/share/tac-writer/core/services.py:172
+msgid "No valid projects to migrate"
+msgstr "Aucun projet valide à migrer"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 479
+#: usr/share/tac-writer/core/services.py:488
+msgid "Database maintenance completed"
+msgstr "Maintenance de la base de données terminée"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 576
+#: usr/share/tac-writer/core/services.py:585
+msgid "Failed to save new project to database"
+msgstr "Échec de l'enregistrement du nouveau projet dans la base de données"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 762
+#: usr/share/tac-writer/core/services.py:771
+msgid "Invalid backup file"
+msgstr "Fichier de sauvegarde invalide"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 113
+#: usr/share/tac-writer/core/services.py:122
+msgid "Created migration backup: {}"
+msgstr "Sauvegarde de migration créée : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 131
+#: usr/share/tac-writer/core/services.py:140
+msgid "Found {} old JSON projects. Starting migration..."
+msgstr "Trouvé {} anciens projets JSON. Démarrage de la migration..."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 209
+#: usr/share/tac-writer/core/services.py:218
+msgid "Migration complete. {} projects successfully migrated."
+msgstr "Migration terminée. {} projets migrés avec succès."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 342
+#: usr/share/tac-writer/core/services.py:351
+msgid "Database backup created: {}"
+msgstr "Sauvegarde de la base de données créée : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 671
+#: usr/share/tac-writer/core/services.py:680
+msgid "Manual backup created: {}"
+msgstr "Sauvegarde manuelle créée : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1060
+# File: usr/share/tac-writer/core/services.py, line: 1557
+#: usr/share/tac-writer/core/services.py:1900
+msgid "Footnotes:"
+msgstr "Notes de bas de page :"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 66
+#: usr/share/tac-writer/core/services.py:75
+msgid "Database connection error: {}"
+msgstr "Erreur de connexion à la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 77
+#: usr/share/tac-writer/core/services.py:86
+msgid "Error checking project existence: {}"
+msgstr "Erreur de vérification de l'existence du projet : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 86
+#: usr/share/tac-writer/core/services.py:95
+msgid "Invalid project data: missing field '{}'"
+msgstr "Données de projet invalides : champ '{}' manquant"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 117
+#: usr/share/tac-writer/core/services.py:126
+msgid "Failed to create migration backup: {}"
+msgstr "Échec de la création de la sauvegarde de migration : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 160
+#: usr/share/tac-writer/core/services.py:169
+msgid "Warning: {} files have validation errors and will be skipped"
+msgstr ""
+"Avertissement : {} fichiers ont des erreurs de validation et seront ignorés."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 189
+#: usr/share/tac-writer/core/services.py:198
+msgid "Migration transaction committed successfully"
+msgstr "La transaction de migration a été validée avec succès."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 270
+#: usr/share/tac-writer/core/services.py:279
+msgid "Database error saving project {}: {}"
+msgstr "Erreur de base de données lors de l'enregistrement du projet {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 307
+#: usr/share/tac-writer/core/services.py:316
+msgid "Database connection error for project '{}': {}"
+msgstr "Erreur de connexion à la base de données pour le projet '{}': {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 310
+#: usr/share/tac-writer/core/services.py:319
+msgid "Unexpected error in save_project for '{}': {}: {}"
+msgstr "Erreur inattendue dans save_project pour '{}': {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 346
+#: usr/share/tac-writer/core/services.py:355
+msgid "Warning: Database backup failed: {}"
+msgstr "Avertissement : Échec de la sauvegarde de la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 360
+#: usr/share/tac-writer/core/services.py:369
+msgid "Removed old backup: {}"
+msgstr "Sauvegarde ancienne supprimée : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 363
+#: usr/share/tac-writer/core/services.py:372
+msgid "Warning: Cleanup of old backups failed: {}"
+msgstr "Avertissement : Échec de la suppression des anciennes sauvegardes : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 467
+#: usr/share/tac-writer/core/services.py:476
+msgid "Database error listing projects: {}"
+msgstr "Erreur de base de données lors de l'affichage des projets : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 469
+#: usr/share/tac-writer/core/services.py:478
+msgid "Unexpected error listing projects: {}: {}"
+msgstr "Erreur inattendue lors de l'affichage des projets : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 481
+#: usr/share/tac-writer/core/services.py:490
+msgid "Database maintenance failed: {}"
+msgstr "Échec de la maintenance de la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 510
+#: usr/share/tac-writer/core/services.py:519
+msgid "error: {}"
+msgstr "erreur : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 517
+#: usr/share/tac-writer/core/services.py:526
+msgid "unexpected error: {}"
+msgstr "erreur inattendue : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 561
+#: usr/share/tac-writer/core/services.py:570
+msgid "Database initialization error: {}"
+msgstr "Erreur d'initialisation de la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 573
+#: usr/share/tac-writer/core/services.py:582
+msgid "Created project: {} ({})"
+msgstr "Projet créé : {} ({})"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 578
+#: usr/share/tac-writer/core/services.py:587
+msgid "Error creating project: {}: {}"
+msgstr "Erreur lors de la création du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 620
+#: usr/share/tac-writer/core/services.py:629
+msgid "Loaded project from database: {}"
+msgstr "Projet chargé depuis la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 624
+#: usr/share/tac-writer/core/services.py:633
+msgid "Database error loading project: {}"
+msgstr "Erreur de base de données lors du chargement du projet : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 627
+#: usr/share/tac-writer/core/services.py:636
+msgid "Data error loading project: {}: {}"
+msgstr "Erreur de données lors du chargement du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 630
+#: usr/share/tac-writer/core/services.py:639
+msgid "Unexpected error loading project: {}: {}"
+msgstr "Erreur inattendue lors du chargement du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 643
+#: usr/share/tac-writer/core/services.py:652
+msgid "Deleted project from database: {}"
+msgstr "Projet supprimé de la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 646
+#: usr/share/tac-writer/core/services.py:655
+msgid "Database error deleting project: {}"
+msgstr "Erreur de base de données lors de la suppression du projet : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 675
+#: usr/share/tac-writer/core/services.py:684
+msgid "Error creating manual backup: {}"
+msgstr "Erreur lors de la création de la sauvegarde manuelle : {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1137
+# File: usr/share/tac-writer/core/services.py, line: 722
+#: usr/share/tac-writer/core/services.py:731
+msgid "Error listing backups: {}"
+msgstr "Erreur lors de l'affichage des sauvegardes : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 754
+#: usr/share/tac-writer/core/services.py:763
+msgid "Backup validation error: {}"
+msgstr "Erreur de validation de sauvegarde : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 771
+#: usr/share/tac-writer/core/services.py:780
+msgid "Current database backed up to: {}"
+msgstr "Base de données actuelle sauvegardée sur : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 790
+#: usr/share/tac-writer/core/services.py:799
+msgid "Import failed, restored previous database"
+msgstr "Importation échouée, base de données précédente restaurée"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 794
+#: usr/share/tac-writer/core/services.py:803
+msgid "Error importing database: {}: {}"
+msgstr "Erreur d'importation de la base de données : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 804
+#: usr/share/tac-writer/core/services.py:813
+msgid "Deleted backup: {}"
+msgstr "Sauvegarde supprimée : {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1406
+# File: usr/share/tac-writer/core/services.py, line: 808
+#: usr/share/tac-writer/core/services.py:817
+msgid "Error deleting backup: {}"
+msgstr "Erreur lors de la suppression de la sauvegarde : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1018
+#: usr/share/tac-writer/core/services.py:1062
+msgid "Error exporting project: {}: {}"
+msgstr "Erreur d'exportation du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1067
+#: usr/share/tac-writer/core/services.py:1124
+msgid "File error exporting to TXT: {}"
+msgstr "Erreur de fichier lors de l'exportation vers TXT : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1070
+#: usr/share/tac-writer/core/services.py:1127
+msgid "Unexpected error exporting to TXT: {}: {}"
+msgstr "Erreur inattendue lors de l'exportation vers TXT : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1124
+#: usr/share/tac-writer/core/services.py:1196
+msgid "File error exporting to ODT: {}"
+msgstr "Erreur de fichier lors de l'exportation vers ODT : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1127
+#: usr/share/tac-writer/core/services.py:1199
+msgid "Unexpected error exporting to ODT: {}: {}"
+msgstr "Erreur inattendue lors de l'exportation vers ODT : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1567
+#: usr/share/tac-writer/core/services.py:1912
+msgid "File error exporting to PDF: {}"
+msgstr "Erreur de fichier lors de l'exportation en PDF : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1570
+#: usr/share/tac-writer/core/services.py:1915
+msgid "Unexpected error exporting to PDF: {}: {}"
+msgstr "Erreur inattendue lors de l'exportation au format PDF : {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 206
+#: usr/share/tac-writer/core/services.py:215
+msgid "Migration failed with database error: {}"
+msgstr "La migration a échoué avec une erreur de base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 222
+#: usr/share/tac-writer/core/services.py:231
+msgid "JSON serialization error for project {}: {}"
+msgstr "Erreur de sérialisation JSON pour le projet {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 591
+#: usr/share/tac-writer/core/services.py:600
+msgid "Project with ID {} not found in database."
+msgstr "Projet avec l'ID {} non trouvé dans la base de données."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 782
+#: usr/share/tac-writer/core/services.py:791
+msgid "Successfully imported database with {} projects"
+msgstr "Base de données importée avec succès avec {} projets"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 95
+#: usr/share/tac-writer/core/services.py:104
+msgid "Invalid paragraph {}: missing field '{}'"
+msgstr "Paragraphe invalide {} : champ '{}' manquant"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 156
+#: usr/share/tac-writer/core/services.py:165
+msgid "Error loading {}: {}"
+msgstr "Erreur de chargement {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 252
+#: usr/share/tac-writer/core/services.py:261
+msgid "JSON serialization error for paragraph {}: {}"
+msgstr "Erreur de sérialisation JSON pour le paragraphe {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 290
+#: usr/share/tac-writer/core/services.py:299
+msgid "Saved project to database: {}"
+msgstr "Projet enregistré dans la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 294
+#: usr/share/tac-writer/core/services.py:303
+msgid "Failed to save project to database: {}"
+msgstr "Échec de l'enregistrement du projet dans la base de données : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 298
+#: usr/share/tac-writer/core/services.py:307
+msgid "Database error saving project '{}': {}"
+msgstr "Erreur de base de données lors de l'enregistrement du projet '{}': {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 302
+#: usr/share/tac-writer/core/services.py:311
+msgid "Unexpected error saving project '{}': {}: {}"
+msgstr "Erreur inattendue lors de l'enregistrement du projet '{}': {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 715
+#: usr/share/tac-writer/core/services.py:724
+msgid "Error reading backup file {}: {}"
+msgstr "Erreur de lecture du fichier de sauvegarde {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1014
+#: usr/share/tac-writer/core/services.py:1058
+msgid "Export format '{}' not available"
+msgstr "Le format d'exportation '{}' n'est pas disponible."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 185
+#: usr/share/tac-writer/core/services.py:194
+msgid "Failed to migrate {} projects"
+msgstr "Échec de la migration de {} projets"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 202
+#: usr/share/tac-writer/core/services.py:211
+msgid "Migration failed, transaction rolled back: {}"
+msgstr "La migration a échoué, la transaction a été annulée : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 197
+#: usr/share/tac-writer/core/services.py:206
+msgid "Warning: Could not rename {}: {}"
+msgstr "Avertissement : Impossible de renommer {} : {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1827
+#: usr/share/tac-writer/core/services.py:1890
+msgid "Error adding image to PDF: {}"
+msgstr "Erreur d'ajout d'image au PDF : {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 64
+#: usr/share/tac-writer/ui/main_window.py:84
+msgid "TAC - Continuous Argumentation Technique"
+msgstr "TAC - Technique d'Argumentation Continue"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 108
+#: usr/share/tac-writer/ui/main_window.py:144
+msgid "New Project (Ctrl+N)"
+msgstr "Nouveau projet (Ctrl+N)"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 189
+# File: usr/share/tac-writer/ui/main_window.py, line: 115
+#: usr/share/tac-writer/ui/main_window.py:151
+msgid "Pomodoro Timer"
+msgstr "Minuteur Pomodoro"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 132
+#: usr/share/tac-writer/ui/main_window.py:160
+msgid "Main Menu"
+msgstr "Menu Principal"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 123
+#: usr/share/tac-writer/ui/main_window.py:166
+msgid "Save Project (Ctrl+S)"
+msgstr "Enregistrer le projet (Ctrl+S)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 149
+#: usr/share/tac-writer/ui/main_window.py:175
+msgid "Ask AI Assistant (Ctrl+Shift+I)"
+msgstr "Demander de l'assistance à l'IA (Ctrl+Shift+I)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 165
+#: usr/share/tac-writer/ui/main_window.py:182
+msgid "Search..."
+msgstr "Recherche..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 172
+#: usr/share/tac-writer/ui/main_window.py:189
+msgid "Find next occurrence"
+msgstr "Trouver la prochaine occurrence"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 142
+#: usr/share/tac-writer/ui/main_window.py:204
+msgid "Export Project..."
+msgstr "Exporter le projet..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 143
+#: usr/share/tac-writer/ui/main_window.py:205
+msgid "Backup Manager..."
+msgstr "Gestionnaire de sauvegarde..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 148
+# File: usr/share/tac-writer/ui/main_window.py, line: 477
+#: usr/share/tac-writer/ui/main_window.py:210
+msgid "Undo"
+msgstr "Annuler"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 149
+# File: usr/share/tac-writer/ui/main_window.py, line: 497
+#: usr/share/tac-writer/ui/main_window.py:211
+msgid "Redo"
+msgstr "Refaire"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 582
+# File: usr/share/tac-writer/ui/main_window.py, line: 154
+#: usr/share/tac-writer/ui/main_window.py:216
+msgid "Preferences"
+msgstr "Préférences"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 159
+#: usr/share/tac-writer/ui/main_window.py:221
+msgid "Welcome Guide"
+msgstr "Guide de bienvenue"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 210
+#: usr/share/tac-writer/ui/main_window.py:222
+msgid "Ask AI Assistant"
+msgstr "Demander à l'assistant IA"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 160
+#: usr/share/tac-writer/ui/main_window.py:223
+msgid "About TAC"
+msgstr "À propos de TAC"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 192
+#: usr/share/tac-writer/ui/main_window.py:255
+msgid "Projects"
+msgstr "Projets"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 322
+#: usr/share/tac-writer/ui/main_window.py:394
+msgid "Add Paragraph"
+msgstr "Ajouter un paragraphe"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1421
+# File: usr/share/tac-writer/ui/main_window.py, line: 357
+#: usr/share/tac-writer/ui/main_window.py:419
+msgid "Insert Image"
+msgstr "Insérer une image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 409
+#: usr/share/tac-writer/ui/main_window.py:421
+msgid "Insert Image (Ctrl+Alt+I)"
+msgstr "Insérer une image (Ctrl+Alt+I)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 357
+#: usr/share/tac-writer/ui/main_window.py:439
+msgid "Go to beginning"
+msgstr "Aller au début"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 367
+#: usr/share/tac-writer/ui/main_window.py:449
+msgid "Go to end"
+msgstr "Aller à la fin"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1609
+# File: usr/share/tac-writer/ui/main_window.py, line: 627
+#: usr/share/tac-writer/ui/main_window.py:627
+msgid "Edit Image"
+msgstr "Modifier l'image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 565
+#: usr/share/tac-writer/ui/main_window.py:634
+msgid "Remove Image"
+msgstr "Supprimer l'image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 580
+#: usr/share/tac-writer/ui/main_window.py:649
+msgid "Remove Image?"
+msgstr "Supprimer l'image ?"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 581
+#: usr/share/tac-writer/ui/main_window.py:650
+msgid "Are you sure you want to remove this image from the document?"
+msgstr "Êtes-vous sûr de vouloir supprimer cette image du document ?"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 101
+# File: usr/share/tac-writer/ui/dialogs.py, line: 334
+# File: usr/share/tac-writer/ui/dialogs.py, line: 481
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1194
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1255
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1327
+# File: usr/share/tac-writer/ui/components.py, line: 880
+# File: usr/share/tac-writer/ui/components.py, line: 917
+# File: usr/share/tac-writer/ui/components.py, line: 1264
+# File: usr/share/tac-writer/ui/components.py, line: 1386
+# File: usr/share/tac-writer/ui/main_window.py, line: 618
+#: usr/share/tac-writer/ui/main_window.py:653
+msgid "Cancel"
+msgstr "Annuler"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1265
+#: usr/share/tac-writer/ui/main_window.py:654
+msgid "Remove"
+msgstr "Supprimer"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 487
+#: usr/share/tac-writer/ui/main_window.py:785
+msgid "Nothing to undo"
+msgstr "Rien à annuler"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 507
+#: usr/share/tac-writer/ui/main_window.py:805
+msgid "Nothing to redo"
+msgstr "Rien à refaire"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 563
+#: usr/share/tac-writer/ui/main_window.py:864
+msgid "Paragraph reordered"
+msgstr "Paragraphe réorganisé"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 614
+#: usr/share/tac-writer/ui/main_window.py:954
+msgid "Open Project"
+msgstr "Ouvrir le projet"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 617
+#: usr/share/tac-writer/ui/main_window.py:957
+msgid "Open"
+msgstr "Ouvrir"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 626
+#: usr/share/tac-writer/ui/main_window.py:966
+msgid "TAC Projects (*.json)"
+msgstr "Projets TAC (*.json)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 631
+#: usr/share/tac-writer/ui/main_window.py:971
+msgid "All Files"
+msgstr "Tous les fichiers"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 710
+#: usr/share/tac-writer/ui/main_window.py:1111
+msgid "Database imported successfully"
+msgstr "Base de données importée avec succès"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1111
+#: usr/share/tac-writer/ui/main_window.py:1172
+msgid ""
+"Click here to start writing!\n"
+"\n"
+"Add paragraphs to build your text."
+msgstr ""
+"Cliquez ici pour commencer à écrire !\n"
+"\n"
+"Ajoutez des paragraphes pour construire votre texte."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1118
+#: usr/share/tac-writer/ui/main_window.py:1179
+msgid "Got it!"
+msgstr "Compris !"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1000
+#: usr/share/tac-writer/ui/main_window.py:1355
+msgid "Close"
+msgstr "Fermer"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1413
+#: usr/share/tac-writer/ui/main_window.py:1384
+msgid "Response"
+msgstr "Réponse"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1507
+#: usr/share/tac-writer/ui/main_window.py:1470
+msgid "Copied to clipboard."
+msgstr "Copié dans le presse-papiers."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1531
+#: usr/share/tac-writer/ui/main_window.py:1494
+msgid "Text inserted into the document."
+msgstr "Texte inséré dans le document."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1572
+#: usr/share/tac-writer/ui/main_window.py:1528
+msgid "Paragraph updated with AI suggestion."
+msgstr "Paragraphe mis à jour avec la suggestion de l'IA."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1598
+#: usr/share/tac-writer/ui/main_window.py:1648
+msgid "Reached the end of the document."
+msgstr "Fin du document atteint."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1638
+#: usr/share/tac-writer/ui/main_window.py:1788
+msgid "Analysis Failure"
+msgstr "Échec de l'analyse"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1195
+# File: usr/share/tac-writer/ui/main_window.py, line: 329
+#: usr/share/tac-writer/ui/main_window.py:401
+msgid "Title 1"
+msgstr "Titre 1"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1196
+# File: usr/share/tac-writer/ui/main_window.py, line: 330
+#: usr/share/tac-writer/ui/main_window.py:402
+msgid "Title 2"
+msgstr "Titre 2"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1197
+# File: usr/share/tac-writer/ui/main_window.py, line: 331
+#: usr/share/tac-writer/ui/main_window.py:403
+msgid "Introduction"
+msgstr "Introduction"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1198
+# File: usr/share/tac-writer/ui/main_window.py, line: 332
+#: usr/share/tac-writer/ui/main_window.py:404
+msgid "Argument"
+msgstr "Argument"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1202
+# File: usr/share/tac-writer/ui/main_window.py, line: 332
+#: usr/share/tac-writer/ui/main_window.py:405
+msgid "Argument Resumption"
+msgstr "Reprise d'argument"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1199
+# File: usr/share/tac-writer/ui/main_window.py, line: 333
+#: usr/share/tac-writer/ui/main_window.py:406
+msgid "Quote"
+msgstr "Citation"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1204
+# File: usr/share/tac-writer/ui/main_window.py, line: 334
+#: usr/share/tac-writer/ui/main_window.py:407
+msgid "Epigraph"
+msgstr "Épigraphe"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1200
+# File: usr/share/tac-writer/ui/main_window.py, line: 334
+#: usr/share/tac-writer/ui/main_window.py:408
+msgid "Conclusion"
+msgstr "Conclusion"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 728
+#: usr/share/tac-writer/ui/main_window.py:728
+msgid "Image updated"
+msgstr "Image mise à jour"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 789
+#: usr/share/tac-writer/ui/main_window.py:912
+msgid "No project open"
+msgstr "Aucun projet ouvert"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 660
+#: usr/share/tac-writer/ui/main_window.py:1000
+msgid "Project saved successfully"
+msgstr "Projet enregistré avec succès"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 664
+#: usr/share/tac-writer/ui/main_window.py:1004
+msgid "Failed to save project"
+msgstr "Échec de l'enregistrement du projet"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 730
+#: usr/share/tac-writer/ui/main_window.py:1051
+msgid "Auto-save failed"
+msgstr "Échec de l'enregistrement automatique"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 671
+#: usr/share/tac-writer/ui/main_window.py:1058
+msgid "No project to export"
+msgstr "Aucun projet à exporter"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1125
+#: usr/share/tac-writer/ui/main_window.py:1263
+msgid "Enable the AI assistant in Preferences ▸ AI Assistant."
+msgstr "Activer l'assistant IA dans Préférences ▸ Assistant IA."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 736
+# File: usr/share/tac-writer/ui/main_window.py, line: 1133
+#: usr/share/tac-writer/ui/main_window.py:1271
+msgid "Provider"
+msgstr "Fournisseur"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1134
+#: usr/share/tac-writer/ui/main_window.py:1272
+msgid "API key"
+msgstr "clé API"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1145
+#: usr/share/tac-writer/ui/main_window.py:1289
+msgid ""
+"Enable AI in Preferences. API key is required. Read Wiki if there is any "
+"doubt."
+msgstr ""
+"Activer l'IA dans les Préférences. Une clé API est requise. Consultez le "
+"Wiki en cas de doute."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 717
+# File: usr/share/tac-writer/ui/main_window.py, line: 1380
+#: usr/share/tac-writer/ui/main_window.py:1351
+msgid "AI Assistant"
+msgstr "Assistant IA"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1381
+#: usr/share/tac-writer/ui/main_window.py:1352
+msgid "Here is the assistant's suggestion."
+msgstr "Voici la suggestion de l'assistant."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1431
+#: usr/share/tac-writer/ui/main_window.py:1402
+msgid "Copy to clipboard"
+msgstr "Copier dans le presse-papiers"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1450
+#: usr/share/tac-writer/ui/main_window.py:1406
+msgid "Insert at cursor"
+msgstr "Insérer au curseur"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1456
+#: usr/share/tac-writer/ui/main_window.py:1412
+msgid "Apply correction"
+msgstr "Appliquer la correction"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1443
+#: usr/share/tac-writer/ui/main_window.py:1422
+msgid "Additional suggestions"
+msgstr "Suggestions supplémentaires"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1513
+#: usr/share/tac-writer/ui/main_window.py:1476
+msgid "Place the cursor inside a paragraph to insert the text."
+msgstr "Placez le curseur à l'intérieur d'un paragraphe pour insérer le texte."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1520
+#: usr/share/tac-writer/ui/main_window.py:1483
+msgid "Nothing to insert."
+msgstr "Rien à insérer."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1545
+#: usr/share/tac-writer/ui/main_window.py:1501
+msgid "No paragraph context available. Try inserting at the cursor."
+msgstr "Aucun contexte de paragraphe disponible. Essayez d'insérer au curseur."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1558
+#: usr/share/tac-writer/ui/main_window.py:1514
+msgid "Could not determine the original paragraph."
+msgstr "Impossible de déterminer le paragraphe original."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1556
+# File: usr/share/tac-writer/ui/main_window.py, line: 1563
+#: usr/share/tac-writer/ui/main_window.py:1606
+msgid "Enter text to search."
+msgstr "Entrez le texte à rechercher."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1559
+#: usr/share/tac-writer/ui/main_window.py:1609
+msgid "No matches found."
+msgstr "Aucun résultat trouvé."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1574
+#: usr/share/tac-writer/ui/main_window.py:1624
+msgid "No editable paragraphs available."
+msgstr "Aucun paragraphe modifiable disponible."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 581
+# File: usr/share/tac-writer/ui/main_window.py, line: 777
+#: usr/share/tac-writer/ui/main_window.py:1694
+msgid "Continuous Argumentation Technique"
+msgstr "Technique d'Argumentation Continue"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 807
+#: usr/share/tac-writer/ui/main_window.py:1724
+msgid "Loading project..."
+msgstr "Chargement du projet..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 647
+# File: usr/share/tac-writer/ui/main_window.py, line: 834
+#: usr/share/tac-writer/ui/main_window.py:1751
+msgid "Failed to open project"
+msgstr "Échec de l'ouverture du projet"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 476
+#: usr/share/tac-writer/ui/main_window.py:538
+msgid "⚠️ Error: Invalid image data"
+msgstr "⚠️ Erreur : Données d'image invalides"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2013
+# File: usr/share/tac-writer/ui/main_window.py, line: 733
+#: usr/share/tac-writer/ui/main_window.py:733
+msgid "Error updating image"
+msgstr "Erreur de mise à jour de l'image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 746
+#: usr/share/tac-writer/ui/main_window.py:1147
+msgid "Created project: {}"
+msgstr "Projet créé : {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1043
+#: usr/share/tac-writer/ui/main_window.py:1235
+msgid "Image inserted successfully"
+msgstr "Image insérée avec succès"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1056
+#: usr/share/tac-writer/ui/main_window.py:1248
+msgid "Error inserting image"
+msgstr "Erreur d'insertion de l'image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1339
+#: usr/share/tac-writer/ui/main_window.py:1313
+msgid "Please enter a question for the assistant."
+msgstr "Veuillez entrer une question pour l'assistant."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1344
+#: usr/share/tac-writer/ui/main_window.py:1318
+msgid "The AI assistant is processing your request..."
+msgstr "L'assistant IA traite votre demande..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 603
+#: usr/share/tac-writer/ui/main_window.py:672
+msgid "Image removed"
+msgstr "Image supprimée"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1138
+#: usr/share/tac-writer/ui/main_window.py:1276
+msgid "Configure {items} in Preferences ▸ AI Assistant."
+msgstr "Configurer {items} dans Préférences ▸ Assistant IA."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 824
+#: usr/share/tac-writer/ui/main_window.py:1741
+msgid "Failed to open project: {}"
+msgstr "Échec de l'ouverture du projet : {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 645
+# File: usr/share/tac-writer/ui/main_window.py, line: 832
+#: usr/share/tac-writer/ui/main_window.py:1749
+msgid "Opened project: {}"
+msgstr "Projet ouvert : {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 606
+#: usr/share/tac-writer/ui/main_window.py:675
+msgid "Error removing image"
+msgstr "Erreur lors de la suppression de l'image"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 541
+#: usr/share/tac-writer/ui/main_window.py:603
+msgid "⚠️ Image not found: {}"
+msgstr "⚠️ Image non trouvée : {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 549
+#: usr/share/tac-writer/ui/main_window.py:611
+msgid "⚠️ Error loading image: {}"
+msgstr "⚠️ Erreur de chargement de l'image : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 228
+#: usr/share/tac-writer/ui/components.py:232
+msgid "Minimize"
+msgstr "Réduire"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 588
+#: usr/share/tac-writer/ui/components.py:647
+msgid "Create structured academic texts with guided paragraph types"
+msgstr ""
+"Créer des textes académiques structurés avec des types de paragraphes guidés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 600
+#: usr/share/tac-writer/ui/components.py:659
+msgid "How To Wiki"
+msgstr "Comment Faire Wiki"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 604
+#: usr/share/tac-writer/ui/components.py:663
+msgid "Access the online documentation and tutorials"
+msgstr "Accédez à la documentation en ligne et aux tutoriels"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 627
+#: usr/share/tac-writer/ui/components.py:680
+msgid "Start Writing"
+msgstr "Commencer à écrire"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 628
+#: usr/share/tac-writer/ui/components.py:681
+msgid "Choose a template to get started"
+msgstr "Choisissez un modèle pour commencer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 687
+#: usr/share/tac-writer/ui/components.py:740
+msgid "Search projects..."
+msgstr "Rechercher des projets..."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 781
+#: usr/share/tac-writer/ui/components.py:834
+msgid "Rename project"
+msgstr "Renommer le projet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 790
+#: usr/share/tac-writer/ui/components.py:843
+msgid "Delete project"
+msgstr "Supprimer le projet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 863
+#: usr/share/tac-writer/ui/components.py:916
+msgid "Rename Project"
+msgstr "Renommer le projet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 881
+#: usr/share/tac-writer/ui/components.py:934
+msgid "Rename"
+msgstr "Renommer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 914
+#: usr/share/tac-writer/ui/components.py:967
+msgid "This project will be moved to trash and can be recovered."
+msgstr "Ce projet sera déplacé vers la corbeille et peut être récupéré."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1328
+# File: usr/share/tac-writer/ui/components.py, line: 918
+#: usr/share/tac-writer/ui/components.py:971
+msgid "Delete"
+msgstr "Supprimer"
+
+#: usr/share/tac-writer/ui/components.py:1157
+msgid "Bold"
+msgstr ""
+
+#: usr/share/tac-writer/ui/components.py:1164
+msgid "Italic"
+msgstr ""
+
+#: usr/share/tac-writer/ui/components.py:1171
+msgid "Underline"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1069
+#: usr/share/tac-writer/ui/components.py:1199
+msgid "Remove paragraph"
+msgstr "Supprimer le paragraphe"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1202
+#: usr/share/tac-writer/ui/components.py:1476
+msgid "Paragraph"
+msgstr "Paragraphe"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1260
+#: usr/share/tac-writer/ui/components.py:1536
+msgid "Remove Paragraph?"
+msgstr "Supprimer le paragraphe ?"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1261
+#: usr/share/tac-writer/ui/components.py:1537
+msgid "This action cannot be undone."
+msgstr "Cette action ne peut pas être annulée."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1364
+#: usr/share/tac-writer/ui/components.py:1672
+msgid "Manage Footnotes"
+msgstr "Gérer les notes de bas de page"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1391
+#: usr/share/tac-writer/ui/components.py:1699
+msgid "Save"
+msgstr "Enregistrer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1408
+#: usr/share/tac-writer/ui/components.py:1716
+msgid ""
+"Add footnotes that will appear as numbered references in your paragraph:"
+msgstr ""
+"Ajoutez des notes de bas de page qui apparaîtront comme des références "
+"numérotées dans votre paragraphe :"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1424
+#: usr/share/tac-writer/ui/components.py:1732
+msgid "Add Footnote"
+msgstr "Ajouter une note de bas de page"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1498
+#: usr/share/tac-writer/ui/components.py:1805
+msgid "Enter footnote text..."
+msgstr "Entrez le texte de la note de bas de page..."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 281
+#: usr/share/tac-writer/ui/components.py:285
+msgid "Reset"
+msgstr "Réinitialiser"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 386
+#: usr/share/tac-writer/ui/components.py:393
+msgid "⏸ Pause"
+msgstr "⏸ Pause"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 390
+#: usr/share/tac-writer/ui/components.py:397
+msgid "▶ Start"
+msgstr "▶ Démarrer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 638
+#: usr/share/tac-writer/ui/components.py:691
+msgid "Start"
+msgstr "Démarrer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1044
+#: usr/share/tac-writer/ui/components.py:1130
+msgid "Manage footnotes"
+msgstr "Gérer les notes de bas de page"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1053
+#: usr/share/tac-writer/ui/components.py:1183
+msgid "Toggle spell checking"
+msgstr "Activer/désactiver la vérification orthographique"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1620
+#: usr/share/tac-writer/ui/components.py:1871
+msgid "Welcome to TAC Writer!"
+msgstr "Bienvenue dans TAC Writer !"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1621
+#: usr/share/tac-writer/ui/components.py:1872
+msgid ""
+"Let's take a quick tour. Click here to create your first project and start "
+"writing."
+msgstr ""
+"Faisons un rapide tour. Cliquez ici pour créer votre premier projet et "
+"commencer à écrire."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1626
+#: usr/share/tac-writer/ui/components.py:1877
+msgid "Project Library"
+msgstr "Bibliothèque de projet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1627
+#: usr/share/tac-writer/ui/components.py:1878
+msgid ""
+"All your projects are listed here. You can search, rename, or delete them at "
+"any time."
+msgstr ""
+"Tous vos projets sont listés ici. Vous pouvez les rechercher, les renommer "
+"ou les supprimer à tout moment."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1633
+#: usr/share/tac-writer/ui/components.py:1884
+msgid ""
+"Stay focused with the built-in Pomodoro timer. Perfect for writing sessions!"
+msgstr ""
+"Restez concentré avec le minuteur Pomodoro intégré. Parfait pour les "
+"sessions d'écriture !"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1639
+#: usr/share/tac-writer/ui/components.py:1890
+msgid ""
+"Use AI to revise your exported text. Configure in Preferences. Read wiki for "
+"guided configuration."
+msgstr ""
+"Utilisez l'IA pour réviser votre texte exporté. Configurez dans les "
+"Préférences. Lisez le wiki pour une configuration guidée."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1644
+#: usr/share/tac-writer/ui/components.py:1895
+msgid "Save Your Work"
+msgstr "Enregistrez votre travail"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1645
+#: usr/share/tac-writer/ui/components.py:1896
+msgid ""
+"Don't worry! Auto-save is enabled by default, but you can also save manually "
+"here."
+msgstr ""
+"Ne vous inquiétez pas ! La sauvegarde automatique est activée par défaut, "
+"mais vous pouvez également sauvegarder manuellement ici."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1751
+#: usr/share/tac-writer/ui/components.py:2002
+msgid "Skip Tour"
+msgstr "Passer le tour"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1757
+#: usr/share/tac-writer/ui/components.py:2008
+msgid "Previous"
+msgstr "Précédent"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1763
+#: usr/share/tac-writer/ui/components.py:2014
+msgid "Next"
+msgstr "Suivant"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1767
+#: usr/share/tac-writer/ui/components.py:2018
+msgid "Finish"
+msgstr "Terminer"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 170
+#: usr/share/tac-writer/ui/components.py:174
+msgid "Long Break"
+msgstr "Longue pause"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 176
+#: usr/share/tac-writer/ui/components.py:180
+msgid "Rest Time"
+msgstr "Temps de repos"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 575
+#: usr/share/tac-writer/ui/components.py:634
+msgid "Welcome to TAC"
+msgstr "Bienvenue à TAC"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 614
+#: usr/share/tac-writer/ui/components.py:673
+msgid "exporting to ODT might require some adjustment in your Office Suite."
+msgstr ""
+"l'exportation vers ODT peut nécessiter quelques ajustements dans votre suite "
+"bureautique."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 864
+#: usr/share/tac-writer/ui/components.py:917
+msgid "Enter new name for '{}'"
+msgstr "Entrez un nouveau nom pour '{}'"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 913
+#: usr/share/tac-writer/ui/components.py:966
+msgid "Delete '{}'?"
+msgstr "Supprimer '{}' ?"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1339
+#: usr/share/tac-writer/ui/components.py:1212
+#, fuzzy
+msgid "Please select a word or section to format first."
+msgstr "Veuillez entrer une question pour l'assistant."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 285
+# File: usr/share/tac-writer/ui/components.py, line: 1244
+#: usr/share/tac-writer/ui/components.py:1521
+msgid "{count} words"
+msgstr "{count} mots"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1335
+#: usr/share/tac-writer/ui/components.py:1581
+msgid "1 footnote"
+msgstr "1 note de bas de page"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 163
+#: usr/share/tac-writer/ui/components.py:167
+msgid "Session {}"
+msgstr "Session {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 360
+#: usr/share/tac-writer/ui/components.py:364
+msgid "Error setting up Pomodoro dialog styles: {}"
+msgstr "Erreur lors de la configuration des styles de dialogue Pomodoro : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 614
+#: usr/share/tac-writer/ui/components.py:673
+msgid "Note:"
+msgstr "Remarque :"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1337
+#: usr/share/tac-writer/ui/components.py:1583
+msgid "{} footnotes"
+msgstr "{} notes de bas de page"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1338
+#: usr/share/tac-writer/ui/components.py:1634
+msgid "Error setting up spell check: {}"
+msgstr "Erreur lors de la configuration de la vérification orthographique : {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 969
+# File: usr/share/tac-writer/ui/components.py, line: 662
+#: usr/share/tac-writer/ui/components.py:716
+msgid "Could not open wiki URL: {}"
+msgstr "Impossible d'ouvrir l'URL du wiki : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 539
+# File: usr/share/tac-writer/ui/components.py, line: 1092
+#: usr/share/tac-writer/ui/components.py:1251
+msgid "Error toggling spell check: {}"
+msgstr "Erreur lors de l'activation de la vérification orthographique : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 77
+#: usr/share/tac-writer/ui/dialogs.py:79
+msgid "New Project"
+msgstr "Nouveau projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 107
+#: usr/share/tac-writer/ui/dialogs.py:109
+msgid "Create"
+msgstr "Créer"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 139
+#: usr/share/tac-writer/ui/dialogs.py:141
+msgid "Project Details"
+msgstr "Détails du projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 143
+# File: usr/share/tac-writer/ui/dialogs.py, line: 356
+#: usr/share/tac-writer/ui/dialogs.py:145
+msgid "Project Name"
+msgstr "Nom du projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 145
+#: usr/share/tac-writer/ui/dialogs.py:147
+msgid "Enter project name..."
+msgstr "Entrez le nom du projet..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 146
+#: usr/share/tac-writer/ui/dialogs.py:148
+msgid "My New Project"
+msgstr "Mon nouveau projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 163
+#: usr/share/tac-writer/ui/dialogs.py:165
+msgid "Author"
+msgstr "Auteur"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 165
+#: usr/share/tac-writer/ui/dialogs.py:167
+msgid "Your name..."
+msgstr "Votre nom..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 174
+#: usr/share/tac-writer/ui/dialogs.py:176
+msgid "Description"
+msgstr "Description"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 206
+#: usr/share/tac-writer/ui/dialogs.py:208
+msgid "Template"
+msgstr "Modèle"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 207
+#: usr/share/tac-writer/ui/dialogs.py:209
+msgid "Choose a template to start with"
+msgstr "Choisissez un modèle pour commencer."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 216
+#: usr/share/tac-writer/ui/dialogs.py:218
+msgid "Document Template"
+msgstr "Modèle de document"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 314
+#: usr/share/tac-writer/ui/dialogs.py:346
+msgid "Export Project"
+msgstr "Exporter le projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 339
+# File: usr/share/tac-writer/ui/dialogs.py, line: 543
+#: usr/share/tac-writer/ui/dialogs.py:371
+msgid "Export"
+msgstr "Exporter"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 352
+#: usr/share/tac-writer/ui/dialogs.py:384
+msgid "Project Information"
+msgstr "Informations sur le projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 362
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1041
+#: usr/share/tac-writer/ui/dialogs.py:394
+msgid "Statistics"
+msgstr "Statistiques"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 368
+#: usr/share/tac-writer/ui/dialogs.py:400
+msgid "Export Options"
+msgstr "Options d'exportation"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 373
+#: usr/share/tac-writer/ui/dialogs.py:405
+msgid "Format"
+msgstr "Format"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 393
+#: usr/share/tac-writer/ui/dialogs.py:425
+msgid "Include Metadata"
+msgstr "Inclure les métadonnées"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 394
+#: usr/share/tac-writer/ui/dialogs.py:426
+msgid "Include author, creation date, and other project information"
+msgstr ""
+"Inclure l'auteur, la date de création et d'autres informations sur le projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 400
+#: usr/share/tac-writer/ui/dialogs.py:432
+msgid "Output Location"
+msgstr "Emplacement de sortie"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 404
+#: usr/share/tac-writer/ui/dialogs.py:436
+msgid "Save Location"
+msgstr "Emplacement de sauvegarde"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 405
+#: usr/share/tac-writer/ui/dialogs.py:437
+msgid "Click to choose location"
+msgstr "Cliquez pour choisir l'emplacement"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 408
+#: usr/share/tac-writer/ui/dialogs.py:440
+msgid "Choose..."
+msgstr "Choisir..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 477
+#: usr/share/tac-writer/ui/dialogs.py:516
+msgid "Choose Export Location"
+msgstr "Choisir l'emplacement d'exportation"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 480
+#: usr/share/tac-writer/ui/dialogs.py:519
+msgid "Select"
+msgstr "Sélectionner"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 499
+#: usr/share/tac-writer/ui/dialogs.py:538
+msgid "Exporting..."
+msgstr "Exportation..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 597
+#: usr/share/tac-writer/ui/dialogs.py:636
+msgid "General"
+msgstr "Général"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 603
+#: usr/share/tac-writer/ui/dialogs.py:642
+msgid "Appearance"
+msgstr "Apparence"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 608
+#: usr/share/tac-writer/ui/dialogs.py:647
+msgid "Dark Theme"
+msgstr "Thème Sombre"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 609
+#: usr/share/tac-writer/ui/dialogs.py:648
+msgid "Use dark theme for the application"
+msgstr "Utiliser le thème sombre pour l'application"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 615
+#: usr/share/tac-writer/ui/dialogs.py:654
+msgid "Editor"
+msgstr "Éditeur"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 648
+#: usr/share/tac-writer/ui/dialogs.py:660
+msgid "Behavior"
+msgstr "Comportement"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 653
+#: usr/share/tac-writer/ui/dialogs.py:665
+msgid "Auto Save"
+msgstr "Sauvegarde automatique"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 654
+#: usr/share/tac-writer/ui/dialogs.py:666
+msgid "Automatically save projects while editing"
+msgstr "Enregistrer automatiquement les projets lors de l'édition"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 660
+#: usr/share/tac-writer/ui/dialogs.py:672
+msgid "Word Wrap"
+msgstr "Retour à la ligne"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 661
+#: usr/share/tac-writer/ui/dialogs.py:673
+msgid "Wrap text to fit the editor width"
+msgstr "Envelopper le texte pour s'adapter à la largeur de l'éditeur"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 667
+#: usr/share/tac-writer/ui/dialogs.py:679
+msgid "Show Line Numbers"
+msgstr "Afficher les numéros de ligne"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 668
+#: usr/share/tac-writer/ui/dialogs.py:680
+msgid "Display line numbers in the editor"
+msgstr "Afficher les numéros de ligne dans l'éditeur"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 722
+#: usr/share/tac-writer/ui/dialogs.py:691
+msgid "Assistant Settings"
+msgstr "Paramètres de l'assistant"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 724
+#: usr/share/tac-writer/ui/dialogs.py:693
+msgid "Configure the provider and credentials used to generate suggestions."
+msgstr ""
+"Configurer le fournisseur et les identifiants utilisés pour générer des "
+"suggestions."
+
+#
+# File: usr/share/tac-writer/application.py, line: 502
+#: usr/share/tac-writer/ui/dialogs.py:699
+#, fuzzy
+msgid "Configuration Guide"
+msgstr "Configuration enregistrée"
+
+#: usr/share/tac-writer/ui/dialogs.py:700
+msgid "Read the documentation to learn how to get API keys"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 822
+#: usr/share/tac-writer/ui/dialogs.py:706
+#, fuzzy
+msgid "Open Documentation"
+msgstr "En savoir plus - Documentation en ligne"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 752
+#: usr/share/tac-writer/ui/dialogs.py:735
+msgid "gemini-2.5-flash"
+msgstr "gemini-2.5-flash"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1057
+#: usr/share/tac-writer/ui/dialogs.py:1039
+msgid ""
+"Tac Writer is a tool based on the TAC technique (Continued Argumentation "
+"Technique) and the Pomodoro method. TAC technique helps writers develop an "
+"idea in an organized manner, separating the paragraph into different stages. "
+"Read wiki to take advantage of all the resources. To open wiki click on '?' "
+"icon"
+msgstr ""
+"Tac Writer est un outil basé sur la technique TAC (Technique d'Argumentation "
+"Continue) et la méthode Pomodoro. La technique TAC aide les écrivains à "
+"développer une idée de manière organisée, en séparant le paragraphe en "
+"différentes étapes. Lisez le wiki pour profiter de toutes les ressources. "
+"Pour ouvrir le wiki, cliquez sur l'icône '?'."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 822
+#: usr/share/tac-writer/ui/dialogs.py:1052
+msgid "Learn More - Online Documentation"
+msgstr "En savoir plus - Documentation en ligne"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 826
+#: usr/share/tac-writer/ui/dialogs.py:1056
+msgid "Access the complete guide and tutorials"
+msgstr "Accédez au guide complet et aux tutoriels"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 843
+#: usr/share/tac-writer/ui/dialogs.py:1073
+msgid "Show this dialog on startup"
+msgstr "Afficher cette boîte de dialogue au démarrage"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 861
+#: usr/share/tac-writer/ui/dialogs.py:1091
+msgid "Let's Start"
+msgstr "Commençons"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 978
+#: usr/share/tac-writer/ui/dialogs.py:1180
+msgid "Backup Manager"
+msgstr "Gestionnaire de sauvegarde"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1006
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1167
+#: usr/share/tac-writer/ui/dialogs.py:1208
+msgid "Create Backup"
+msgstr "Créer une sauvegarde"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1013
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1190
+#: usr/share/tac-writer/ui/dialogs.py:1215
+msgid "Import Database"
+msgstr "Importer la base de données"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1029
+#: usr/share/tac-writer/ui/dialogs.py:1231
+msgid "Current Database"
+msgstr "Base de données actuelle"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1035
+#: usr/share/tac-writer/ui/dialogs.py:1245
+msgid "Database Location"
+msgstr "Emplacement de la base de données"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1053
+#: usr/share/tac-writer/ui/dialogs.py:1263
+msgid "Available Backups"
+msgstr "Sauvegardes disponibles"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1054
+#: usr/share/tac-writer/ui/dialogs.py:1264
+msgid "Backups are stored in Documents/TAC Projects/database_backups"
+msgstr ""
+"Les sauvegardes sont stockées dans Documents/Projets TAC/"
+"sauvegardes_de_base_de_données"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1143
+#: usr/share/tac-writer/ui/dialogs.py:1357
+msgid "Delete backup"
+msgstr "Supprimer la sauvegarde"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1155
+#: usr/share/tac-writer/ui/dialogs.py:1369
+msgid "Creating..."
+msgstr "Création..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1199
+#: usr/share/tac-writer/ui/dialogs.py:1411
+msgid "Database files (*.db)"
+msgstr "Fichiers de base de données (*.db)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1204
+#: usr/share/tac-writer/ui/dialogs.py:1416
+msgid "All files"
+msgstr "Tous les fichiers"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1249
+#: usr/share/tac-writer/ui/dialogs.py:1473
+msgid "Import Database?"
+msgstr "Importer la base de données ?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1193
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1256
+#: usr/share/tac-writer/ui/dialogs.py:1480
+msgid "Import"
+msgstr "Importer"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1275
+#: usr/share/tac-writer/ui/dialogs.py:1499
+msgid "Importing Database"
+msgstr "Importation de la base de données"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1276
+#: usr/share/tac-writer/ui/dialogs.py:1500
+msgid "Please wait while the database is being imported..."
+msgstr ""
+"Veuillez patienter pendant que la base de données est en cours "
+"d'importation..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1323
+#: usr/share/tac-writer/ui/dialogs.py:1551
+msgid "Delete Backup?"
+msgstr "Supprimer la sauvegarde ?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1649
+#: usr/share/tac-writer/ui/dialogs.py:1632
+msgid "Update"
+msgstr "Mettre à jour"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1454
+#: usr/share/tac-writer/ui/dialogs.py:1632
+msgid "Insert"
+msgstr "Insérer"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1478
+#: usr/share/tac-writer/ui/dialogs.py:1657
+msgid "Image File"
+msgstr "Fichier image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1479
+#: usr/share/tac-writer/ui/dialogs.py:1658
+msgid "Select an image file to insert into your document"
+msgstr "Sélectionnez un fichier image à insérer dans votre document"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1484
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1658
+#: usr/share/tac-writer/ui/dialogs.py:1663
+msgid "Select Image"
+msgstr "Sélectionner une image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1523
+#: usr/share/tac-writer/ui/dialogs.py:1702
+msgid "Image Formatting"
+msgstr "Mise en forme d'image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1529
+#: usr/share/tac-writer/ui/dialogs.py:1708
+msgid "Display Width (%)"
+msgstr "Largeur d'affichage (%)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1530
+#: usr/share/tac-writer/ui/dialogs.py:1709
+msgid "Percentage of page width"
+msgstr "Pourcentage de la largeur de la page"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1548
+#: usr/share/tac-writer/ui/dialogs.py:1727
+msgid "Alignment"
+msgstr "Alignement"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1549
+#: usr/share/tac-writer/ui/dialogs.py:1728
+msgid "Image position on the page"
+msgstr "Position de l'image sur la page"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1579
+#: usr/share/tac-writer/ui/dialogs.py:1758
+msgid "Caption (optional)"
+msgstr "Légende (facultatif)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1585
+#: usr/share/tac-writer/ui/dialogs.py:1764
+msgid "Alternative Text (optional)"
+msgstr "Texte alternatif (facultatif)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1592
+#: usr/share/tac-writer/ui/dialogs.py:1771
+msgid "Position in Document"
+msgstr "Position dans le document"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1598
+#: usr/share/tac-writer/ui/dialogs.py:1777
+msgid "Insert After"
+msgstr "Insérer après"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1599
+#: usr/share/tac-writer/ui/dialogs.py:1778
+msgid "Choose where to place the image"
+msgstr "Choisissez où placer l'image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1610
+#: usr/share/tac-writer/ui/dialogs.py:1789
+msgid "Beginning of document"
+msgstr "Début du document"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1645
+#: usr/share/tac-writer/ui/dialogs.py:1824
+msgid "Image Files"
+msgstr "Fichiers image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1992
+#: usr/share/tac-writer/ui/dialogs.py:2062
+msgid "PDF Review by AI"
+msgstr "Révision PDF par IA"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2065
+#: usr/share/tac-writer/ui/dialogs.py:2135
+msgid "Select PDF"
+msgstr "Sélectionner PDF"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2105
+#: usr/share/tac-writer/ui/dialogs.py:2175
+msgid "Analysis Results"
+msgstr "Résultats d'analyse"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 550
+#: usr/share/tac-writer/ui/dialogs.py:589
+msgid "Export Successful"
+msgstr "Exportation réussie"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 303
+# File: usr/share/tac-writer/ui/dialogs.py, line: 553
+# File: usr/share/tac-writer/ui/dialogs.py, line: 569
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1182
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1233
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1298
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1314
+#: usr/share/tac-writer/ui/dialogs.py:592
+msgid "OK"
+msgstr "D'accord"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 563
+#: usr/share/tac-writer/ui/dialogs.py:602
+msgid "An error occurred while exporting the project."
+msgstr "Une erreur est survenue lors de l'exportation du projet."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 566
+#: usr/share/tac-writer/ui/dialogs.py:605
+msgid "Export Failed"
+msgstr "Échec de l'exportation"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 729
+#: usr/share/tac-writer/ui/dialogs.py:713
+msgid "Enable AI Assistant"
+msgstr "Activer l'assistant IA"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 730
+#: usr/share/tac-writer/ui/dialogs.py:714
+msgid "Allow prompts to use an external provider (Ctrl+Shift+I)."
+msgstr ""
+"Autoriser les invites à utiliser un fournisseur externe (Ctrl+Shift+I)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 748
+#: usr/share/tac-writer/ui/dialogs.py:731
+msgid "Model Identifier"
+msgstr "Identifiant du modèle"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 749
+#: usr/share/tac-writer/ui/dialogs.py:732
+#, fuzzy
+msgid "Examples: gemini-2.5-flash"
+msgstr "exemples:gemini-2.5-flash."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 759
+#: usr/share/tac-writer/ui/dialogs.py:742
+msgid "API Key"
+msgstr "Clé API"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 760
+#: usr/share/tac-writer/ui/dialogs.py:743
+msgid "Stored locally and used to authenticate requests."
+msgstr "Stocké localement et utilisé pour authentifier les demandes."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 763
+#: usr/share/tac-writer/ui/dialogs.py:746
+msgid "Paste your API key"
+msgstr "Collez votre clé API"
+
+#: usr/share/tac-writer/ui/dialogs.py:756
+msgid "Save AI Settings"
+msgstr ""
+
+#: usr/share/tac-writer/ui/dialogs.py:838
+msgid "AI Settings Saved"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 946
+#: usr/share/tac-writer/ui/dialogs.py:929
+msgid "Gemini model identifier (for example: gemini-2.5-flash)."
+msgstr "Identifiant du modèle Gemini (par exemple : gemini-2.5-flash)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 948
+#: usr/share/tac-writer/ui/dialogs.py:931
+msgid "Google AI Studio API key."
+msgstr "Clé API de Google AI Studio."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1042
+#: usr/share/tac-writer/ui/dialogs.py:1252
+msgid "{} projects, {} MB"
+msgstr "{} projets, {} Mo"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1093
+#: usr/share/tac-writer/ui/dialogs.py:1307
+msgid "No backups found"
+msgstr "Aucune sauvegarde trouvée"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1094
+#: usr/share/tac-writer/ui/dialogs.py:1308
+msgid "Create a backup or import an existing database file"
+msgstr ""
+"Créer une sauvegarde ou importer un fichier de base de données existant"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1112
+#: usr/share/tac-writer/ui/dialogs.py:1326
+msgid "{:.1f} MB • {} projects • {}"
+msgstr "{:.1f} Mo • {} projets • {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1120
+#: usr/share/tac-writer/ui/dialogs.py:1334
+msgid "Valid backup"
+msgstr "Sauvegarde valide"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1123
+#: usr/share/tac-writer/ui/dialogs.py:1337
+msgid "Invalid or corrupted backup"
+msgstr "Sauvegarde invalide ou corrompue"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1135
+#: usr/share/tac-writer/ui/dialogs.py:1349
+msgid "Import this backup"
+msgstr "Importer cette sauvegarde"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1179
+#: usr/share/tac-writer/ui/dialogs.py:1397
+msgid "Backup Failed"
+msgstr "Sauvegarde échouée"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1180
+#: usr/share/tac-writer/ui/dialogs.py:1398
+msgid "Could not create backup. Check the console for details."
+msgstr ""
+"Impossible de créer une sauvegarde. Vérifiez la console pour plus de détails."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1295
+#: usr/share/tac-writer/ui/dialogs.py:1523
+msgid "Import Successful"
+msgstr "Importation réussie"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1296
+#: usr/share/tac-writer/ui/dialogs.py:1524
+msgid ""
+"Database imported successfully. The application will refresh to show the "
+"imported projects."
+msgstr ""
+"Base de données importée avec succès. L'application va se rafraîchir pour "
+"afficher les projets importés."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1311
+#: usr/share/tac-writer/ui/dialogs.py:1539
+msgid "Import Failed"
+msgstr "Importation échouée"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1312
+#: usr/share/tac-writer/ui/dialogs.py:1540
+msgid "Could not import the database. Your current database remains unchanged."
+msgstr ""
+"Impossible d'importer la base de données. Votre base de données actuelle "
+"reste inchangée."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1485
+#: usr/share/tac-writer/ui/dialogs.py:1664
+msgid "No file selected"
+msgstr "Aucun fichier sélectionné"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1489
+#: usr/share/tac-writer/ui/dialogs.py:1668
+msgid "Browse..."
+msgstr "Parcourir..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1556
+#: usr/share/tac-writer/ui/dialogs.py:1735
+msgid "Left"
+msgstr "Gauche"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1557
+#: usr/share/tac-writer/ui/dialogs.py:1736
+msgid "Center"
+msgstr "Centre"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1558
+#: usr/share/tac-writer/ui/dialogs.py:1737
+msgid "Right"
+msgstr "Droit"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2027
+#: usr/share/tac-writer/ui/dialogs.py:2097
+msgid ""
+"Select a PDF file of your text for review.\n"
+"The AI ​​will perform a spelling, grammar, and semantic analysis.\n"
+"IMPORTANT: Consider the 10,000 character limit for free APIs. Splitting your "
+"text into multiple files may be an alternative to paid API."
+msgstr ""
+"Sélectionnez un fichier PDF de votre texte pour révision.  \n"
+"L'IA effectuera une analyse orthographique, grammaticale et sémantique.  \n"
+"IMPORTANT : Tenez compte de la limite de 10 000 caractères pour les API "
+"gratuites. Diviser votre texte en plusieurs fichiers peut être une "
+"alternative à l'API payante."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2041
+#: usr/share/tac-writer/ui/dialogs.py:2111
+msgid "Choose PDF..."
+msgstr "Choisir PDF..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2049
+#: usr/share/tac-writer/ui/dialogs.py:2119
+msgid "Run Analysis"
+msgstr "Exécuter l'analyse"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2092
+#: usr/share/tac-writer/ui/dialogs.py:2162
+msgid "Analyzing (may take a few minutes)"
+msgstr "Analyse en cours (cela peut prendre quelques minutes)"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 221
+#: usr/share/tac-writer/ui/dialogs.py:284
+msgid "Project name cannot be empty"
+msgstr "Le nom du projet ne peut pas être vide"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 286
+#: usr/share/tac-writer/ui/dialogs.py:287
+msgid "Project name is too long (max 100 characters)"
+msgstr "Le nom du projet est trop long (max 100 caractères)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 299
+#: usr/share/tac-writer/ui/dialogs.py:300
+msgid "Failed to save project to database"
+msgstr "Échec de l'enregistrement du projet dans la base de données"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 309
+#: usr/share/tac-writer/ui/dialogs.py:310
+msgid "Invalid Input"
+msgstr "Entrée invalide"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 300
+#: usr/share/tac-writer/ui/dialogs.py:320
+msgid "Error Creating Project"
+msgstr "Erreur de création de projet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 331
+#: usr/share/tac-writer/ui/dialogs.py:332
+msgid "Unexpected Error"
+msgstr "Erreur inattendue"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 363
+#: usr/share/tac-writer/ui/dialogs.py:395
+msgid "{} words, {} paragraphs"
+msgstr "{} mots, {} paragraphes"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1056
+#: usr/share/tac-writer/ui/dialogs.py:844
+#, fuzzy
+msgid "Error saving settings"
+msgstr "Erreur d'insertion de l'image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 950
+#: usr/share/tac-writer/ui/dialogs.py:936
+msgid "OpenRouter model identifier (for example: x-ai/grok-4.1-fast:free)."
+msgstr ""
+"Identifiant de modèle OpenRouter (par exemple : x-ai/grok-4.1-fast:free)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 956
+#: usr/share/tac-writer/ui/dialogs.py:938
+msgid "OpenRouter API key."
+msgstr "Clé API OpenRouter."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 960
+#: usr/share/tac-writer/ui/dialogs.py:942
+msgid "model-name"
+msgstr "nom-du-modèle"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 962
+#: usr/share/tac-writer/ui/dialogs.py:944
+msgid "Model identifier required by the selected provider."
+msgstr "Identifiant de modèle requis par le fournisseur sélectionné."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 964
+#: usr/share/tac-writer/ui/dialogs.py:946
+msgid "API key used to authenticate requests."
+msgstr "Clé API utilisée pour authentifier les requêtes."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 793
+#: usr/share/tac-writer/ui/dialogs.py:1023
+msgid "What is TAC Writer?"
+msgstr "Qu'est-ce que TAC Writer ?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 804
+#: usr/share/tac-writer/ui/dialogs.py:1034
+msgid "Continuous Argumentation Technique (TAC in Portuguese):"
+msgstr "Technique d'Argumentation Continue (TAC en portugais) :"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1173
+#: usr/share/tac-writer/ui/dialogs.py:1391
+msgid "Backup created successfully"
+msgstr "Sauvegarde créée avec succès"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1230
+#: usr/share/tac-writer/ui/dialogs.py:1450
+msgid "Invalid Backup"
+msgstr "Sauvegarde invalide"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1231
+#: usr/share/tac-writer/ui/dialogs.py:1451
+msgid "The selected file is not a valid TAC database backup."
+msgstr ""
+"Le fichier sélectionné n'est pas une sauvegarde valide de la base de données "
+"TAC."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1250
+#: usr/share/tac-writer/ui/dialogs.py:1474
+msgid ""
+"This will replace your current database with the selected backup.\n"
+"\n"
+"The backup contains {} projects.\n"
+"\n"
+"Your current database will be backed up before importing."
+msgstr ""
+"Cela remplacera votre base de données actuelle par la sauvegarde "
+"sélectionnée.\n"
+"\n"
+"La sauvegarde contient {} projets.\n"
+"\n"
+"Votre base de données actuelle sera sauvegardée avant l'importation."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1324
+#: usr/share/tac-writer/ui/dialogs.py:1552
+msgid ""
+"Are you sure you want to delete '{}'?\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Êtes-vous sûr de vouloir supprimer '{}' ?\n"
+"\n"
+"Cette action ne peut pas être annulée."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1501
+#: usr/share/tac-writer/ui/dialogs.py:1680
+msgid "Preview"
+msgstr "Aperçu"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1718
+#: usr/share/tac-writer/ui/dialogs.py:1897
+msgid "Error Loading Image"
+msgstr "Erreur de chargement de l'image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 551
+#: usr/share/tac-writer/ui/dialogs.py:590
+msgid ""
+"Project exported to:\n"
+"{}"
+msgstr ""
+"Projet exporté vers :  \n"
+"{}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1695
+#: usr/share/tac-writer/ui/dialogs.py:1874
+msgid "Size: {} x {} pixels  •  {:.1f} KB"
+msgstr "Taille : {} x {} pixels  •  {:.1f} Ko"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 333
+#: usr/share/tac-writer/ui/dialogs.py:333
+msgid "An unexpected error occurred. Please report this issue:"
+msgstr "Une erreur inattendue est survenue. Veuillez signaler ce problème :"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 452
+#: usr/share/tac-writer/ui/dialogs.py:453
+msgid "Warning: Could not create default export directory: {}"
+msgstr ""
+"Avertissement : Impossible de créer le répertoire d'exportation par défaut : "
+"{}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 156
+#: usr/share/tac-writer/ui/dialogs.py:785
+#, fuzzy
+msgid "Error opening wiki: {}"
+msgstr "Erreur de chargement {} : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 737
+#: usr/share/tac-writer/ui/dialogs.py:815
+msgid "Error loading preferences: {}"
+msgstr "Erreur de chargement des préférences : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 462
+#: usr/share/tac-writer/ui/dialogs.py:843
+#, fuzzy
+msgid "Error saving AI settings: {}"
+msgstr "Erreur lors de l'enregistrement du projet : {} : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 751
+#: usr/share/tac-writer/ui/dialogs.py:860
+msgid "Error changing theme: {}"
+msgstr "Erreur lors du changement de thème : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 760
+#: usr/share/tac-writer/ui/dialogs.py:870
+msgid "Error changing font family: {}"
+msgstr "Erreur lors du changement de la famille de polices : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 767
+#: usr/share/tac-writer/ui/dialogs.py:878
+msgid "Error changing font size: {}"
+msgstr "Erreur lors du changement de la taille de la police : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 774
+#: usr/share/tac-writer/ui/dialogs.py:886
+msgid "Error changing auto save: {}"
+msgstr "Erreur lors du changement de la sauvegarde automatique : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 781
+#: usr/share/tac-writer/ui/dialogs.py:894
+msgid "Error changing word wrap: {}"
+msgstr "Erreur lors du changement du retour à la ligne : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 788
+#: usr/share/tac-writer/ui/dialogs.py:902
+msgid "Error changing line numbers: {}"
+msgstr "Erreur lors du changement des numéros de ligne : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 833
+#: usr/share/tac-writer/ui/dialogs.py:995
+msgid "Error applying welcome dialog CSS: {}"
+msgstr "Erreur d'application du CSS de la boîte de dialogue de bienvenue : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 949
+#: usr/share/tac-writer/ui/dialogs.py:1111
+msgid "Error saving welcome dialog preference: {}"
+msgstr ""
+"Erreur lors de l'enregistrement de la préférence de la boîte de dialogue de "
+"bienvenue : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1072
+#: usr/share/tac-writer/ui/dialogs.py:1236
+msgid "Error getting database info: {}"
+msgstr "Erreur lors de l'obtention des informations de la base de données : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1292
+#: usr/share/tac-writer/ui/dialogs.py:1457
+msgid "Error validating backup: {}"
+msgstr "Erreur de validation de la sauvegarde : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1302
+#: usr/share/tac-writer/ui/dialogs.py:1467
+msgid "Error reading backup info: {}"
+msgstr "Erreur de lecture des informations de sauvegarde : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1622
+#: usr/share/tac-writer/ui/dialogs.py:1801
+msgid "(empty)"
+msgstr "(empty)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1672
+#: usr/share/tac-writer/ui/dialogs.py:1851
+msgid "Error selecting file: {}"
+msgstr "Erreur de sélection du fichier : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1714
+#: usr/share/tac-writer/ui/dialogs.py:1893
+msgid "Error loading image: {}"
+msgstr "Erreur de chargement de l'image : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1901
+#: usr/share/tac-writer/ui/dialogs.py:1898
+msgid "Could not load the selected image file."
+msgstr "Impossible de charger le fichier image sélectionné."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2069
+#: usr/share/tac-writer/ui/dialogs.py:2052
+msgid "Error loading existing image: {}"
+msgstr "Erreur de chargement de l'image existante : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1212
+#: usr/share/tac-writer/ui/dialogs.py:1376
+msgid "Error in backup thread: {}"
+msgstr "Erreur dans le fil de sauvegarde : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1344
+#: usr/share/tac-writer/ui/dialogs.py:1509
+msgid "Error in import thread: {}"
+msgstr "Erreur dans le fil d'importation : {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1620
+#: usr/share/tac-writer/ui/dialogs.py:1799
+msgid "Image"
+msgstr "Image"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "Could not {} the image."
+msgstr "Impossible de {} l'image."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "update"
+msgstr "mise à jour"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "insert"
+msgstr "insérer"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 172
+#: usr/share/tac-writer/utils/helpers.py:172
+msgid "0 minutes"
+msgstr "0 minutes"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 177
+#: usr/share/tac-writer/utils/helpers.py:177
+msgid "< 1 minute"
+msgstr "< 1 minute"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 275
+#: usr/share/tac-writer/utils/helpers.py:275
+msgid "1 paragraph"
+msgstr "1 paragraphe"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 283
+#: usr/share/tac-writer/utils/helpers.py:283
+msgid "1 word"
+msgstr "clé"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 357
+#: usr/share/tac-writer/utils/helpers.py:357
+msgid "Methods:"
+msgstr "Méthodes :"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 57
+#: usr/share/tac-writer/utils/helpers.py:57
+msgid "Unknown"
+msgstr "Inconnu"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 226
+#: usr/share/tac-writer/utils/helpers.py:226
+msgid "Project name must be at least 2 characters long"
+msgstr "Le nom du projet doit comporter au moins 2 caractères."
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 229
+#: usr/share/tac-writer/utils/helpers.py:229
+msgid "Project name cannot exceed 100 characters"
+msgstr "Le nom du projet ne peut pas dépasser 100 caractères."
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 232
+#: usr/share/tac-writer/utils/helpers.py:232
+msgid "Project name contains invalid characters"
+msgstr "Le nom du projet contient des caractères invalides"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 249
+#: usr/share/tac-writer/utils/helpers.py:249
+msgid "Path cannot be empty"
+msgstr "Le chemin ne peut pas être vide"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 353
+#: usr/share/tac-writer/utils/helpers.py:353
+msgid "Attributes:"
+msgstr "Attributs :"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 181
+#: usr/share/tac-writer/utils/helpers.py:181
+msgid "1 minute"
+msgstr "1 minute"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 256
+#: usr/share/tac-writer/utils/helpers.py:256
+msgid "Parent directory does not exist"
+msgstr "Le répertoire parent n'existe pas"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 260
+#: usr/share/tac-writer/utils/helpers.py:260
+msgid "Path is too long"
+msgstr "Le chemin est trop long"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 277
+#: usr/share/tac-writer/utils/helpers.py:277
+msgid "{count} paragraphs"
+msgstr "{count} paragraphes"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 348
+# File: usr/share/tac-writer/utils/helpers.py, line: 365
+#: usr/share/tac-writer/utils/helpers.py:348
+msgid "Info"
+msgstr "Info"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 349
+#: usr/share/tac-writer/utils/helpers.py:349
+msgid "Type: {}"
+msgstr "Type : {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 350
+#: usr/share/tac-writer/utils/helpers.py:350
+msgid "Module: {}"
+msgstr "Module : {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 371
+#: usr/share/tac-writer/utils/helpers.py:371
+msgid "Performance: {} took {:.3f} seconds"
+msgstr "Performance : {} a pris {:.3f} secondes"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 187
+#: usr/share/tac-writer/utils/helpers.py:187
+msgid "{}h {}m"
+msgstr "{}h {}m"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 363
+#: usr/share/tac-writer/utils/helpers.py:363
+msgid "  ... and {} more methods"
+msgstr "... et {} autres méthodes"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 183
+#: usr/share/tac-writer/utils/helpers.py:183
+msgid "{} minutes"
+msgstr "{} minutes"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 265
+#: usr/share/tac-writer/utils/helpers.py:265
+msgid "Invalid path: {}"
+msgstr "Chemin invalide : {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 330
+#: usr/share/tac-writer/utils/helpers.py:330
+msgid "{:,} words"
+msgstr "{:,} mots"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 332
+#: usr/share/tac-writer/utils/helpers.py:332
+msgid "{:,} characters"
+msgstr "{:,} caractères"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 773
+#~ msgid "Site URL (optional)"
+#~ msgstr "URL du site (facultatif)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 774
+#~ msgid "Used as HTTP Referer header for OpenRouter rankings."
+#~ msgstr "Utilisé comme en-tête HTTP Referer pour les classements OpenRouter."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 777
+#~ msgid "https://example.com"
+#~ msgstr "https://example.com"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 789
+#~ msgid "Site title (optional)"
+#~ msgstr "Titre du site (facultatif)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 790
+#~ msgid "Sent via X-Title header for OpenRouter rankings."
+#~ msgstr "Envoyé via l'en-tête X-Title pour les classements OpenRouter."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 793
+#~ msgid "My Project"
+#~ msgstr "Mon Projet"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 494
+# File: usr/share/tac-writer/application.py, line: 229
+#, python-brace-format
+#~ msgid "Error checking dictionary {}: {}"
+#~ msgstr "Erreur de vérification du dictionnaire {} : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 497
+#, python-brace-format
+#~ msgid "Enchant not available for spell checking: {}"
+#~ msgstr "Enchant non disponible pour la vérification orthographique : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 521
+# File: usr/share/tac-writer/ui/components.py, line: 1020
+#, python-brace-format
+#~ msgid "Spell check setup failed: {}"
+#~ msgstr "Échec de la configuration de la vérification orthographique : {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1000
+#, python-brace-format
+#~ msgid "Error during paragraph editor initialization: {}"
+#~ msgstr "Erreur lors de l'initialisation de l'éditeur de paragraphes : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 233
+#, python-brace-format
+#~ msgid "Available spell check dictionaries: {}"
+#~ msgstr "Dictionnaires de vérification orthographique disponibles : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 242
+#, python-brace-format
+#~ msgid "Using auto-detected language: {}"
+#~ msgstr "Utilisation de la langue détectée automatiquement : {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 247
+#, python-brace-format
+#~ msgid "Auto-detected language not available, using fallback: {}"
+#~ msgstr ""
+#~ "Langue auto-détectée non disponible, utilisation de la solution de "
+#~ "repli : {}"
