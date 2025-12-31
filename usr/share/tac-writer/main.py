@@ -38,8 +38,8 @@ try:
     gi.require_version('Adw', '1')
     from gi.repository import Gtk, Adw
 except ImportError as e:
-    print(_("Error: Required dependencies not found: {}").format(e))
-    print(_("Please install: python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adwaita-1"))
+    print(_("Erro: Dependências necessárias não encontradas: {}").format(e))
+    print(_("Por favor instale: python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adwaita-1"))
     sys.exit(1)
 
 
@@ -47,12 +47,12 @@ def check_dependencies():
     """Check if required GTK version is available"""
     try:
         if Gtk.get_major_version() < 4:
-            print(_("Error: GTK 4.0 or higher is required"))
+            print(_("Erro: GTK 4.0 ou superior é necessário"))
             return False
         return True
         
     except Exception as e:
-        print(_("Error checking dependencies: {}").format(e))
+        print(_("Erro ao verificar dependências: {}").format(e))
         return False
 
 
@@ -70,10 +70,10 @@ def main():
         return app.run(sys.argv)
         
     except KeyboardInterrupt:
-        print("\n" + _("Application interrupted by user."))
+        print("\n" + _("Aplicação interrompida pelo usuário."))
         return 0
     except Exception as e:
-        print(_("Critical error during startup: {}").format(e))
+        print(_("Erro crítico durante a inicialização: {}").format(e))
         traceback.print_exc()
         return 1
 

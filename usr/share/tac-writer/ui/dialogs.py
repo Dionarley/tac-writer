@@ -76,7 +76,7 @@ class NewProjectDialog(Adw.Window):
 
     def __init__(self, parent, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("New Project"))
+        self.set_title(_("Novo Projeto"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(600, 700)
@@ -100,13 +100,13 @@ class NewProjectDialog(Adw.Window):
 
         # Cancel button
         cancel_button = Gtk.Button()
-        cancel_button.set_label(_("Cancel"))
+        cancel_button.set_label(_("Cancelar"))
         cancel_button.connect('clicked', lambda x: self.destroy())
         header_bar.pack_start(cancel_button)
 
         # Create button
         self.create_button = Gtk.Button()
-        self.create_button.set_label(_("Create"))
+        self.create_button.set_label(_("Criar"))
         self.create_button.add_css_class("suggested-action")
         self.create_button.set_sensitive(False)
         self.create_button.connect('clicked', self._on_create_clicked)
@@ -138,14 +138,14 @@ class NewProjectDialog(Adw.Window):
     def _create_details_section(self, parent):
         """Create project details section"""
         details_group = Adw.PreferencesGroup()
-        details_group.set_title(_("Project Details"))
+        details_group.set_title(_("Detalhes do Projeto"))
 
         # Project name row
         name_row = Adw.ActionRow()
-        name_row.set_title(_("Project Name"))
+        name_row.set_title(_("Nome do Projeto"))
         self.name_entry = Gtk.Entry()
-        self.name_entry.set_placeholder_text(_("Enter project name..."))
-        self.name_entry.set_text(_("My New Project"))
+        self.name_entry.set_placeholder_text(_("Digite o nome do projeto..."))
+        self.name_entry.set_text(_("Meu Novo Projeto"))
         self.name_entry.set_size_request(200, -1)
         self.name_entry.connect('changed', self._on_name_changed)
         self.name_entry.connect('activate', self._on_name_activate)
@@ -162,9 +162,9 @@ class NewProjectDialog(Adw.Window):
 
         # Author row
         author_row = Adw.ActionRow()
-        author_row.set_title(_("Author"))
+        author_row.set_title(_("Autor"))
         self.author_entry = Gtk.Entry()
-        self.author_entry.set_placeholder_text(_("Your name..."))
+        self.author_entry.set_placeholder_text(_("Seu nome..."))
         self.author_entry.set_size_request(200, -1)
         author_row.add_suffix(self.author_entry)
         details_group.add(author_row)
@@ -173,7 +173,7 @@ class NewProjectDialog(Adw.Window):
 
         # Description section
         desc_group = Adw.PreferencesGroup()
-        desc_group.set_title(_("Description"))
+        desc_group.set_title(_("Descrição"))
 
         # Description text view in a frame
         desc_frame = Gtk.Frame()
@@ -205,8 +205,8 @@ class NewProjectDialog(Adw.Window):
     def _create_template_section(self, parent):
         """Create template selection section"""
         template_group = Adw.PreferencesGroup()
-        template_group.set_title(_("Template"))
-        template_group.set_description(_("Choose a template to start with"))
+        template_group.set_title(_("Modelo"))
+        template_group.set_description(_("Escolha um modelo para começar"))
 
         # Template selection
         self.template_combo = Gtk.ComboBoxText()
@@ -215,7 +215,7 @@ class NewProjectDialog(Adw.Window):
         self.template_combo.set_active(0)
 
         template_row = Adw.ActionRow()
-        template_row.set_title(_("Document Template"))
+        template_row.set_title(_("Modelo de Documento"))
         template_row.add_suffix(self.template_combo)
         template_group.add(template_row)
 
@@ -281,10 +281,10 @@ class NewProjectDialog(Adw.Window):
         try:
             # Validate inputs
             if not name:
-                raise ValueError(_("Project name cannot be empty"))
+                raise ValueError(_("Nome do projeto não pode ser vazio"))
             
             if len(name) > 100:
-                raise ValueError(_("Project name is too long (max 100 characters)"))
+                raise ValueError(_("Nome do projeto muito longo (máx 100 caracteres)"))
             
             # Create project
             project = self.project_manager.create_project(name, template_name)
@@ -307,7 +307,7 @@ class NewProjectDialog(Adw.Window):
             # Validation error - user input problem
             error_dialog = Adw.MessageDialog.new(
                 self,
-                _("Invalid Input"),
+                _("Entrada Inválida"),
                 str(validation_error)
             )
             error_dialog.add_response("ok", _("OK"))
@@ -317,7 +317,7 @@ class NewProjectDialog(Adw.Window):
             # Runtime error - operation failed
             error_dialog = Adw.MessageDialog.new(
                 self,
-                _("Error Creating Project"),
+                _("Erro ao Criar Projeto"),
                 str(runtime_error)
             )
             error_dialog.add_response("ok", _("OK"))
@@ -329,8 +329,8 @@ class NewProjectDialog(Adw.Window):
             error_msg = f"{type(e).__name__}: {str(e)}\n\n{traceback.format_exc()}"
             error_dialog = Adw.MessageDialog.new(
                 self,
-                _("Unexpected Error"),
-                _("An unexpected error occurred. Please report this issue:") + "\n\n" + error_msg
+                _("Erro Inesperado"),
+                _("Ocorreu um erro inesperado. Por favor reporte este problema:") + "\n\n" + error_msg
             )
             error_dialog.add_response("ok", _("OK"))
             error_dialog.present()
@@ -343,7 +343,7 @@ class ExportDialog(Adw.Window):
 
     def __init__(self, parent, project: Project, export_service: ExportService, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("Export Project"))
+        self.set_title(_("Exportar Projeto"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(550, 550)
@@ -363,12 +363,12 @@ class ExportDialog(Adw.Window):
         header_bar = Adw.HeaderBar()
 
         cancel_button = Gtk.Button()
-        cancel_button.set_label(_("Cancel"))
+        cancel_button.set_label(_("Cancelar"))
         cancel_button.connect('clicked', lambda x: self.destroy())
         header_bar.pack_start(cancel_button)
 
         export_button = Gtk.Button()
-        export_button.set_label(_("Export"))
+        export_button.set_label(_("Exportar"))
         export_button.add_css_class("suggested-action")
         export_button.connect('clicked', self._on_export_clicked)
         header_bar.pack_end(export_button)
@@ -381,28 +381,28 @@ class ExportDialog(Adw.Window):
 
         # Project info
         info_group = Adw.PreferencesGroup()
-        info_group.set_title(_("Project Information"))
+        info_group.set_title(_("Informações do Projeto"))
         prefs_page.add(info_group)
 
         name_row = Adw.ActionRow()
-        name_row.set_title(_("Project Name"))
+        name_row.set_title(_("Nome do Projeto"))
         name_row.set_subtitle(self.project.name)
         info_group.add(name_row)
 
         stats = self.project.get_statistics()
         stats_row = Adw.ActionRow()
-        stats_row.set_title(_("Statistics"))
-        stats_row.set_subtitle(_("{} words, {} paragraphs").format(stats['total_words'], stats['total_paragraphs']))
+        stats_row.set_title(_("Estatísticas"))
+        stats_row.set_subtitle(_("{} palavras, {} parágrafos").format(stats['total_words'], stats['total_paragraphs']))
         info_group.add(stats_row)
 
         # Export options
         export_group = Adw.PreferencesGroup()
-        export_group.set_title(_("Export Options"))
+        export_group.set_title(_("Opções de Exportação"))
         prefs_page.add(export_group)
 
         # Format selection
         self.format_row = Adw.ComboRow()
-        self.format_row.set_title(_("Format"))
+        self.format_row.set_title(_("Formato"))
         format_model = Gtk.StringList()
 
         formats = [
@@ -422,22 +422,22 @@ class ExportDialog(Adw.Window):
 
         # Include metadata
         self.metadata_row = Adw.SwitchRow()
-        self.metadata_row.set_title(_("Include Metadata"))
-        self.metadata_row.set_subtitle(_("Include author, creation date, and other project information"))
+        self.metadata_row.set_title(_("Incluir Metadados"))
+        self.metadata_row.set_subtitle(_("Incluir autor, data de criação e outras informações"))
         self.metadata_row.set_active(True)
         export_group.add(self.metadata_row)
 
         # File location
         location_group = Adw.PreferencesGroup()
-        location_group.set_title(_("Output Location"))
+        location_group.set_title(_("Local de Saída"))
         prefs_page.add(location_group)
 
         self.location_row = Adw.ActionRow()
-        self.location_row.set_title(_("Save Location"))
-        self.location_row.set_subtitle(_("Click to choose location"))
+        self.location_row.set_title(_("Local de Salvamento"))
+        self.location_row.set_subtitle(_("Clique para escolher o local"))
 
         choose_button = Gtk.Button()
-        choose_button.set_label(_("Choose..."))
+        choose_button.set_label(_("Escolher..."))
         choose_button.set_valign(Gtk.Align.CENTER)
         choose_button.connect('clicked', self._on_choose_location)
         self.location_row.add_suffix(choose_button)
@@ -450,7 +450,7 @@ class ExportDialog(Adw.Window):
         try:
             default_location.mkdir(parents=True, exist_ok=True)
         except OSError as e:
-            print(_("Warning: Could not create default export directory: {}").format(e))
+            print(_("Aviso: Não foi possível criar diretório padrão de exportação: {}").format(e))
             default_location = documents_dir
         
         self.selected_location = default_location
@@ -513,11 +513,11 @@ class ExportDialog(Adw.Window):
     def _on_choose_location(self, button):
         """Handle location selection"""
         file_chooser = Gtk.FileChooserNative.new(
-            _("Choose Export Location"),
+            _("Escolher Local de Exportação"),
             self,
             Gtk.FileChooserAction.SELECT_FOLDER,
-            _("Select"),
-            _("Cancel")
+            _("Selecionar"),
+            _("Cancelar")
         )
 
         file_chooser.set_current_folder(Gio.File.new_for_path(str(self.selected_location)))
@@ -535,7 +535,7 @@ class ExportDialog(Adw.Window):
     def _on_export_clicked(self, button):
         """Handle export button click"""
         button.set_sensitive(False)
-        button.set_label(_("Exporting..."))
+        button.set_label(_("Exportando..."))
         
         # Get selected format
         selected_index = self.format_row.get_selected()
@@ -579,14 +579,14 @@ class ExportDialog(Adw.Window):
             while child:
                 if isinstance(child, Gtk.Button):
                     child.set_sensitive(True)
-                    child.set_label(_("Export"))
+                    child.set_label(_("Exportar"))
                     break
                 child = child.get_prev_sibling()
         
         if success:
             success_dialog = Adw.MessageDialog.new(
                 self,
-                _("Export Successful"),
+                _("Exportação Concluída"),
                 _("Project exported to:\n{}").format(output_path)
             )
             success_dialog.add_response("ok", _("OK"))
@@ -599,10 +599,10 @@ class ExportDialog(Adw.Window):
             success_dialog.present()
             
         else:
-            error_msg = error_message if error_message else _("An error occurred while exporting the project.")
+            error_msg = error_message if error_message else _("Ocorreu um erro ao exportar o projeto.")
             error_dialog = Adw.MessageDialog.new(
                 self,
-                _("Export Failed"),
+                _("Falha na Exportação"),
                 error_msg
             )
             error_dialog.add_response("ok", _("OK"))
@@ -618,7 +618,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
 
     def __init__(self, parent, config: Config, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("Preferences"))
+        self.set_title(_("Preferências"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(700, 600)
@@ -633,19 +633,19 @@ class PreferencesDialog(Adw.PreferencesWindow):
         """Create the preferences UI"""
         # General page
         general_page = Adw.PreferencesPage()
-        general_page.set_title(_("General"))
+        general_page.set_title(_("Geral"))
         general_page.set_icon_name('tac-preferences-system-symbolic')
         self.add(general_page)
 
         # Appearance group
         appearance_group = Adw.PreferencesGroup()
-        appearance_group.set_title(_("Appearance"))
+        appearance_group.set_title(_("Aparência"))
         general_page.add(appearance_group)
 
         # Dark theme
         self.dark_theme_row = Adw.SwitchRow()
-        self.dark_theme_row.set_title(_("Dark Theme"))
-        self.dark_theme_row.set_subtitle(_("Use dark theme for the application"))
+        self.dark_theme_row.set_title(_("Tema Escuro"))
+        self.dark_theme_row.set_subtitle(_("Usar tema escuro na aplicação"))
         self.dark_theme_row.connect('notify::active', self._on_dark_theme_changed)
         appearance_group.add(self.dark_theme_row)
 
@@ -657,67 +657,67 @@ class PreferencesDialog(Adw.PreferencesWindow):
 
         # Behavior group
         behavior_group = Adw.PreferencesGroup()
-        behavior_group.set_title(_("Behavior"))
+        behavior_group.set_title(_("Comportamento"))
         editor_page.add(behavior_group)
 
         # Auto save
         self.auto_save_row = Adw.SwitchRow()
-        self.auto_save_row.set_title(_("Auto Save"))
-        self.auto_save_row.set_subtitle(_("Automatically save projects while editing"))
+        self.auto_save_row.set_title(_("Salvamento Automático"))
+        self.auto_save_row.set_subtitle(_("Salvar projetos automaticamente ao editar"))
         self.auto_save_row.connect('notify::active', self._on_auto_save_changed)
         behavior_group.add(self.auto_save_row)
 
         # Word wrap
         self.word_wrap_row = Adw.SwitchRow()
-        self.word_wrap_row.set_title(_("Word Wrap"))
-        self.word_wrap_row.set_subtitle(_("Wrap text to fit the editor width"))
+        self.word_wrap_row.set_title(_("Quebra de Linha Automática"))
+        self.word_wrap_row.set_subtitle(_("Ajustar texto à largura do editor"))
         self.word_wrap_row.connect('notify::active', self._on_word_wrap_changed)
         behavior_group.add(self.word_wrap_row)
 
         # Show line numbers
         self.line_numbers_row = Adw.SwitchRow()
-        self.line_numbers_row.set_title(_("Show Line Numbers"))
-        self.line_numbers_row.set_subtitle(_("Display line numbers in the editor"))
+        self.line_numbers_row.set_title(_("Mostrar Números de Linha"))
+        self.line_numbers_row.set_subtitle(_("Exibir números de linha no editor"))
         self.line_numbers_row.connect('notify::active', self._on_line_numbers_changed)
         behavior_group.add(self.line_numbers_row)
 
         # AI assistant page
         ai_page = Adw.PreferencesPage()
-        ai_page.set_title(_("AI Assistant"))
+        ai_page.set_title(_("Assistente de IA"))
         ai_page.set_icon_name('applications-science-symbolic')
         self.add(ai_page)
 
         ai_group = Adw.PreferencesGroup()
-        ai_group.set_title(_("Assistant Settings"))
+        ai_group.set_title(_("Configurações do Assistente"))
         ai_group.set_description(
-            _("Configure the provider and credentials used to generate suggestions.")
+            _("Configure o provedor e credenciais para gerar sugestões.")
         )
         ai_page.add(ai_group)
 
          # Link para a Wiki
         wiki_row = Adw.ActionRow()
-        wiki_row.set_title(_("Configuration Guide"))
-        wiki_row.set_subtitle(_("Read the documentation to learn how to get API keys"))
+        wiki_row.set_title(_("Guia de Configuração"))
+        wiki_row.set_subtitle(_("Leia a documentação para saber como obter as chaves de API"))
         
         wiki_button = Gtk.Button()
         wiki_button.set_icon_name('tac-help-browser-symbolic')
         wiki_button.set_valign(Gtk.Align.CENTER)
         wiki_button.add_css_class("flat")
-        wiki_button.set_tooltip_text(_("Open Documentation"))
+        wiki_button.set_tooltip_text(_("Abrir Documentação"))
         wiki_button.connect('clicked', self._on_ai_wiki_clicked)
         
         wiki_row.add_suffix(wiki_button)
         ai_group.add(wiki_row)
 
         self.ai_enabled_row = Adw.SwitchRow(
-            title=_("Enable AI Assistant"),
-            subtitle=_("Allow prompts to use an external provider (Ctrl+Shift+I)."),
+            title=_("Habilitar Assistente de IA"),
+            subtitle=_("Permitir prompts usando provedor externo (Ctrl+Shift+I)."),
         )
         self.ai_enabled_row.connect("notify::active", self._on_ai_enabled_changed)
         ai_group.add(self.ai_enabled_row)
 
         self.ai_provider_row = Adw.ComboRow()
-        self.ai_provider_row.set_title(_("Provider"))
+        self.ai_provider_row.set_title(_("Provedor"))
         self._ai_provider_options = [
             ("gemini", "Gemini"),
             ("openrouter", "OpenRouter.ai"),
@@ -728,8 +728,8 @@ class PreferencesDialog(Adw.PreferencesWindow):
         ai_group.add(self.ai_provider_row)
 
         self.ai_model_row = Adw.ActionRow(
-            title=_("Model Identifier"),
-            subtitle=_("Examples: gemini-2.5-flash"),
+            title=_("Identificador do Modelo"),
+            subtitle=_("Exemplos: gemini-2.5-flash"),
         )
         self.ai_model_entry = Gtk.Entry()
         self.ai_model_entry.set_placeholder_text(_("gemini-2.5-flash"))
@@ -739,11 +739,11 @@ class PreferencesDialog(Adw.PreferencesWindow):
         ai_group.add(self.ai_model_row)
 
         self.ai_api_key_row = Adw.ActionRow(
-            title=_("API Key"),
-            subtitle=_("Stored locally and used to authenticate requests."),
+            title=_("Chave da API"),
+            subtitle=_("Armazenada localmente e usada para autenticação."),
         )
         self.ai_api_key_entry = Gtk.PasswordEntry(
-            placeholder_text=_("Paste your API key"),
+            placeholder_text=_("Cole sua chave de API"),
             show_peek_icon=True,
             hexpand=True,
         )
@@ -753,7 +753,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         ai_group.add(self.ai_api_key_row)
 
         # Save button
-        save_btn = Gtk.Button(label=_("Save AI Settings"))
+        save_btn = Gtk.Button(label=_("Salvar Configurações de IA"))
         save_btn.add_css_class("suggested-action")
         save_btn.add_css_class("pill")
         save_btn.set_margin_top(10)
@@ -782,7 +782,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         try:
             webbrowser.open(url)
         except Exception as e:
-            print(_("Error opening wiki: {}").format(e))
+            print(_("Erro ao abrir wiki: {}").format(e))
 
     def _load_preferences(self):
         """Load preferences from config"""
@@ -812,7 +812,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self._update_ai_provider_ui(provider)
             
         except Exception as e:
-            print(_("Error loading preferences: {}").format(e))
+            print(_("Erro ao carregar preferências: {}").format(e))
 
     def _on_save_ai_clicked(self, button):
         """Handle manual save of AI settings"""
@@ -835,13 +835,13 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.save()
 
             # 5. Show Feedback (Toast)
-            toast = Adw.Toast.new(_("AI Settings Saved"))
+            toast = Adw.Toast.new(_("Configurações de IA Salvas"))
             toast.set_timeout(2)
             self.add_toast(toast)
             
         except Exception as e:
-            print(_("Error saving AI settings: {}").format(e))
-            error_toast = Adw.Toast.new(_("Error saving settings"))
+            print(_("Erro ao salvar configurações de IA: {}").format(e))
+            error_toast = Adw.Toast.new(_("Erro ao salvar configurações"))
             self.add_toast(error_toast)
 
     def _on_dark_theme_changed(self, switch, pspec):
@@ -857,7 +857,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             else:
                 style_manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
         except Exception as e:
-            print(_("Error changing theme: {}").format(e))
+            print(_("Erro ao alterar tema: {}").format(e))
 
     def _on_font_family_changed(self, combo, pspec):
         """Handle font family change"""
@@ -867,7 +867,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.set('font_family', selected_font)
             self.config.save()
         except Exception as e:
-            print(_("Error changing font family: {}").format(e))
+            print(_("Erro ao alterar família da fonte: {}").format(e))
 
     def _on_font_size_changed(self, spin, pspec):
         """Handle font size change"""
@@ -875,7 +875,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.set('font_size', int(spin.get_value()))
             self.config.save()
         except Exception as e:
-            print(_("Error changing font size: {}").format(e))
+            print(_("Erro ao alterar tamanho da fonte: {}").format(e))
 
     def _on_auto_save_changed(self, switch, pspec):
         """Handle auto save toggle"""
@@ -883,7 +883,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.set('auto_save', switch.get_active())
             self.config.save()
         except Exception as e:
-            print(_("Error changing auto save: {}").format(e))
+            print(_("Erro ao alterar salvamento automático: {}").format(e))
 
     def _on_word_wrap_changed(self, switch, pspec):
         """Handle word wrap toggle"""
@@ -891,7 +891,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.set('word_wrap', switch.get_active())
             self.config.save()
         except Exception as e:
-            print(_("Error changing word wrap: {}").format(e))
+            print(_("Erro ao alterar quebra de linha: {}").format(e))
 
     def _on_line_numbers_changed(self, switch, pspec):
         """Handle line numbers toggle"""
@@ -899,7 +899,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.config.set('show_line_numbers', switch.get_active())
             self.config.save()
         except Exception as e:
-            print(_("Error changing line numbers: {}").format(e))
+            print(_("Erro ao alterar números de linha: {}").format(e))
 
     def _on_ai_enabled_changed(self, switch, pspec):
         enabled = switch.get_active()
@@ -926,24 +926,24 @@ class PreferencesDialog(Adw.PreferencesWindow):
         if provider == "gemini":
             self.ai_model_entry.set_placeholder_text("gemini-2.5-flash")
             self.ai_model_row.set_subtitle(
-                _("Gemini model identifier (for example: gemini-2.5-flash).")
+                _("Identificador do modelo Gemini (ex: gemini-2.5-flash).")
             )
-            self.ai_api_key_row.set_subtitle(_("Google AI Studio API key."))
+            self.ai_api_key_row.set_subtitle(_("Chave de API do Google AI Studio."))
         
         elif provider == "openrouter":
             self.ai_model_entry.set_placeholder_text("x-ai/grok-4.1-fast:free")
             self.ai_model_row.set_subtitle(
-                _("OpenRouter model identifier (for example: x-ai/grok-4.1-fast:free).")
+                _("Identificador OpenRouter (ex: x-ai/grok-4.1-fast:free).")
             )
-            self.ai_api_key_row.set_subtitle(_("OpenRouter API key."))
+            self.ai_api_key_row.set_subtitle(_("Chave de API do OpenRouter."))
         
         else:
             # Fallback genérico
-            self.ai_model_entry.set_placeholder_text(_("model-name"))
+            self.ai_model_entry.set_placeholder_text(_("nome-do-modelo"))
             self.ai_model_row.set_subtitle(
-                _("Model identifier required by the selected provider.")
+                _("Identificador do modelo exigido pelo provedor.")
             )
-            self.ai_api_key_row.set_subtitle(_("API key used to authenticate requests."))
+            self.ai_api_key_row.set_subtitle(_("Chave de API usada para autenticação."))
 
 
 class WelcomeDialog(Adw.Window):
@@ -992,7 +992,7 @@ class WelcomeDialog(Adw.Window):
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
             )
         except Exception as e:
-            print(_("Error applying welcome dialog CSS: {}").format(e))
+            print(_("Erro ao aplicar CSS do diálogo de boas-vindas: {}").format(e))
 
         main_box.append(headerbar)
 
@@ -1020,7 +1020,7 @@ class WelcomeDialog(Adw.Window):
 
         # Title
         title_label = Gtk.Label()
-        title_label.set_markup("<span size='large' weight='bold'>" + _("What is TAC Writer?") + "</span>")
+        title_label.set_markup("<span size='large' weight='bold'>" + _("O que é o Tac Writer?") + "</span>")
         title_label.set_halign(Gtk.Align.CENTER)
         title_box.append(title_label)
 
@@ -1031,7 +1031,7 @@ class WelcomeDialog(Adw.Window):
 
         # CAT explanation
         cat_label = Gtk.Label()
-        cat_label.set_markup("<b>" + _("Continuous Argumentation Technique (TAC in Portuguese):") + "</b>")
+        cat_label.set_markup("<b>" + _("Técnica de Argumentação Continuada (TAC):") + "</b>")
         cat_label.set_halign(Gtk.Align.START)
         content_text_box.append(cat_label)
 
@@ -1049,11 +1049,11 @@ class WelcomeDialog(Adw.Window):
         wiki_box.set_margin_top(16)
 
         wiki_button = Gtk.Button()
-        wiki_button.set_label(_("Learn More - Online Documentation"))
+        wiki_button.set_label(_("Saiba Mais - Documentação Online"))
         wiki_button.set_icon_name('tac-help-browser-symbolic')
         wiki_button.add_css_class("suggested-action")
         wiki_button.add_css_class("wiki-help-button")
-        wiki_button.set_tooltip_text(_("Access the complete guide and tutorials"))
+        wiki_button.set_tooltip_text(_("Acesse o guia completo e tutoriais"))
         wiki_button.connect('clicked', self._on_wiki_clicked)
         wiki_box.append(wiki_button)
 
@@ -1070,7 +1070,7 @@ class WelcomeDialog(Adw.Window):
         toggle_box.set_margin_top(8)
 
         toggle_label = Gtk.Label()
-        toggle_label.set_text(_("Show this dialog on startup"))
+        toggle_label.set_text(_("Mostrar este diálogo ao iniciar"))
         toggle_label.set_hexpand(True)
         toggle_label.set_halign(Gtk.Align.START)
         toggle_box.append(toggle_label)
@@ -1088,7 +1088,7 @@ class WelcomeDialog(Adw.Window):
         button_box.set_margin_top(16)
 
         start_button = Gtk.Button()
-        start_button.set_label(_("Let's Start"))
+        start_button.set_label(_("Vamos Começar"))
         start_button.add_css_class("suggested-action")
         start_button.connect('clicked', self._on_start_clicked)
         button_box.append(start_button)
@@ -1108,7 +1108,7 @@ class WelcomeDialog(Adw.Window):
             self.config.set('show_welcome_dialog', switch.get_active())
             self.config.save()
         except Exception as e:
-            print(_("Error saving welcome dialog preference: {}").format(e))
+            print(_("Erro ao salvar preferência do diálogo de boas-vindas: {}").format(e))
 
     def _on_start_clicked(self, button):
         """Handle start button click"""
@@ -1130,7 +1130,7 @@ class WelcomeDialog(Adw.Window):
             try:
                 subprocess.run(['xdg-open', wiki_url], check=False)
             except Exception as e:
-                print(_("Could not open wiki URL: {}").format(e))
+                print(_("Não foi possível abrir URL da wiki: {}").format(e))
 
 
 def AboutDialog(parent):
@@ -1177,7 +1177,7 @@ class BackupManagerDialog(Adw.Window):
 
     def __init__(self, parent, project_manager: ProjectManager, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("Backup Manager"))
+        self.set_title(_("Gerenciador de Backups"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(700, 500)
@@ -1199,20 +1199,20 @@ class BackupManagerDialog(Adw.Window):
         
         # Close button
         close_button = Gtk.Button()
-        close_button.set_label(_("Close"))
+        close_button.set_label(_("Fechar"))
         close_button.connect('clicked', lambda x: self.destroy())
         header_bar.pack_start(close_button)
 
         # Create backup button
         create_backup_button = Gtk.Button()
-        create_backup_button.set_label(_("Create Backup"))
+        create_backup_button.set_label(_("Criar Backup"))
         create_backup_button.add_css_class("suggested-action")
         create_backup_button.connect('clicked', self._on_create_backup)
         header_bar.pack_end(create_backup_button)
 
         # Import button
         import_button = Gtk.Button()
-        import_button.set_label(_("Import Database"))
+        import_button.set_label(_("Importar Banco de Dados"))
         import_button.connect('clicked', self._on_import_database)
         header_bar.pack_end(import_button)
 
@@ -1228,12 +1228,12 @@ class BackupManagerDialog(Adw.Window):
 
         # Status group
         status_group = Adw.PreferencesGroup()
-        status_group.set_title(_("Current Database"))
+        status_group.set_title(_("Banco de Dados Atual"))
         
         try:
             db_info = self.project_manager.get_database_info()
         except Exception as e:
-            print(_("Error getting database info: {}").format(e))
+            print(_("Erro ao obter info do banco de dados: {}").format(e))
             db_info = {
                 'database_path': 'Unknown',
                 'database_size_bytes': 0,
@@ -1242,13 +1242,13 @@ class BackupManagerDialog(Adw.Window):
         
         # Database path
         path_row = Adw.ActionRow()
-        path_row.set_title(_("Database Location"))
+        path_row.set_title(_("Local do Banco de Dados"))
         path_row.set_subtitle(db_info['database_path'])
         status_group.add(path_row)
 
         # Database stats
         stats_row = Adw.ActionRow()
-        stats_row.set_title(_("Statistics"))
+        stats_row.set_title(_("Estatísticas"))
         stats_text = _("{} projects, {} MB").format(
             db_info['project_count'],
             round(db_info['database_size_bytes'] / (1024*1024), 2)
@@ -1260,8 +1260,8 @@ class BackupManagerDialog(Adw.Window):
 
         # Backups list
         backups_group = Adw.PreferencesGroup()
-        backups_group.set_title(_("Available Backups"))
-        backups_group.set_description(_("Backups are stored in Documents/TAC Projects/database_backups"))
+        backups_group.set_title(_("Backups Disponíveis"))
+        backups_group.set_description(_("Backups são salvos em Documentos/TAC Projects/database_backups"))
 
         # Scrolled window for backups
         scrolled = Gtk.ScrolledWindow()
@@ -1298,7 +1298,7 @@ class BackupManagerDialog(Adw.Window):
         try:
             self.backups_list = self.project_manager.list_available_backups()
         except Exception as e:
-            print(_("Error listing backups: {}").format(e))
+            print(_("Erro ao listar backups: {}").format(e))
             self.backups_list = []
 
         if not self.backups_list:
@@ -1354,7 +1354,7 @@ class BackupManagerDialog(Adw.Window):
         # Delete button
         delete_button = Gtk.Button()
         delete_button.set_icon_name('tac-user-trash-symbolic')
-        delete_button.set_tooltip_text(_("Delete backup"))
+        delete_button.set_tooltip_text(_("Excluir backup"))
         delete_button.add_css_class("flat")
         delete_button.add_css_class("destructive-action")
         delete_button.connect('clicked', lambda btn, b=backup: self._on_delete_backup(b))
@@ -1366,14 +1366,14 @@ class BackupManagerDialog(Adw.Window):
     def _on_create_backup(self, button):
         """Handle create backup button"""
         button.set_sensitive(False)
-        button.set_label(_("Creating..."))
+        button.set_label(_("Criando..."))
 
         def backup_thread():
             try:
                 backup_path = self.project_manager.create_manual_backup()
                 GLib.idle_add(self._backup_created, backup_path, button)
             except Exception as e:
-                print(_("Error in backup thread: {}").format(e))
+                print(_("Erro na thread de backup: {}").format(e))
                 GLib.idle_add(self._backup_created, None, button)
 
         thread = threading.Thread(target=backup_thread, daemon=True)
@@ -1382,13 +1382,13 @@ class BackupManagerDialog(Adw.Window):
     def _backup_created(self, backup_path, button):
         """Callback when backup is created"""
         button.set_sensitive(True)
-        button.set_label(_("Create Backup"))
+        button.set_label(_("Criar Backup"))
 
         if backup_path:
             # Show success toast in parent window
             parent_window = self.get_transient_for()
             if parent_window and hasattr(parent_window, '_show_toast'):
-                parent_window._show_toast(_("Backup created successfully"))
+                parent_window._show_toast(_("Backup criado com sucesso"))
             self._refresh_backups()
         else:
             # Show error dialog
@@ -1408,17 +1408,17 @@ class BackupManagerDialog(Adw.Window):
         filters = Gio.ListStore.new(Gtk.FileFilter)
         
         filter_db = Gtk.FileFilter()
-        filter_db.set_name(_("Database files (*.db)"))
+        filter_db.set_name(_("Arquivos de Banco de Dados (*.db)"))
         filter_db.add_pattern("*.db")
         filters.append(filter_db)
 
         filter_all = Gtk.FileFilter()
-        filter_all.set_name(_("All files"))
+        filter_all.set_name(_("Todos os arquivos"))
         filter_all.add_pattern("*")
         filters.append(filter_all)
 
         dialog = Gtk.FileDialog()
-        dialog.set_title(_("Import Database"))
+        dialog.set_title(_("Importar Banco de Dados"))
         dialog.set_filters(filters)
         dialog.set_default_filter(filter_db)
         
@@ -1447,14 +1447,14 @@ class BackupManagerDialog(Adw.Window):
             if not self.project_manager._validate_backup_file(backup_path):
                 error_dialog = Adw.MessageDialog.new(
                     self,
-                    _("Invalid Backup"),
-                    _("The selected file is not a valid TAC database backup.")
+                    _("Backup Inválido"),
+                    _("O arquivo selecionado não é um backup válido do TAC.")
                 )
                 error_dialog.add_response("ok", _("OK"))
                 error_dialog.present()
                 return
         except Exception as e:
-            print(_("Error validating backup: {}").format(e))
+            print(_("Erro ao validar backup: {}").format(e))
             return
 
         # Get backup info
@@ -1464,19 +1464,19 @@ class BackupManagerDialog(Adw.Window):
                 cursor.execute("SELECT COUNT(*) FROM projects")
                 project_count = cursor.fetchone()[0]
         except sqlite3.Error as e:
-            print(_("Error reading backup info: {}").format(e))
+            print(_("Erro ao ler info do backup: {}").format(e))
             project_count = 0
 
         # Show confirmation
         dialog = Adw.MessageDialog.new(
             self,
-            _("Import Database?"),
+            _("Importar Banco de Dados?"),
             _("This will replace your current database with the selected backup.\n\n"
               "The backup contains {} projects.\n\n"
               "Your current database will be backed up before importing.").format(project_count)
         )
 
-        dialog.add_response("cancel", _("Cancel"))
+        dialog.add_response("cancel", _("Cancelar"))
         dialog.add_response("import", _("Import"))
         dialog.set_response_appearance("import", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_default_response("cancel")
@@ -1496,8 +1496,8 @@ class BackupManagerDialog(Adw.Window):
         # Show loading state
         loading_dialog = Adw.MessageDialog.new(
             self,
-            _("Importing Database"),
-            _("Please wait while the database is being imported...")
+            _("Importando Banco de Dados"),
+            _("Por favor aguarde enquanto o banco de dados é importado...")
         )
         loading_dialog.present()
 
@@ -1506,7 +1506,7 @@ class BackupManagerDialog(Adw.Window):
                 success = self.project_manager.import_database(backup_path)
                 GLib.idle_add(self._import_finished, success, loading_dialog)
             except Exception as e:
-                print(_("Error in import thread: {}").format(e))
+                print(_("Erro na thread de importação: {}").format(e))
                 GLib.idle_add(self._import_finished, False, loading_dialog)
 
         thread = threading.Thread(target=import_thread, daemon=True)
@@ -1548,12 +1548,12 @@ class BackupManagerDialog(Adw.Window):
         """Handle delete backup button"""
         dialog = Adw.MessageDialog.new(
             self,
-            _("Delete Backup?"),
+            _("Excluir Backup?"),
             _("Are you sure you want to delete '{}'?\n\nThis action cannot be undone.").format(backup['name'])
         )
 
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("delete", _("Delete"))
+        dialog.add_response("cancel", _("Cancelar"))
+        dialog.add_response("delete", _("Excluir"))
         dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_default_response("cancel")
 
@@ -1568,7 +1568,7 @@ class BackupManagerDialog(Adw.Window):
                 if success:
                     self._refresh_backups()
             except Exception as e:
-                print(_("Error deleting backup: {}").format(e))
+                print(_("Erro ao excluir backup: {}").format(e))
         dialog.destroy()
 
 
@@ -1589,9 +1589,9 @@ class ImageDialog(Adw.Window):
         self.edit_paragraph = edit_paragraph
 
         if self.edit_mode:
-            self.set_title(_("Edit Image"))
+            self.set_title(_("Editar Imagem"))
         else:
-            self.set_title(_("Insert Image"))
+            self.set_title(_("Inserir Imagem"))
 
         self.set_transient_for(parent)
         self.set_modal(True)
@@ -1624,12 +1624,12 @@ class ImageDialog(Adw.Window):
         header_bar.set_show_end_title_buttons(False)
 
         # Cancel button
-        cancel_button = Gtk.Button(label=_("Cancel"))
+        cancel_button = Gtk.Button(label=_("Cancelar"))
         cancel_button.connect('clicked', lambda b: self.destroy())
         header_bar.pack_start(cancel_button)
 
         # Insert/Update button
-        button_label = _("Update") if self.edit_mode else _("Insert")
+        button_label = _("Atualizar") if self.edit_mode else _("Inserir")
         self.insert_button = Gtk.Button(label=button_label)
         self.insert_button.add_css_class('suggested-action')
         self.insert_button.set_sensitive(self.edit_mode)  # Enabled in edit mode by default
@@ -1654,13 +1654,13 @@ class ImageDialog(Adw.Window):
 
         # File selection group
         file_group = Adw.PreferencesGroup()
-        file_group.set_title(_("Image File"))
-        file_group.set_description(_("Select an image file to insert into your document"))
+        file_group.set_title(_("Arquivo de Imagem"))
+        file_group.set_description(_("Selecione uma imagem para inserir no documento"))
         main_box.append(file_group)
 
         # File chooser button
         file_button_row = Adw.ActionRow()
-        file_button_row.set_title(_("Select Image"))
+        file_button_row.set_title(_("Selecionar Imagem"))
         self.file_label = Gtk.Label(label=_("No file selected"))
         self.file_label.add_css_class('dim-label')
         file_button_row.add_suffix(self.file_label)
@@ -1677,7 +1677,7 @@ class ImageDialog(Adw.Window):
         main_box.append(self.preview_box)
 
         preview_label = Gtk.Label()
-        preview_label.set_markup(f"<b>{_('Preview')}</b>")
+        preview_label.set_markup(f"<b>{_('Pré-visualização')}</b>")
         preview_label.set_xalign(0)
         self.preview_box.append(preview_label)
 
@@ -1699,14 +1699,14 @@ class ImageDialog(Adw.Window):
 
         # Formatting group
         self.format_group = Adw.PreferencesGroup()
-        self.format_group.set_title(_("Image Formatting"))
+        self.format_group.set_title(_("Formatação da Imagem"))
         self.format_group.set_visible(False)
         main_box.append(self.format_group)
 
         # Width adjustment
         width_row = Adw.ActionRow()
-        width_row.set_title(_("Display Width (%)"))
-        width_row.set_subtitle(_("Percentage of page width"))
+        width_row.set_title(_("Largura de Exibição (%)"))
+        width_row.set_subtitle(_("Porcentagem da largura da página"))
         
         width_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
         width_box.set_valign(Gtk.Align.CENTER)
@@ -1724,17 +1724,17 @@ class ImageDialog(Adw.Window):
 
         # Alignment selection
         alignment_row = Adw.ActionRow()
-        alignment_row.set_title(_("Alignment"))
-        alignment_row.set_subtitle(_("Image position on the page"))
+        alignment_row.set_title(_("Alinhamento"))
+        alignment_row.set_subtitle(_("Posição da imagem na página"))
         
         alignment_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         alignment_box.set_valign(Gtk.Align.CENTER)
         
         self.alignment_group = None
         alignments = [
-            ('left', _("Left")),
-            ('center', _("Center")),
-            ('right', _("Right"))
+            ('left', _("Esquerda")),
+            ('center', _("Centro")),
+            ('right', _("Direita"))
         ]
         
         for value, label in alignments:
@@ -1755,27 +1755,27 @@ class ImageDialog(Adw.Window):
 
         # Caption entry
         caption_row = Adw.EntryRow()
-        caption_row.set_title(_("Caption (optional)"))
+        caption_row.set_title(_("Legenda (opcional)"))
         self.caption_entry = caption_row
         self.format_group.add(caption_row)
 
         # Alt text entry
         alt_row = Adw.EntryRow()
-        alt_row.set_title(_("Alternative Text (optional)"))
+        alt_row.set_title(_("Texto Alternativo (opcional)"))
         alt_row.set_show_apply_button(False)
         self.alt_entry = alt_row
         self.format_group.add(alt_row)
 
         # Position group
         self.position_group = Adw.PreferencesGroup()
-        self.position_group.set_title(_("Position in Document"))
+        self.position_group.set_title(_("Posição no Documento"))
         self.position_group.set_visible(False)
         main_box.append(self.position_group)
 
         # Position selection
         position_row = Adw.ActionRow()
-        position_row.set_title(_("Insert After"))
-        position_row.set_subtitle(_("Choose where to place the image"))
+        position_row.set_title(_("Inserir Após"))
+        position_row.set_subtitle(_("Escolha onde posicionar a imagem"))
         
         self.position_dropdown = Gtk.DropDown()
         self.position_dropdown.set_valign(Gtk.Align.CENTER)
@@ -1786,7 +1786,7 @@ class ImageDialog(Adw.Window):
 
     def _update_position_list(self):
         """Update the position dropdown with current paragraphs"""
-        options = [_("Beginning of document")]
+        options = [_("Início do documento")]
         
         for i, para in enumerate(self.project.paragraphs):
             from core.models import ParagraphType
@@ -1796,9 +1796,9 @@ class ImageDialog(Adw.Window):
             elif para.type == ParagraphType.TITLE_2:
                 text = f"  📄 {para.content[:30]}"
             elif para.type == ParagraphType.IMAGE:
-                text = f"🖼️ {_('Image')}"
+                text = f"🖼️ {_('Imagem')}"
             else:
-                content_preview = para.content[:30] if para.content else _("(empty)")
+                content_preview = para.content[:30] if para.content else _("(vazio)")
                 text = f"  {content_preview}"
             
             if len(para.content) > 30:
@@ -1821,7 +1821,7 @@ class ImageDialog(Adw.Window):
     def _on_choose_file(self, button):
         """Handle file chooser button click"""
         file_filter = Gtk.FileFilter()
-        file_filter.set_name(_("Image Files"))
+        file_filter.set_name(_("Arquivos de Imagem"))
         file_filter.add_mime_type("image/png")
         file_filter.add_mime_type("image/jpeg")
         file_filter.add_mime_type("image/webp")
@@ -1834,7 +1834,7 @@ class ImageDialog(Adw.Window):
         filters.append(file_filter)
         
         dialog = Gtk.FileDialog()
-        dialog.set_title(_("Select Image"))
+        dialog.set_title(_("Selecionar Imagem"))
         dialog.set_filters(filters)
         dialog.set_default_filter(file_filter)
         
@@ -1848,7 +1848,7 @@ class ImageDialog(Adw.Window):
                 file_path = file.get_path()
                 self._load_image(file_path)
         except Exception as e:
-            print(_("Error selecting file: {}").format(e))
+            print(_("Erro ao selecionar arquivo: {}").format(e))
 
     def _load_image(self, file_path: str):
         """Load and display the selected image"""
@@ -1871,7 +1871,7 @@ class ImageDialog(Adw.Window):
                 file_size = os.path.getsize(file_path) / 1024  # KB
                 
                 # Update info label
-                info_text = _("Size: {} x {} pixels  •  {:.1f} KB").format(
+                info_text = _("Tamanho: {} x {} pixels • {:.1f} KB").format(
                     self.original_size[0], 
                     self.original_size[1],
                     file_size
@@ -1890,12 +1890,12 @@ class ImageDialog(Adw.Window):
             self.insert_button.set_sensitive(True)
             
         except Exception as e:
-            print(_("Error loading image: {}").format(e))
+            print(_("Erro ao carregar imagem: {}").format(e))
             # Show error dialog
             error_dialog = Adw.MessageDialog.new(
                 self,
-                _("Error Loading Image"),
-                _("Could not load the selected image file.") + "\n\n" + str(e)
+                _("Erro ao Carregar Imagem"),
+                _("Não foi possível carregar o arquivo de imagem selecionado.") + "\n\n" + str(e)
             )
             error_dialog.add_response("ok", _("OK"))
             error_dialog.present()
@@ -1993,7 +1993,7 @@ class ImageDialog(Adw.Window):
             self.destroy()
 
         except Exception as e:
-            error_msg = _("Error updating image") if self.edit_mode else _("Error inserting image")
+            error_msg = _("Erro ao atualizar imagem") if self.edit_mode else _("Erro ao inserir imagem")
             print(f"{error_msg}: {e}")
             import traceback
             traceback.print_exc()
@@ -2001,7 +2001,7 @@ class ImageDialog(Adw.Window):
             error_dialog = Adw.MessageDialog.new(
                 self,
                 error_msg.title(),
-                _("Could not {} the image.").format(_("update") if self.edit_mode else _("insert")) + "\n\n" + str(e)
+                _("Não foi possível {} a imagem.").format(_("atualizar") if self.edit_mode else _("inserir")) + "\n\n" + str(e)
             )
             error_dialog.add_response("ok", _("OK"))
             error_dialog.present()
@@ -2049,7 +2049,7 @@ class ImageDialog(Adw.Window):
                     self.alt_entry.set_text(alt_text)
 
         except Exception as e:
-            print(_("Error loading existing image: {}").format(e))
+            print(_("Erro ao carregar imagem existente: {}").format(e))
             import traceback
             traceback.print_exc()
 
@@ -2059,7 +2059,7 @@ class AiPdfDialog(Adw.Window):
 
     def __init__(self, parent, ai_assistant, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("PDF Review by AI"))
+        self.set_title(_("Revisão de PDF pela IA"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(600, 400)
@@ -2108,7 +2108,7 @@ class AiPdfDialog(Adw.Window):
 
         self.file_row = Adw.ActionRow(title=_("No file selected"))
         
-        select_btn = Gtk.Button(label=_("Choose PDF..."))
+        select_btn = Gtk.Button(label=_("Escolher PDF..."))
         select_btn.connect("clicked", self._on_choose_file)
         select_btn.set_valign(Gtk.Align.CENTER)
         
@@ -2116,7 +2116,7 @@ class AiPdfDialog(Adw.Window):
         files_group.add(self.file_row)
 
         # Execute Button
-        self.run_btn = Gtk.Button(label=_("Run Analysis"))
+        self.run_btn = Gtk.Button(label=_("Executar Análise"))
         self.run_btn.add_css_class("suggested-action")
         self.run_btn.add_css_class("pill")
         self.run_btn.set_halign(Gtk.Align.CENTER)
@@ -2132,7 +2132,7 @@ class AiPdfDialog(Adw.Window):
 
     def _on_choose_file(self, btn):
         dialog = Gtk.FileDialog()
-        dialog.set_title(_("Select PDF"))
+        dialog.set_title(_("Selecionar PDF"))
         
         # Filtro para PDF
         pdf_filter = Gtk.FileFilter()
@@ -2159,7 +2159,7 @@ class AiPdfDialog(Adw.Window):
     def _on_run_clicked(self, btn):
         if self.selected_file_path:
             self.run_btn.set_sensitive(False)
-            self.run_btn.set_label(_("Analyzing (may take a few minutes)"))
+            self.run_btn.set_label(_("Analisando (pode levar alguns minutos)"))
             self.spinner.start()
             
             # Chama o método no core
@@ -2172,7 +2172,7 @@ class AiResultDialog(Adw.Window):
 
     def __init__(self, parent, result_text, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("Analysis Results"))
+        self.set_title(_("Resultados da Análise"))
         self.set_transient_for(parent)
         self.set_modal(True)
         # Aumentei um pouco o tamanho padrão para leitura confortável

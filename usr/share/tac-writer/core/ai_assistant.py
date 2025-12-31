@@ -70,7 +70,7 @@ class WritingAiAssistant:
         with self._lock:
             if self._inflight:
                 self._queue_toast(
-                    _("The AI assistant is already processing another request.")
+                    _("O assistente de IA já está processando outra solicitação.")
                 )
                 return False
             self._inflight = True
@@ -98,7 +98,7 @@ class WritingAiAssistant:
             self.logger.error("AI assistant request failed: %s", exc)
             GLib.idle_add(
                 self._queue_toast,
-                _("AI assistant error: {error}").format(error=str(exc)),
+                _("Erro do assistente de IA: {error}").format(error=str(exc)),
             )
         finally:
             with self._lock:
@@ -114,7 +114,7 @@ class WritingAiAssistant:
         }
         if not config["provider"]:
             raise RuntimeError(
-                _("Select an AI provider in Preferences ▸ AI Assistant.")
+                _("Selecione um provedor de IA em Preferências ▸ Assistente de IA.")
             )
         if config["provider"] == "gemini" and not config["model"]:
             config["model"] = self.DEFAULT_GEMINI_MODEL
@@ -168,7 +168,7 @@ class WritingAiAssistant:
     ) -> str:
         api_key = config.get("api_key", "").strip()
         if not api_key:
-            raise RuntimeError(_("Configure the Gemini API key in Preferences."))
+            raise RuntimeError(_("Configure a chave da API Gemini em Preferências."))
 
         model = config.get("model", "").strip() or self.DEFAULT_GEMINI_MODEL
         system_instruction, contents = self._build_gemini_conversation(messages)
@@ -186,7 +186,7 @@ class WritingAiAssistant:
             response = requests.post(url, headers=headers, json=payload, timeout=60)
         except requests.RequestException as exc:
             raise RuntimeError(
-                _("Failed to contact Gemini: {error}").format(error=exc)
+                _("Falha ao contatar Gemini: {error}").format(error=exc)
             ) from exc
 
         if response.status_code >= 400:
@@ -199,7 +199,7 @@ class WritingAiAssistant:
         try:
             response_data = response.json()
         except ValueError as exc:
-            raise RuntimeError(_("Gemini returned an invalid JSON response.")) from exc
+            raise RuntimeError(_("Gemini retornou uma resposta JSON inválida.")) from exc
 
         candidates = response_data.get("candidates") or []
         collected: List[str] = []
@@ -215,14 +215,14 @@ class WritingAiAssistant:
         if collected:
             return "\n".join(collected)
 
-        raise RuntimeError(_("Gemini did not return any usable content."))
+        raise RuntimeError(_("O Gemini não retornou conteúdo utilizável."))
 
     def _perform_openrouter_request(
         self, config: Dict[str, str], messages: List[Dict[str, str]]
     ) -> str:
         api_key = config.get("api_key", "").strip()
         if not api_key:
-            raise RuntimeError(_("Configure the OpenRouter API key in Preferences."))
+            raise RuntimeError(_("Configure a chave da API OpenRouter em Preferências."))
 
         model = config.get("model", "").strip() or self.DEFAULT_OPENROUTER_MODEL
         payload_messages = self._build_openai_messages(messages)
@@ -244,7 +244,7 @@ class WritingAiAssistant:
             response = requests.post(url, headers=headers, json=payload, timeout=60)
         except requests.RequestException as exc:
             raise RuntimeError(
-                _("Failed to contact OpenRouter: {error}").format(error=exc)
+                _("Falha ao contatar OpenRouter: {error}").format(error=exc)
             ) from exc
 
         if response.status_code >= 400:
@@ -256,11 +256,11 @@ class WritingAiAssistant:
         try:
             response_data = response.json()
         except ValueError as exc:
-            raise RuntimeError(_("AI provider returned an invalid JSON response.")) from exc
+            raise RuntimeError(_("Provedor de IA retornou uma resposta JSON inválida.")) from exc
 
         choices = response_data.get("choices") or []
         if not choices:
-            raise RuntimeError(_("The AI provider returned an empty response."))
+            raise RuntimeError(_("O provedor de IA retornou uma resposta vazia."))
 
         message = choices[0].get("message") if isinstance(choices[0], dict) else None
         content = message.get("content") if isinstance(message, dict) else None
@@ -272,7 +272,7 @@ class WritingAiAssistant:
             )
 
         if not isinstance(content, str) or not content.strip():
-            raise RuntimeError(_("The AI provider did not return any usable content."))
+            raise RuntimeError(_("O provedor de IA não retornou conteúdo utilizável."))
         return content.strip()
 
     def _parse_response_payload(
@@ -404,7 +404,7 @@ class WritingAiAssistant:
 
     def _format_openrouter_error(self, response: requests.Response) -> str:
         status = response.status_code
-        fallback = response.text.strip() or _("Unknown error.")
+        fallback = response.text.strip() or _("Erro desconhecido.")
         try:
             payload = response.json()
         except ValueError:

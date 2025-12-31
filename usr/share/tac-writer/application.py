@@ -124,7 +124,7 @@ def setup_system_localization():
             try:
                 locale.setlocale(locale.LC_ALL, 'C')
             except locale.Error as fallback_error:
-                print(_("Warning: Could not set system locale: {}").format(fallback_error))
+                print(_("Aviso: Não foi possível definir localidade do sistema: {}").format(fallback_error))
     
     # Configure environment variables for GTK/GSpell translations
     detected_language = target_language.split('_')[0]  # pt_BR -> pt
@@ -203,12 +203,12 @@ class TacApplication(Adw.Application):
     def _check_spell_dependencies(self):
         """Check and configure spell checking dependencies"""
         if not SPELL_CHECK_AVAILABLE:
-            print(_("PyGTKSpellcheck not installed - disabling spell checking"))
+            print(_("PyGTKSpellcheck não instalado - desativando verificação ortográfica"))
             self.config.set_spell_check_enabled(False)
             return
         
         if not ENCHANT_AVAILABLE:
-            print(_("Enchant backend not available - disabling spell checking"))
+            print(_("Backend Enchant não disponível - desativando verificação ortográfica"))
             self.config.set_spell_check_enabled(False)
             return
         
@@ -253,16 +253,16 @@ class TacApplication(Adw.Application):
                 self.config.set_spell_check_language(detected)
                 
             else:
-                print(_("No spell check dictionaries found - disabling spell checking"))
+                print(_("Nenhum dicionário encontrado - desativando verificação ortográfica"))
                 # No Arch, às vezes dicts existem mas o enchant não vê sem configuração
                 # Não desabilite forçadamente se houver dúvida, apenas logue.
                 self.config.set_spell_check_enabled(False)
                 
         except ImportError as e:
-            print(_("Import error while checking spell dependencies: {}").format(e))
+            print(_("Erro de importação ao verificar dependências ortográficas: {}").format(e))
             self.config.set_spell_check_enabled(False)
         except Exception as e:
-            print(_("Unexpected error checking spell dependencies: {}").format(e))
+            print(_("Erro inesperado ao verificar dependências ortográficas: {}").format(e))
             import traceback
             traceback.print_exc()
             self.config.set_spell_check_enabled(False)
@@ -287,11 +287,11 @@ class TacApplication(Adw.Application):
                 icon_theme.set_search_path(new_paths)
 
                 if os.environ.get('TAC_DEBUG'):
-                    print(_("Custom icons loaded with priority: {}").format(icons_dir))
+                    print(_("Ícones personalizados carregados com prioridade: {}").format(icons_dir))
 
         except Exception as e:
             if os.environ.get('TAC_DEBUG'):
-                print(_("Warning: Could not setup icon theme: {}").format(e))
+                print(_("Aviso: Não foi possível configurar tema de ícones: {}").format(e))
     
     def _on_startup(self, app):
         """Called when application starts"""
@@ -309,7 +309,7 @@ class TacApplication(Adw.Application):
             self._setup_theme()
             
         except Exception as e:
-            print(_("Error during application startup: {}: {}").format(type(e).__name__, e))
+            print(_("Erro durante inicialização da aplicação: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
     
     def _on_activate(self, app):
@@ -322,14 +322,14 @@ class TacApplication(Adw.Application):
                     config=self.config
                 )
                 if os.environ.get('TAC_DEBUG'):
-                    print(_("Main window created"))
+                    print(_("Janela principal criada"))
             
             self.main_window.present()
             if os.environ.get('TAC_DEBUG'):
-                print(_("Main window presented"))
+                print(_("Janela principal apresentada"))
             
         except Exception as e:
-            print(_("Error activating application: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao ativar aplicação: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
             self.quit()
     
@@ -352,7 +352,7 @@ class TacApplication(Adw.Application):
                 action.connect('activate', callback)
                 self.add_action(action)
         except Exception as e:
-            print(_("Error setting up actions: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao configurar ações: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
     
     def _setup_menu(self):
@@ -376,7 +376,7 @@ class TacApplication(Adw.Application):
                 self.set_accels_for_action(action, [accelerator])
                 
         except Exception as e:
-            print(_("Error setting up menu: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao configurar menu: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
     
     def _setup_theme(self):
@@ -479,10 +479,10 @@ class TacApplication(Adw.Application):
                     )
             except Exception as e:
                 if os.environ.get('TAC_DEBUG'):
-                    print(_("Could not apply CSS: {}").format(e))
+                    print(_("Não foi possível aplicar CSS: {}").format(e))
                     
         except Exception as e:
-            print(_("Error setting up theme: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao configurar tema: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
     
     # Existing action methods
@@ -492,7 +492,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_new_project_dialog()
         except Exception as e:
-            print(_("Error showing new project dialog: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao mostrar diálogo de novo projeto: {}: {}").format(type(e).__name__, e))
     
     def _action_open_project(self, action, param):
         """Handle open project action"""
@@ -500,7 +500,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_open_project_dialog()
         except Exception as e:
-            print(_("Error showing open project dialog: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao mostrar diálogo de abrir projeto: {}: {}").format(type(e).__name__, e))
     
     def _action_save_project(self, action, param):
         """Handle save project action"""
@@ -508,7 +508,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.save_current_project()
         except Exception as e:
-            print(_("Error saving project: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao salvar projeto: {}: {}").format(type(e).__name__, e))
     
     def _action_export_project(self, action, param):
         """Handle export project action"""
@@ -516,7 +516,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_export_dialog()
         except Exception as e:
-            print(_("Error showing export dialog: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao mostrar diálogo de exportação: {}: {}").format(type(e).__name__, e))
     
     def _action_preferences(self, action, param):
         """Handle preferences action"""
@@ -524,7 +524,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_preferences_dialog()
         except Exception as e:
-            print(_("Error showing preferences dialog: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao mostrar diálogo de preferências: {}: {}").format(type(e).__name__, e))
     
     def _action_about(self, action, param):
         """Handle about action"""
@@ -532,7 +532,7 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.show_about_dialog()
         except Exception as e:
-            print(_("Error showing about dialog: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao mostrar diálogo sobre: {}: {}").format(type(e).__name__, e))
 
     def _action_ai_assistant(self, action, param):
         """Handle AI assistant action"""
@@ -540,14 +540,14 @@ class TacApplication(Adw.Application):
             if self.main_window:
                 self.main_window.open_ai_assistant_prompt()
         except Exception as e:
-            print(_("Error opening AI assistant: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao abrir assistente de IA: {}: {}").format(type(e).__name__, e))
     
     def _action_quit(self, action, param):
         """Handle quit action"""
         try:
             self.quit()
         except Exception as e:
-            print(_("Error quitting application: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao sair da aplicação: {}: {}").format(type(e).__name__, e))
     
     def do_shutdown(self):
         """Called when application shuts down"""
@@ -556,16 +556,16 @@ class TacApplication(Adw.Application):
             if self.config:
                 self.config.save()
                 if os.environ.get('TAC_DEBUG'):
-                    print(_("Configuration saved"))
+                    print(_("Configuração salva"))
             
             # Call parent shutdown
             Adw.Application.do_shutdown(self)
             
             if os.environ.get('TAC_DEBUG'):
-                print(_("Application shutdown complete"))
+                print(_("Encerramento da aplicação completo"))
                 
         except Exception as e:
-            print(_("Error during shutdown: {}: {}").format(type(e).__name__, e))
+            print(_("Erro durante encerramento: {}: {}").format(type(e).__name__, e))
             traceback.print_exc()
     
     # Utility methods for debugging
@@ -574,7 +574,7 @@ class TacApplication(Adw.Application):
         if self.config:
             self.config.debug_spell_config()
         else:
-            print(_("No config available for spell check debug"))
+            print(_("Sem configuração disponível para debug ortográfico"))
     
     def get_main_window(self):
         """Get reference to main window"""

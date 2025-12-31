@@ -55,7 +55,7 @@ class ProjectManager:
         self._init_db()
         self._run_migration_if_needed()
         
-        print(_("ProjectManager initialized with database: {}").format(self.db_path))
+        print(_("ProjectManager inicializado com banco de dados: {}").format(self.db_path))
 
     def _get_db_connection(self):
         """Get a new database connection with optimized settings"""
@@ -72,7 +72,7 @@ class ProjectManager:
             conn.execute("PRAGMA synchronous = NORMAL;")
             return conn
         except sqlite3.Error as e:
-            print(_("Database connection error: {}").format(e))
+            print(_("Erro de conexão com banco de dados: {}").format(e))
             raise
     
     def _project_exists(self, project_id: str) -> bool:
@@ -83,7 +83,7 @@ class ProjectManager:
                 cursor.execute("SELECT 1 FROM projects WHERE id = ? LIMIT 1", (project_id,))
                 return cursor.fetchone() is not None
         except sqlite3.Error as e:
-            print(_("Error checking project existence: {}").format(e))
+            print(_("Erro ao verificar existência do projeto: {}").format(e))
             return False
 
     def _validate_json_data(self, data: Dict[str, Any]) -> bool:
@@ -92,7 +92,7 @@ class ProjectManager:
         
         for field in required_fields:
             if field not in data:
-                print(_("Invalid project data: missing field '{}'").format(field))
+                print(_("Dados de projeto inválidos: faltando campo '{}'").format(field))
                 return False
         
         # Validate paragraphs if present
@@ -101,7 +101,7 @@ class ProjectManager:
                 required_para_fields = ['id', 'type', 'content', 'order']
                 for field in required_para_fields:
                     if field not in para_data:
-                        print(_("Invalid paragraph {}: missing field '{}'").format(i, field))
+                        print(_("Parágrafo inválido {}: faltando campo '{}'").format(i, field))
                         return False
         
         return True
@@ -119,11 +119,11 @@ class ProjectManager:
                 for json_file in json_files:
                     zf.write(json_file, json_file.name)
             
-            print(_("Created migration backup: {}").format(backup_file))
+            print(_("Backup de migração criado: {}").format(backup_file))
             return backup_file
             
         except (OSError, zipfile.BadZipFile) as e:
-            print(_("Failed to create migration backup: {}").format(e))
+            print(_("Falha ao criar backup de migração: {}").format(e))
             return None
 
     def _run_migration_if_needed(self):
@@ -137,12 +137,12 @@ class ProjectManager:
             if not json_files:
                 return
 
-            print(_("Found {} old JSON projects. Starting migration...").format(len(json_files)))
+            print(_("Encontrados {} projetos JSON antigos. Iniciando migração...").format(len(json_files)))
             
             # Create backup first
             backup_file = self._create_migration_backup(json_files)
             if not backup_file:
-                print(_("Migration aborted: Could not create backup"))
+                print(_("Migração abortada: Não foi possível criar backup"))
                 return
             
             # Load and validate all projects before migration
@@ -162,14 +162,14 @@ class ProjectManager:
                     projects_to_migrate.append((project, project_file))
                     
                 except (json.JSONDecodeError, OSError) as e:
-                    print(_("Error loading {}: {}").format(project_file.name, e))
+                    print(_("Erro ao carregar {}: {}").format(project_file.name, e))
                     invalid_files.append(project_file)
             
             if invalid_files:
-                print(_("Warning: {} files have validation errors and will be skipped").format(len(invalid_files)))
+                print(_("Aviso: {} arquivos têm erros de validação e serão pulados").format(len(invalid_files)))
             
             if not projects_to_migrate:
-                print(_("No valid projects to migrate"))
+                print(_("Sem projetos válidos para migrar"))
                 return
             
             # Perform migration in single transaction
@@ -191,11 +191,11 @@ class ProjectManager:
                                 failed_projects.append(project_file)
                         
                         if failed_projects:
-                            raise RuntimeError(_("Failed to migrate {} projects").format(len(failed_projects)))
+                            raise RuntimeError(_("Falha ao migrar {} projetos").format(len(failed_projects)))
                         
                         # Commit transaction
                         conn.commit()
-                        print(_("Migration transaction committed successfully"))
+                        print(_("Transação de migração efetivada com sucesso"))
                         
                         # Mark files as migrated only after successful DB commit
                         for project, project_file in projects_to_migrate:
@@ -203,19 +203,19 @@ class ProjectManager:
                                 migrated_file = project_file.with_suffix('.json.migrated')
                                 project_file.rename(migrated_file)
                             except OSError as e:
-                                print(_("Warning: Could not rename {}: {}").format(project_file.name, e))
+                                print(_("Aviso: Não foi possível renomear {}: {}").format(project_file.name, e))
                         
                     except Exception as e:
                         # Rollback transaction
                         conn.rollback()
-                        print(_("Migration failed, transaction rolled back: {}").format(e))
+                        print(_("Migração falhou, transação revertida: {}").format(e))
                         return
                         
             except sqlite3.Error as e:
-                print(_("Migration failed with database error: {}").format(e))
+                print(_("Migração falhou com erro de banco de dados: {}").format(e))
                 return
             
-            print(_("Migration complete. {} projects successfully migrated.").format(migrated_count))
+            print(_("Migração completa. {} projetos migrados com sucesso.").format(migrated_count))
             
             # Run database maintenance after migration
             self._vacuum_database()
@@ -228,7 +228,7 @@ class ProjectManager:
                 metadata_json = json.dumps(project.metadata)
                 formatting_json = json.dumps(project.document_formatting)
             except (TypeError, ValueError) as e:
-                print(_("JSON serialization error for project {}: {}").format(project.name, e))
+                print(_("Erro de serialização JSON para projeto {}: {}").format(project.name, e))
                 return False
             
             cursor.execute("""
@@ -258,7 +258,7 @@ class ProjectManager:
                     formatting_json = json.dumps(p.formatting)
                     footnotes_json = json.dumps(p.footnotes if hasattr(p, 'footnotes') else [])
                 except (TypeError, ValueError) as e:
-                    print(_("JSON serialization error for paragraph {}: {}").format(p.id, e))
+                    print(_("Erro de serialização JSON para parágrafo {}: {}").format(p.id, e))
                     return False
                     
                 paragraphs_data.append((
@@ -276,7 +276,7 @@ class ProjectManager:
             return True
             
         except sqlite3.Error as e:
-            print(_("Database error saving project {}: {}").format(project.name, e))
+            print(_("Erro de banco de dados ao salvar projeto {}: {}").format(project.name, e))
             return False
 
     def save_project(self, project: Project, is_migration: bool = False) -> bool:
@@ -296,27 +296,27 @@ class ProjectManager:
                     success = self._save_project_to_db(cursor, project)
                     if success:
                         conn.commit()
-                        print(_("Saved project to database: {}").format(project.name))
+                        print(_("Projeto salvo no banco de dados: {}").format(project.name))
                         return True
                     else:
                         conn.rollback()
-                        print(_("Failed to save project to database: {}").format(project.name))
+                        print(_("Falha ao salvar projeto no banco de dados: {}").format(project.name))
                         return False
                 except sqlite3.Error as db_error:
                     conn.rollback()
-                    print(_("Database error saving project '{}': {}").format(project.name, db_error))
+                    print(_("Erro de banco de dados ao salvar projeto '{}': {}").format(project.name, db_error))
                     raise
                 except Exception as e:
                     conn.rollback()
-                    print(_("Unexpected error saving project '{}': {}: {}").format(
+                    print(_("Erro inesperado ao salvar projeto '{}': {}: {}").format(
                         project.name, type(e).__name__, e))
                     raise
                     
         except sqlite3.Error as db_error:
-            print(_("Database connection error for project '{}': {}").format(project.name, db_error))
+            print(_("Erro de conexão para projeto '{}': {}").format(project.name, db_error))
             return False
         except Exception as e:
-            print(_("Unexpected error in save_project for '{}': {}: {}").format(
+            print(_("Erro inesperado em save_project para '{}': {}: {}").format(
                 project.name, type(e).__name__, e))
             import traceback
             traceback.print_exc()
@@ -348,11 +348,11 @@ class ProjectManager:
             # Clean old backups - keep only 3 most recent
             self._cleanup_old_backups(backup_dir)
             
-            print(_("Database backup created: {}").format(backup_path))
+            print(_("Backup do banco de dados criado: {}").format(backup_path))
             return True
             
         except (OSError, shutil.Error) as e:
-            print(_("Warning: Database backup failed: {}").format(e))
+            print(_("Aviso: Backup do banco de dados falhou: {}").format(e))
             return False
 
     def _cleanup_old_backups(self, backup_dir: Path, max_backups: int = 3):
@@ -366,10 +366,10 @@ class ProjectManager:
             # Remove files beyond the limit
             for old_backup in backup_files[max_backups:]:
                 old_backup.unlink()
-                print(_("Removed old backup: {}").format(old_backup))
+                print(_("Backup antigo removido: {}").format(old_backup))
                 
         except OSError as e:
-            print(_("Warning: Cleanup of old backups failed: {}").format(e))
+            print(_("Aviso: Limpeza de backups antigos falhou: {}").format(e))
             
     def _get_documents_directory(self) -> Path:
         """Get user's Documents directory in a language-aware way"""
@@ -473,9 +473,9 @@ class ProjectManager:
                     })
                     
         except sqlite3.Error as e:
-            print(_("Database error listing projects: {}").format(e))
+            print(_("Erro de banco de dados ao listar projetos: {}").format(e))
         except Exception as e:
-            print(_("Unexpected error listing projects: {}: {}").format(type(e).__name__, e))
+            print(_("Erro inesperado ao listar projetos: {}: {}").format(type(e).__name__, e))
         
         return projects_info
 
@@ -485,9 +485,9 @@ class ProjectManager:
             with self._get_db_connection() as conn:
                 conn.execute("VACUUM;")
                 conn.execute("ANALYZE;")
-                print(_("Database maintenance completed"))
+                print(_("Manutenção do banco de dados concluída"))
         except sqlite3.Error as e:
-            print(_("Database maintenance failed: {}").format(e))
+            print(_("Manutenção do banco de dados falhou: {}").format(e))
 
     def get_database_info(self) -> Dict[str, Any]:
         """Get database statistics and health information"""
@@ -516,14 +516,14 @@ class ProjectManager:
         except sqlite3.Error as e:
             return {
                 'database_path': str(self.db_path),
-                'health_status': _('error: {}').format(e),
+                'health_status': _('erro: {}').format(e),
                 'project_count': 0,
                 'paragraph_count': 0
             }
         except Exception as e:
             return {
                 'database_path': str(self.db_path),
-                'health_status': _('unexpected error: {}').format(e),
+                'health_status': _('erro inesperado: {}').format(e),
                 'project_count': 0,
                 'paragraph_count': 0
             }
@@ -567,7 +567,7 @@ class ProjectManager:
                     
                 conn.commit()
         except sqlite3.Error as e:
-            print(_("Database initialization error: {}").format(e))
+            print(_("Erro de inicialização do banco de dados: {}").format(e))
             raise
 
     def create_project(self, name: str, template: str = "academic_essay") -> Project:
@@ -579,12 +579,12 @@ class ProjectManager:
                 pass
             
             if self.save_project(project):
-                print(_("Created project: {} ({})").format(project.name, project.id))
+                print(_("Projeto criado: {} ({})").format(project.name, project.id))
                 return project
             else:
-                raise RuntimeError(_("Failed to save new project to database"))
+                raise RuntimeError(_("Falha ao salvar novo projeto no banco de dados"))
         except Exception as e:
-            print(_("Error creating project: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao criar projeto: {}: {}").format(type(e).__name__, e))
             raise
 
     def load_project(self, project_id: str) -> Optional[Project]:
@@ -597,7 +597,7 @@ class ProjectManager:
                 project_row = cursor.fetchone()
                 
                 if not project_row:
-                    print(_("Project with ID {} not found in database.").format(project_id))
+                    print(_("Projeto com ID {} não encontrado no banco de dados.").format(project_id))
                     return None
                 
                 project_data = dict(project_row)
@@ -626,17 +626,17 @@ class ProjectManager:
                 project_data['paragraphs'] = paragraphs_data
                 
                 project = Project.from_dict(project_data)
-                print(_("Loaded project from database: {}").format(project.name))
+                print(_("Projeto carregado do banco de dados: {}").format(project.name))
                 return project
                 
         except sqlite3.Error as e:
-            print(_("Database error loading project: {}").format(e))
+            print(_("Erro de banco de dados ao carregar projeto: {}").format(e))
             return None
         except (json.JSONDecodeError, KeyError, ValueError) as e:
-            print(_("Data error loading project: {}: {}").format(type(e).__name__, e))
+            print(_("Erro de dados ao carregar projeto: {}: {}").format(type(e).__name__, e))
             return None
         except Exception as e:
-            print(_("Unexpected error loading project: {}: {}").format(type(e).__name__, e))
+            print(_("Erro inesperado ao carregar projeto: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return None
@@ -649,10 +649,10 @@ class ProjectManager:
                 cursor.execute("DELETE FROM projects WHERE id = ?", (project_id,))
                 conn.commit()
                 
-                print(_("Deleted project from database: {}").format(project_id))
+                print(_("Projeto excluído do banco de dados: {}").format(project_id))
                 return True
         except sqlite3.Error as e:
-            print(_("Database error deleting project: {}").format(e))
+            print(_("Erro de banco de dados ao excluir projeto: {}").format(e))
             return False
 
     def create_manual_backup(self) -> Optional[Path]:
@@ -677,11 +677,11 @@ class ProjectManager:
             # Clean old backups - keep only 10 most recent
             self._cleanup_old_backups(backup_dir, max_backups=10)
             
-            print(_("Manual backup created: {}").format(backup_path))
+            print(_("Backup manual criado: {}").format(backup_path))
             return backup_path
             
         except (OSError, shutil.Error) as e:
-            print(_("Error creating manual backup: {}").format(e))
+            print(_("Erro ao criar backup manual: {}").format(e))
             return None
 
     def list_available_backups(self) -> List[Dict[str, Any]]:
@@ -721,14 +721,14 @@ class ProjectManager:
                         'is_valid': self._validate_backup_file(backup_file)
                     })
                 except (OSError, ValueError) as e:
-                    print(_("Error reading backup file {}: {}").format(backup_file, e))
+                    print(_("Erro ao ler arquivo de backup {}: {}").format(backup_file, e))
                     continue
             
             # Sort by creation date (newest first)
             backups.sort(key=lambda x: x['created_at'], reverse=True)
             
         except OSError as e:
-            print(_("Error listing backups: {}").format(e))
+            print(_("Erro ao listar backups: {}").format(e))
             
         return backups
 
@@ -760,7 +760,7 @@ class ProjectManager:
                 return True
                 
         except sqlite3.Error as e:
-            print(_("Backup validation error: {}").format(e))
+            print(_("Erro de validação de backup: {}").format(e))
             return False
 
     def import_database(self, backup_path: Path) -> bool:
@@ -768,7 +768,7 @@ class ProjectManager:
         try:
             # Validate backup file
             if not self._validate_backup_file(backup_path):
-                print(_("Invalid backup file"))
+                print(_("Arquivo de backup inválido"))
                 return False
             
             # Create backup of current database
@@ -777,7 +777,7 @@ class ProjectManager:
                 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                 current_backup_path = self.db_path.with_suffix(f'.backup_{timestamp}.db')
                 shutil.copy2(self.db_path, current_backup_path)
-                print(_("Current database backed up to: {}").format(current_backup_path))
+                print(_("Banco de dados atual salvo em: {}").format(current_backup_path))
             
             try:
                 # Replace current database
@@ -788,7 +788,7 @@ class ProjectManager:
                     cursor = conn.cursor()
                     cursor.execute("SELECT COUNT(*) FROM projects")
                     project_count = cursor.fetchone()[0]
-                    print(_("Successfully imported database with {} projects").format(project_count))
+                    print(_("Banco de dados importado com sucesso com {} projetos").format(project_count))
                 
                 return True
                 
@@ -796,11 +796,11 @@ class ProjectManager:
                 # Restore backup if import failed
                 if current_backup_path and current_backup_path.exists():
                     shutil.copy2(current_backup_path, self.db_path)
-                    print(_("Import failed, restored previous database"))
+                    print(_("Importação falhou, banco de dados anterior restaurado"))
                 raise e
                 
         except Exception as e:
-            print(_("Error importing database: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao importar banco de dados: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return False
@@ -810,11 +810,11 @@ class ProjectManager:
         try:
             if backup_path.exists():
                 backup_path.unlink()
-                print(_("Deleted backup: {}").format(backup_path))
+                print(_("Backup excluído: {}").format(backup_path))
                 return True
             return False
         except OSError as e:
-            print(_("Error deleting backup: {}").format(e))
+            print(_("Erro ao excluir backup: {}").format(e))
             return False
 
     @property
@@ -831,9 +831,9 @@ class ExportService:
         self.pdf_available = PDF_AVAILABLE
         
         if not self.odt_available:
-            print(_("Warning: ODT export not available (missing xml dependencies)"))
+            print(_("Aviso: Exportação ODT indisponível (faltando dependências xml)"))
         if not self.pdf_available:
-            print(_("Warning: PDF export not available (missing reportlab)"))
+            print(_("Aviso: Exportação PDF indisponível (faltando reportlab)"))
     
     def _collect_footnotes(self, project: Project) -> tuple:
         """
@@ -1055,11 +1055,11 @@ class ExportService:
             elif format_type.lower() == 'pdf' and self.pdf_available:
                 return self._export_pdf(project, file_path)
             else:
-                print(_("Export format '{}' not available").format(format_type))
+                print(_("Formato de exportação '{}' não disponível").format(format_type))
                 return False
                 
         except Exception as e:
-            print(_("Error exporting project: {}: {}").format(type(e).__name__, e))
+            print(_("Erro ao exportar projeto: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return False
@@ -1114,17 +1114,17 @@ class ExportService:
                 # Write footnotes
                 if all_footnotes:
                     f.write("\n" + "=" * 20 + "\n")
-                    f.write(_("Footnotes:") + "\n\n")
+                    f.write(_("Notas de rodapé:") + "\n\n")
                     for i, footnote in enumerate(all_footnotes):
                         f.write(f"{i + 1}. {footnote}\n\n")
             
             return True
             
         except OSError as e:
-            print(_("File error exporting to TXT: {}").format(e))
+            print(_("Erro de arquivo ao exportar para TXT: {}").format(e))
             return False
         except Exception as e:
-            print(_("Unexpected error exporting to TXT: {}: {}").format(type(e).__name__, e))
+            print(_("Erro inesperado ao exportar para TXT: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return False
@@ -1193,10 +1193,10 @@ class ExportService:
                 shutil.rmtree(temp_dir, ignore_errors=True)
                 
         except (OSError, zipfile.BadZipFile) as e:
-            print(_("File error exporting to ODT: {}").format(e))
+            print(_("Erro de arquivo ao exportar para ODT: {}").format(e))
             return False
         except Exception as e:
-            print(_("Unexpected error exporting to ODT: {}: {}").format(type(e).__name__, e))
+            print(_("Erro inesperado ao exportar para ODT: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return False
@@ -1887,7 +1887,7 @@ class ExportService:
                                 story.append(RLParagraph(caption, caption_style))
                                 story.append(Spacer(1, 12))
                     except Exception as e:
-                        print(_("Error adding image to PDF: {}").format(e))
+                        print(_("Erro ao adicionar imagem ao PDF: {}").format(e))
                         # Add placeholder text if image fails
                         story.append(RLParagraph(f"[Image: {metadata.get('filename', 'image')}]", normal_style))
                 
@@ -1897,7 +1897,7 @@ class ExportService:
             # Add footnotes
             if all_footnotes:
                 story.append(Spacer(1, 20))
-                story.append(RLParagraph(_("Footnotes:"), title2_style))
+                story.append(RLParagraph(_("Notas de rodapé:"), title2_style))
                 for i, footnote_text in enumerate(all_footnotes):
                     # Formatar o texto da nota de rodapé também
                     formatted_footnote = self._format_text_for_pdf(footnote_text)
@@ -1909,10 +1909,10 @@ class ExportService:
             return True
             
         except OSError as e:
-            print(_("File error exporting to PDF: {}").format(e))
+            print(_("Erro de arquivo ao exportar para PDF: {}").format(e))
             return False
         except Exception as e:
-            print(_("Unexpected error exporting to PDF: {}: {}").format(type(e).__name__, e))
+            print(_("Erro inesperado ao exportar para PDF: {}: {}").format(type(e).__name__, e))
             import traceback
             traceback.print_exc()
             return False

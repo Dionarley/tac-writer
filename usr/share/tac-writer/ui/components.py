@@ -164,20 +164,20 @@ class PomodoroTimer(GObject.Object):
         """Return current session information"""
         if self.is_work_time:
             return {
-                'title': _("Session {}").format(self.current_session),
+                'title': _("Sessão {}").format(self.current_session),
                 'type': 'work',
                 'session': self.current_session
             }
         else:
             if self.current_session >= self.max_sessions:
                 return {
-                    'title': _("Long Break"),
+                    'title': _("Pausa Longa"),
                     'type': 'long_break',
                     'session': self.current_session
                 }
             else:
                 return {
-                    'title': _("Rest Time"),
+                    'title': _("Tempo de Descanso"),
                     'type': 'short_break',
                     'session': self.current_session
                 }
@@ -190,7 +190,7 @@ class PomodoroDialog(Adw.Window):
         super().__init__(**kwargs)
         self.set_transient_for(parent)
         self.set_modal(True)
-        self.set_title(_("Pomodoro Timer"))
+        self.set_title(_("Temporizador Pomodoro"))
         self.set_default_size(450, 350)
         self.set_resizable(False)
         
@@ -229,7 +229,7 @@ class PomodoroDialog(Adw.Window):
         # Minimize button in top right corner
         self.minimize_button = Gtk.Button()
         self.minimize_button.set_icon_name('tac-window-minimize-symbolic')
-        self.minimize_button.set_tooltip_text(_("Minimize"))
+        self.minimize_button.set_tooltip_text(_("Minimizar"))
         self.minimize_button.add_css_class("flat")
         self.minimize_button.add_css_class("circular")
         self.minimize_button.set_size_request(30, 30)
@@ -282,7 +282,7 @@ class PomodoroDialog(Adw.Window):
         button_box.append(self.start_stop_button)
         
         # Reset button with circular design
-        self.reset_button = Gtk.Button(label=_("Reset"))
+        self.reset_button = Gtk.Button(label=_("Reiniciar"))
         self.reset_button.add_css_class('pill')
         self.reset_button.add_css_class('destructive-action')
         self.reset_button.set_size_request(100, 45)
@@ -361,7 +361,7 @@ class PomodoroDialog(Adw.Window):
                 Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
             )
         except Exception as e:
-            print(_("Error setting up Pomodoro dialog styles: {}").format(e))
+            print(_("Erro ao configurar estilos do Pomodoro: {}").format(e))
     
     def _update_display(self):
         """Update dialog display with current timer information"""
@@ -390,11 +390,11 @@ class PomodoroDialog(Adw.Window):
     def _update_buttons(self):
         """Update button states"""
         if self.timer.is_running:
-            self.start_stop_button.set_label(_("⏸ Pause"))
+            self.start_stop_button.set_label(_("⏸ Pausar"))
             self.start_stop_button.remove_css_class('suggested-action')
             self.start_stop_button.add_css_class('destructive-action')
         else:
-            self.start_stop_button.set_label(_("▶ Start"))
+            self.start_stop_button.set_label(_("▶ Iniciar"))
             self.start_stop_button.remove_css_class('destructive-action')
             self.start_stop_button.add_css_class('suggested-action')
     
@@ -631,20 +631,20 @@ class WelcomeView(Gtk.Box):
 
         # Title
         title = Gtk.Label()
-        title.set_markup("<span size='x-large' weight='bold'>" + _("Welcome to TAC") + "</span>")
+        title.set_markup("<span size='x-large' weight='bold'>" + _("Bem-vindo ao TAC") + "</span>")
         title.set_halign(Gtk.Align.CENTER)
         content_box.append(title)
 
         # Subtitle
         subtitle = Gtk.Label()
-        subtitle.set_markup("<span size='medium'>" + _("Continuous Argumentation Technique") + "</span>")
+        subtitle.set_markup("<span size='medium'>" + _("Técnica de Argumentação Continuada") + "</span>")
         subtitle.set_halign(Gtk.Align.CENTER)
         subtitle.add_css_class("dim-label")
         content_box.append(subtitle)
 
         # Description
         description = Gtk.Label()
-        description.set_text(_("Create structured academic texts with guided paragraph types"))
+        description.set_text(_("Crie textos acadêmicos estruturados com tipos de parágrafos guiados"))
         description.set_halign(Gtk.Align.CENTER)
         description.set_wrap(True)
         description.set_max_width_chars(50)
@@ -656,11 +656,11 @@ class WelcomeView(Gtk.Box):
         help_box.set_margin_top(16)
         
         wiki_button = Gtk.Button()
-        wiki_button.set_label(_("How To Wiki"))
+        wiki_button.set_label(_("Wiki Como Fazer"))
         wiki_button.set_icon_name('tac-help-browser-symbolic')
         wiki_button.add_css_class("flat")
         wiki_button.add_css_class("wiki-help-button")
-        wiki_button.set_tooltip_text(_("Access the online documentation and tutorials"))
+        wiki_button.set_tooltip_text(_("Acesse a documentação online e tutoriais"))
         wiki_button.connect('clicked', self._on_wiki_clicked)
         help_box.append(wiki_button)
         
@@ -670,15 +670,15 @@ class WelcomeView(Gtk.Box):
 
         # Note
         note = Gtk.Label()
-        note.set_markup("<span size='small'><i>" + _("Note:") + " " + _("exporting to ODT might require some adjustment in your Office Suite.") + "</i></span>")
+        note.set_markup("<span size='small'><i>" + _("Nota:") + " " + _("exportar para ODT pode exigir ajustes na sua Suíte Office.") + "</i></span>")
         note.set_halign(Gtk.Align.CENTER)
         content_box.append(note)
 
     def _create_template_section(self):
         """Create template selection section"""
         template_group = Adw.PreferencesGroup()
-        template_group.set_title(_("Start Writing"))
-        template_group.set_description(_("Choose a template to get started"))
+        template_group.set_title(_("Começar a Escrever"))
+        template_group.set_description(_("Escolha um modelo para começar"))
 
         # Template cards
         for template in DEFAULT_TEMPLATES:
@@ -688,7 +688,7 @@ class WelcomeView(Gtk.Box):
 
             # Start button
             start_button = Gtk.Button()
-            start_button.set_label(_("Start"))
+            start_button.set_label(_("Iniciar"))
             start_button.add_css_class("suggested-action")
             start_button.set_valign(Gtk.Align.CENTER)
             start_button.connect('clicked', lambda btn, tmpl=template.name: self.emit('create-project', tmpl))
@@ -713,7 +713,7 @@ class WelcomeView(Gtk.Box):
             try:
                 subprocess.run(['xdg-open', wiki_url], check=False)
             except Exception as fallback_error:
-                print(_("Could not open wiki URL: {}").format(fallback_error))
+                print(_("Não foi possível abrir URL da wiki: {}").format(fallback_error))
 
     def _create_recent_section(self):
         """Create recent projects section"""
@@ -737,7 +737,7 @@ class ProjectListWidget(Gtk.Box):
 
         # Search entry
         self.search_entry = Gtk.SearchEntry()
-        self.search_entry.set_placeholder_text(_("Search projects..."))
+        self.search_entry.set_placeholder_text(_("Pesquisar projetos..."))
         self.search_entry.set_hexpand(False)
         self.search_entry.set_margin_top(10)
         self.search_entry.set_margin_bottom(5)
@@ -831,7 +831,7 @@ class ProjectListWidget(Gtk.Box):
         # Edit button
         edit_button = Gtk.Button()
         edit_button.set_icon_name('tac-edit-symbolic')
-        edit_button.set_tooltip_text(_("Rename project"))
+        edit_button.set_tooltip_text(_("Renomear projeto"))
         edit_button.add_css_class("flat")
         edit_button.add_css_class("circular")
         edit_button.connect('clicked', lambda b: self._on_edit_project(project_info))
@@ -840,7 +840,7 @@ class ProjectListWidget(Gtk.Box):
         # Delete button
         delete_button = Gtk.Button()
         delete_button.set_icon_name('tac-user-trash-symbolic')
-        delete_button.set_tooltip_text(_("Delete project"))
+        delete_button.set_tooltip_text(_("Excluir projeto"))
         delete_button.add_css_class("flat")
         delete_button.add_css_class("circular")
         delete_button.connect('clicked', lambda b: self._on_delete_project(project_info))
@@ -913,8 +913,8 @@ class ProjectListWidget(Gtk.Box):
         """Handle project rename"""
         dialog = Adw.MessageDialog.new(
             self.get_root(),
-            _("Rename Project"),
-            _("Enter new name for '{}'").format(project_info['name'])
+            _("Renomear Projeto"),
+            _("Digite novo nome para '{}'").format(project_info['name'])
         )
 
         # Add entry for new name
@@ -930,8 +930,8 @@ class ProjectListWidget(Gtk.Box):
         entry.select_region(0, -1)
 
         dialog.set_extra_child(entry)
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("rename", _("Rename"))
+        dialog.add_response("cancel", _("Cancelar"))
+        dialog.add_response("rename", _("Renomear"))
         dialog.set_response_appearance("rename", Adw.ResponseAppearance.SUGGESTED)
         dialog.set_default_response("rename")
 
@@ -963,12 +963,12 @@ class ProjectListWidget(Gtk.Box):
         """Handle project deletion"""
         dialog = Adw.MessageDialog.new(
             self.get_root(),
-            _("Delete '{}'?").format(project_info['name']),
-            _("This project will be moved to trash and can be recovered.")
+            _("Excluir '{}'?").format(project_info['name']),
+            _("Este projeto será movido para a lixeira e pode ser recuperado.")
         )
 
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("delete", _("Delete"))
+        dialog.add_response("cancel", _("Cancelar"))
+        dialog.add_response("delete", _("Excluir"))
         dialog.set_response_appearance("delete", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_default_response("cancel")
 
@@ -1055,7 +1055,7 @@ class ParagraphEditor(Gtk.Box):
             print(f"DEBUG: ParagraphEditor {self.paragraph.id[:8]} MAPPED", flush=True)
             
             # --- Spellcheck init ---
-            GLib.timeout_add(200, self._setup_spell_check)
+            #GLib.timeout_add(200, self._setup_spell_check)
         
         except Exception as e:
             print(f"Error during paragraph editor initialization: {e}", flush=True)
@@ -1127,7 +1127,7 @@ class ParagraphEditor(Gtk.Box):
             # Footnote button
             footnote_button = Gtk.Button()
             footnote_button.set_icon_name('tac-text-x-generic-symbolic')
-            footnote_button.set_tooltip_text(_("Manage footnotes"))
+            footnote_button.set_tooltip_text(_("Gerenciar notas de rodapé"))
             footnote_button.add_css_class("flat")
             footnote_button.connect('clicked', self._on_footnote_clicked)
             footnote_container.append(footnote_button)
@@ -1148,39 +1148,20 @@ class ParagraphEditor(Gtk.Box):
             # Initialize badge as None for other types
             self.footnote_badge = None
 
-        # --- Formatting Buttons (Bold, Italic, Underline) ---
-        format_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
-        format_box.add_css_class("linked")
+        # Container for buttons (Lazy Loading)
+        self.format_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
+        self.format_box.add_css_class("linked")
         
-        # Bold
-        btn_bold = Gtk.Button(icon_name='format-text-bold-symbolic')
-        btn_bold.set_tooltip_text(_("Bold"))
-        btn_bold.add_css_class("flat")
-        btn_bold.connect('clicked', lambda b: self._on_format_clicked(b, 'bold'))
-        format_box.append(btn_bold)
+        # Flag para saber se os botões já foram criados
+        self._formatting_buttons_created = False
         
-        # Italic
-        btn_italic = Gtk.Button(icon_name='format-text-italic-symbolic')
-        btn_italic.set_tooltip_text(_("Italic"))
-        btn_italic.add_css_class("flat")
-        btn_italic.connect('clicked', lambda b: self._on_format_clicked(b, 'italic'))
-        format_box.append(btn_italic)
-        
-        # Underline
-        btn_underline = Gtk.Button(icon_name='format-text-underline-symbolic')
-        btn_underline.set_tooltip_text(_("Underline"))
-        btn_underline.add_css_class("flat")
-        btn_underline.connect('clicked', lambda b: self._on_format_clicked(b, 'underline'))
-        format_box.append(btn_underline)
-        
-        header_box.append(format_box)
-        # ----------------------------------------------------
+        header_box.append(self.format_box)
 
         # Spell check toggle button
         if SPELL_CHECK_AVAILABLE and self.config:
             self.spell_button = Gtk.ToggleButton()
             self.spell_button.set_icon_name('tac-tools-check-spelling-symbolic')
-            self.spell_button.set_tooltip_text(_("Toggle spell checking"))
+            self.spell_button.set_tooltip_text(_("Alternar verificação ortográfica"))
             self.spell_button.add_css_class("flat")
             self.spell_button.set_active(self.config.get_spell_check_enabled())
             self.spell_button.connect('toggled', self._on_spell_check_toggled)
@@ -1196,7 +1177,7 @@ class ParagraphEditor(Gtk.Box):
         # Remove button
         remove_button = Gtk.Button()
         remove_button.set_icon_name('tac-edit-delete-symbolic')
-        remove_button.set_tooltip_text(_("Remove paragraph"))
+        remove_button.set_tooltip_text(_("Remover parágrafo"))
         remove_button.add_css_class("flat")
         remove_button.connect('clicked', self._on_remove_clicked)
         header_box.append(remove_button)
@@ -1209,7 +1190,7 @@ class ParagraphEditor(Gtk.Box):
         if not bounds:
             # Show popover warning
             popover = Gtk.Popover()
-            label = Gtk.Label(label=_("Please select a word or section to format first."))
+            label = Gtk.Label(label=_("Selecione uma palavra ou seção para formatar primeiro."))
             label.set_margin_start(10)
             label.set_margin_end(10)
             label.set_margin_top(10)
@@ -1248,7 +1229,7 @@ class ParagraphEditor(Gtk.Box):
             try:
                 self.spell_helper.enable_spell_check(self.text_view, enabled)
             except Exception as e:
-                print(_("Error toggling spell check: {}").format(e))
+                print(_("Erro ao alternar verificação ortográfica: {}").format(e))
         
         if self.config:
             self.config.set_spell_check_enabled(enabled)
@@ -1257,8 +1238,6 @@ class ParagraphEditor(Gtk.Box):
         """Create the text editing area"""
         # Text buffer
         self.text_buffer = Gtk.TextBuffer()
-        #self.text_buffer.set_text(self.paragraph.content)
-        #self.text_buffer.connect('changed', self._on_text_changed)
 
         # --- Define Formatting Tags ---
         tag_table = self.text_buffer.get_tag_table()
@@ -1295,6 +1274,47 @@ class ParagraphEditor(Gtk.Box):
         scrolled.set_child(self.text_view)
 
         self.append(scrolled)
+
+        # Detect focus to create toolbar on demand
+        focus_controller = Gtk.EventControllerFocus()
+        focus_controller.connect("enter", self._on_focus_enter)
+        self.text_view.add_controller(focus_controller)
+
+    def _on_focus_enter(self, controller):
+        """Called when text view gains focus"""
+        self._ensure_formatting_buttons()
+
+        # Active spellcheck only when focus
+        if not self._spell_check_setup:
+            GLib.idle_add(self._setup_spell_check)
+
+    def _ensure_formatting_buttons(self):
+        """Create formatting buttons only when needed"""
+        if self._formatting_buttons_created:
+            return
+
+        # Bold
+        btn_bold = Gtk.Button(icon_name='format-text-bold-symbolic')
+        btn_bold.set_tooltip_text(_("Negrito"))
+        btn_bold.add_css_class("flat")
+        btn_bold.connect('clicked', lambda b: self._on_format_clicked(b, 'bold'))
+        self.format_box.append(btn_bold)
+        
+        # Italic
+        btn_italic = Gtk.Button(icon_name='format-text-italic-symbolic')
+        btn_italic.set_tooltip_text(_("Itálico"))
+        btn_italic.add_css_class("flat")
+        btn_italic.connect('clicked', lambda b: self._on_format_clicked(b, 'italic'))
+        self.format_box.append(btn_italic)
+        
+        # Underline
+        btn_underline = Gtk.Button(icon_name='format-text-underline-symbolic')
+        btn_underline.set_tooltip_text(_("Sublinhado"))
+        btn_underline.add_css_class("flat")
+        btn_underline.connect('clicked', lambda b: self._on_format_clicked(b, 'underline'))
+        self.format_box.append(btn_underline)
+
+        self._formatting_buttons_created = True
 
     # NEW DEFS FOR FORMATTING PERSISTENCE
     def _get_content_for_storage(self) -> str:
@@ -1464,16 +1484,16 @@ class ParagraphEditor(Gtk.Box):
     def _get_type_label(self) -> str:
         """Get display label for paragraph type"""
         type_labels = {
-            ParagraphType.TITLE_1: _("Title 1"),
-            ParagraphType.TITLE_2: _("Title 2"),
-            ParagraphType.INTRODUCTION: _("Introduction"),
-            ParagraphType.ARGUMENT: _("Argument"),
-            ParagraphType.ARGUMENT_RESUMPTION: _("Argument Resumption"),
-            ParagraphType.QUOTE: _("Quote"),
-            ParagraphType.EPIGRAPH: _("Epigraph"),
-            ParagraphType.CONCLUSION: _("Conclusion")
+            ParagraphType.TITLE_1: _("Título 1"),
+            ParagraphType.TITLE_2: _("Título 2"),
+            ParagraphType.INTRODUCTION: _("Introdução"),
+            ParagraphType.ARGUMENT: _("Argumento"),
+            ParagraphType.ARGUMENT_RESUMPTION: _("Retomada do Argumento"),
+            ParagraphType.QUOTE: _("Citação"),
+            ParagraphType.EPIGRAPH: _("Epígrafe"),
+            ParagraphType.CONCLUSION: _("Conclusão")
         }
-        return type_labels.get(self.paragraph.type, _("Paragraph"))
+        return type_labels.get(self.paragraph.type, _("Parágrafo"))
 
     def _apply_formatting(self):
         """Apply formatting using TextBuffer tags (GTK4 mode)"""
@@ -1518,7 +1538,7 @@ class ParagraphEditor(Gtk.Box):
         if not hasattr(self, 'word_count_label') or self.word_count_label is None:
             return
         word_count = TextHelper.count_words(self.paragraph.content)
-        self.word_count_label.set_text(_("{count} words").format(count=word_count))
+        self.word_count_label.set_text(_("{count} palavras").format(count=word_count))
 
     def _on_text_changed(self, buffer):
         """Handle text changes"""
@@ -1533,12 +1553,12 @@ class ParagraphEditor(Gtk.Box):
         """Handle remove button click"""
         dialog = Adw.MessageDialog.new(
             self.get_root(),
-            _("Remove Paragraph?"),
-            _("This action cannot be undone.")
+            _("Remover Parágrafo?"),
+            _("Esta ação não pode ser desfeita.")
         )
 
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("remove", _("Remove"))
+        dialog.add_response("cancel", _("Cancelar"))
+        dialog.add_response("remove", _("Remover"))
         dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_default_response("cancel")
         dialog.set_close_response("cancel")
@@ -1578,9 +1598,9 @@ class ParagraphEditor(Gtk.Box):
             
             # Update tooltip
             if footnote_count == 1:
-                self.footnote_badge.set_tooltip_text(_("1 footnote"))
+                self.footnote_badge.set_tooltip_text(_("1 nota de rodapé"))
             else:
-                self.footnote_badge.set_tooltip_text(_("{} footnotes").format(footnote_count))
+                self.footnote_badge.set_tooltip_text(_("{} notas de rodapé").format(footnote_count))
         else:
             # Hide badge but keep space reserved
             self.footnote_badge.set_text("")
@@ -1631,7 +1651,7 @@ class TextEditor(Gtk.Box):
             try:
                 self.spell_checker = self.spell_helper.setup_spell_check(self.text_view)
             except Exception as e:
-                print(_("Error setting up spell check: {}").format(e))
+                print(_("Erro ao configurar verificação ortográfica: {}").format(e))
         
         return False
 
@@ -1669,7 +1689,7 @@ class FootnoteDialog(Adw.Window):
 
     def __init__(self, parent, paragraph, **kwargs):
         super().__init__(**kwargs)
-        self.set_title(_("Manage Footnotes"))
+        self.set_title(_("Gerenciar Notas de Rodapé"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(500, 400)
@@ -1691,12 +1711,12 @@ class FootnoteDialog(Adw.Window):
         header_bar = Adw.HeaderBar()
         
         cancel_button = Gtk.Button()
-        cancel_button.set_label(_("Cancel"))
+        cancel_button.set_label(_("Cancelar"))
         cancel_button.connect('clicked', lambda x: self.destroy())
         header_bar.pack_start(cancel_button)
 
         save_button = Gtk.Button()
-        save_button.set_label(_("Save"))
+        save_button.set_label(_("Salvar"))
         save_button.add_css_class("suggested-action")
         save_button.connect('clicked', self._on_save_clicked)
         header_bar.pack_end(save_button)
@@ -1713,7 +1733,7 @@ class FootnoteDialog(Adw.Window):
 
         # Instructions
         instruction_label = Gtk.Label()
-        instruction_label.set_text(_("Add footnotes that will appear as numbered references in your paragraph:"))
+        instruction_label.set_text(_("Adicione notas de rodapé que aparecerão como referências numeradas:"))
         instruction_label.set_wrap(True)
         instruction_label.set_halign(Gtk.Align.START)
         main_box.append(instruction_label)
@@ -1729,7 +1749,7 @@ class FootnoteDialog(Adw.Window):
 
         # Add footnote button
         add_button = Gtk.Button()
-        add_button.set_label(_("Add Footnote"))
+        add_button.set_label(_("Adicionar Nota"))
         add_button.set_icon_name('tac-list-add-symbolic')
         add_button.add_css_class("suggested-action")
         add_button.connect('clicked', self._on_add_footnote)
@@ -1802,7 +1822,7 @@ class FootnoteDialog(Adw.Window):
         entry = Gtk.Entry()
         entry.set_text(text)
         entry.set_hexpand(True)
-        entry.set_placeholder_text(_("Enter footnote text..."))
+        entry.set_placeholder_text(_("Digite o texto da nota..."))
         row_box.append(entry)
 
         # Remove button
@@ -1868,32 +1888,32 @@ class FirstRunTour:
         self.steps = [
             {
                 'target': 'new_project_button',
-                'title': _("Welcome to TAC Writer!"),
-                'message': _("Let's take a quick tour. Click here to create your first project and start writing."),
+                'title': _("Bem-vindo ao Tac Writer!"),
+                'message': _("Vamos fazer um tour rápido. Clique aqui para criar seu primeiro projeto."),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {
                 'target': 'sidebar',
-                'title': _("Project Library"),
-                'message': _("All your projects are listed here. You can search, rename, or delete them at any time."),
+                'title': _("Biblioteca de Projetos"),
+                'message': _("Todos seus projetos estão aqui. Você pode pesquisar, renomear ou excluir a qualquer momento."),
                 'position': Gtk.PositionType.RIGHT,
             },
             {
                 'target': 'pomodoro_button',
-                'title': _("Pomodoro Timer"),
-                'message': _("Stay focused with the built-in Pomodoro timer. Perfect for writing sessions!"),
+                'title': _("Temporizador Pomodoro"),
+                'message': _("Mantenha o foco com o Pomodoro integrado. Perfeito para sessões de escrita!"),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {
                 'target': 'ai_button',
-                'title': _("AI Assistant"),
-                'message': _("Use AI to revise your exported text. Configure in Preferences. Read wiki for guided configuration."),
+                'title': _("Assistente de IA"),
+                'message': _("Use IA para revisar seu texto. Configure em Preferências. Leia a wiki para ajuda."),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {
                 'target': 'save_button',
-                'title': _("Save Your Work"),
-                'message': _("Don't worry! Auto-save is enabled by default, but you can also save manually here."),
+                'title': _("Salve Seu Trabalho"),
+                'message': _("Não se preocupe! O salvamento automático é padrão, mas você pode salvar manualmente aqui."),
                 'position': Gtk.PositionType.BOTTOM,
             },
         ]
@@ -1999,23 +2019,23 @@ class FirstRunTour:
 
         # Skip button (only on first step)
         if step_index == 0:
-            skip_button = Gtk.Button.new_with_label(_("Skip Tour"))
+            skip_button = Gtk.Button.new_with_label(_("Pular Tour"))
             skip_button.connect('clicked', lambda b: self.end_tour())
             buttons_box.append(skip_button)
 
         # Previous button (if not first step)
         if step_index > 0:
-            prev_button = Gtk.Button.new_with_label(_("Previous"))
+            prev_button = Gtk.Button.new_with_label(_("Anterior"))
             prev_button.connect('clicked', lambda b: self.show_step(step_index - 1))
             buttons_box.append(prev_button)
 
         # Next/Finish button
         if step_index < len(self.steps) - 1:
-            next_button = Gtk.Button.new_with_label(_("Next"))
+            next_button = Gtk.Button.new_with_label(_("Próximo"))
             next_button.add_css_class("suggested-action")
             next_button.connect('clicked', lambda b: self.show_step(step_index + 1))
         else:
-            next_button = Gtk.Button.new_with_label(_("Finish"))
+            next_button = Gtk.Button.new_with_label(_("Concluir"))
             next_button.add_css_class("suggested-action")
             next_button.connect('clicked', lambda b: self.end_tour())
 

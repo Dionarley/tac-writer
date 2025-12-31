@@ -54,7 +54,7 @@ class FileHelper:
                 size /= 1024.0
             return f"{size:.1f} TB"
         except:
-            return _("Unknown")
+            return _("Desconhecido")
     
     @staticmethod
     def get_mime_type(file_path: Path) -> str:
@@ -169,18 +169,18 @@ class TextHelper:
     def format_reading_time(word_count: int, words_per_minute: int = 200) -> str:
         """Calculate estimated reading time"""
         if word_count == 0:
-            return _("0 minutes")
+            return _("0 minutos")
         
         minutes = word_count / words_per_minute
         
         if minutes < 1:
-            return _("< 1 minute")
+            return _("< 1 minuto")
         elif minutes < 60:
             minute_count = int(minutes)
             if minute_count == 1:
-                return _("1 minute")
+                return _("1 minuto")
             else:
-                return _("{} minutes").format(minute_count)
+                return _("{} minutos").format(minute_count)
         else:
             hours = int(minutes // 60)
             mins = int(minutes % 60)
@@ -218,18 +218,18 @@ class ValidationHelper:
     def is_valid_project_name(name: str) -> Tuple[bool, str]:
         """Validate project name and return (is_valid, error_message)"""
         if not name or name.strip() == '':
-            return False, _("Project name cannot be empty")
+            return False, _("Nome do projeto não pode ser vazio")
         
         name = name.strip()
         
         if len(name) < 2:
-            return False, _("Project name must be at least 2 characters long")
+            return False, _("Nome do projeto deve ter pelo menos 2 caracteres")
         
         if len(name) > 100:
-            return False, _("Project name cannot exceed 100 characters")
+            return False, _("Nome do projeto não pode exceder 100 caracteres")
         
         if not ValidationHelper.is_valid_filename(name):
-            return False, _("Project name contains invalid characters")
+            return False, _("Nome do projeto contém caracteres inválidos")
         
         return True, ""
     
@@ -246,23 +246,23 @@ class ValidationHelper:
     def validate_path(path: str) -> Tuple[bool, str]:
         """Validate file/directory path"""
         if not path:
-            return False, _("Path cannot be empty")
+            return False, _("Caminho não pode ser vazio")
         
         try:
             path_obj = Path(path)
             
             # Check if parent directory exists (for file paths)
             if not path_obj.parent.exists():
-                return False, _("Parent directory does not exist")
+                return False, _("Diretório pai não existe")
             
             # Check if path is too long (Windows has 260 char limit)
             if len(str(path_obj.resolve())) > 250:
-                return False, _("Path is too long")
+                return False, _("Caminho muito longo")
             
             return True, ""
             
         except Exception as e:
-            return False, _("Invalid path: {}").format(str(e))
+            return False, _("Caminho inválido: {}").format(str(e))
 
 
 class FormatHelper:
@@ -272,17 +272,17 @@ class FormatHelper:
     def format_paragraph_count(count: int) -> str:
         """Format paragraph count with proper pluralization"""
         if count == 1:
-            return _("1 paragraph")
+            return _("1 parágrafo")
         else:
-            return _("{count} paragraphs").format(count=count)
+            return _("{count} parágrafos").format(count=count)
     
     @staticmethod
     def format_word_count(count: int) -> str:
         """Format word count with proper pluralization"""
         if count == 1:
-            return _("1 word")
+            return _("1 palavra")
         else:
-            return _("{count} words").format(count=count)
+            return _("{count} palavras").format(count=count)
     
     @staticmethod
     def format_project_stats(words: int, paragraphs: int) -> str:
@@ -327,9 +327,9 @@ class FormatHelper:
             if key.endswith('_count'):
                 formatted[key] = f"{value:,}"
             elif key == 'total_words':
-                formatted[key] = _("{:,} words").format(value)
+                formatted[key] = _("{:,} palavras").format(value)
             elif key == 'total_characters':
-                formatted[key] = _("{:,} characters").format(value)
+                formatted[key] = _("{:,} caracteres").format(value)
             elif isinstance(value, dict):
                 # Handle nested dictionaries
                 formatted[key] = {k: str(v) for k, v in value.items()}
@@ -346,21 +346,21 @@ class DebugHelper:
     def print_object_info(obj: Any, name: str = "Object") -> None:
         """Print detailed information about an object"""
         print(f"\n=== {name} " + _("Info") + " ===")
-        print(_("Type: {}").format(type(obj).__name__))
-        print(_("Module: {}").format(type(obj).__module__))
+        print(_("Tipo: {}").format(type(obj).__name__))
+        print(_("Módulo: {}").format(type(obj).__module__))
         
         if hasattr(obj, '__dict__'):
-            print(_("Attributes:"))
+            print(_("Atributos:"))
             for attr, value in obj.__dict__.items():
                 print(f"  {attr}: {type(value).__name__} = {repr(value)[:100]}")
         
-        print(_("Methods:"))
+        print(_("Métodos:"))
         methods = [method for method in dir(obj) if callable(getattr(obj, method)) and not method.startswith('_')]
         for method in methods[:10]:  # Limit to first 10 methods
             print(f"  {method}()")
         
         if len(methods) > 10:
-            print(_("  ... and {} more methods").format(len(methods) - 10))
+            print(_("  ... e mais {} métodos").format(len(methods) - 10))
         
         print("=" * (len(name) + len(_("Info")) + 4))
     
@@ -368,4 +368,4 @@ class DebugHelper:
     def log_performance(func_name: str, start_time: datetime, end_time: datetime) -> None:
         """Log performance information"""
         duration = (end_time - start_time).total_seconds()
-        print(_("Performance: {} took {:.3f} seconds").format(func_name, duration))
+        print(_("Performance: {} levou {:.3f} segundos").format(func_name, duration))

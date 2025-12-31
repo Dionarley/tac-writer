@@ -532,8 +532,8 @@ class DocumentTemplate:
 
 # Predefined templates
 ACADEMIC_ESSAY_TEMPLATE = DocumentTemplate(
-    name=_("Academic Essay"),
-    description=_("Standard academic essay structure")
+    name=_("Ensaio Acadêmico"),
+    description=_("Estrutura padrão de ensaio acadêmico")
 )
 
 ACADEMIC_ESSAY_TEMPLATE.paragraph_structure = [

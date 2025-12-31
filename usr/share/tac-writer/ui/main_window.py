@@ -57,6 +57,10 @@ class MainWindow(Adw.ApplicationWindow):
         self.search_query: str = ""
         self._search_state = {'paragraph_index': -1, 'offset': -1}
 
+        # Estado de carregamento e scroll
+        self._is_loading_paragraphs = False
+        self._pending_scroll_to_bottom = False
+
         # Auto-save timer tracking
         self.auto_save_timeout_id = None
         self.auto_save_pending = False
@@ -81,7 +85,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _setup_window(self):
         """Setup basic window properties"""
-        self.set_title(_("TAC - Continuous Argumentation Technique"))
+        self.set_title(_("TAC - Técnica de Argumentação Continuada"))
         self.set_icon_name("tac-writer")
 
         # Set default size
@@ -141,14 +145,14 @@ class MainWindow(Adw.ApplicationWindow):
         # Left side buttons
         self.new_project_button = Gtk.Button()
         self.new_project_button.set_icon_name('tac-document-new-symbolic')
-        self.new_project_button.set_tooltip_text(_("New Project (Ctrl+N)"))
+        self.new_project_button.set_tooltip_text(_("Novo Projeto (Ctrl+N)"))
         self.new_project_button.set_action_name("app.new_project")
         self.header_bar.pack_start(self.new_project_button)
 
         # Pomodoro Timer Button
         self.pomodoro_button = Gtk.Button()
         self.pomodoro_button.set_icon_name('tac-alarm-symbolic')
-        self.pomodoro_button.set_tooltip_text(_("Pomodoro Timer"))
+        self.pomodoro_button.set_tooltip_text(_("Temporizador Pomodoro"))
         self.pomodoro_button.connect('clicked', self._on_pomodoro_clicked)
         self.pomodoro_button.set_sensitive(False)
         self.header_bar.pack_start(self.pomodoro_button)
@@ -157,13 +161,13 @@ class MainWindow(Adw.ApplicationWindow):
         # Menu button
         menu_button = Gtk.MenuButton()
         menu_button.set_icon_name('tac-open-menu-symbolic')
-        menu_button.set_tooltip_text(_("Main Menu"))
+        menu_button.set_tooltip_text(_("Menu Principal"))
         self._setup_menu(menu_button)
         self.header_bar.pack_end(menu_button)
 
         save_button = Gtk.Button()
         save_button.set_icon_name('tac-document-save-symbolic')
-        save_button.set_tooltip_text(_("Save Project (Ctrl+S)"))
+        save_button.set_tooltip_text(_("Salvar Projeto (Ctrl+S)"))
         save_button.set_action_name("app.save_project")
         save_button.set_sensitive(False)
         self.header_bar.pack_end(save_button)
@@ -172,21 +176,21 @@ class MainWindow(Adw.ApplicationWindow):
         # AI assistant button
         self.ai_button = Gtk.Button()
         self.ai_button.set_icon_name('avatar-default-symbolic')
-        self.ai_button.set_tooltip_text(_("Ask AI Assistant (Ctrl+Shift+I)"))
+        self.ai_button.set_tooltip_text(_("Perguntar à IA (Ctrl+Shift+I)"))
         self.ai_button.connect('clicked', self._on_ai_pdf_clicked)
         self.header_bar.pack_end(self.ai_button)
 
         # Search box
         search_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=4)
         self.search_entry = Gtk.SearchEntry()
-        self.search_entry.set_placeholder_text(_("Search..."))
+        self.search_entry.set_placeholder_text(_("Pesquisar..."))
         self.search_entry.set_width_chars(18)
         self.search_entry.connect("search-changed", self._on_search_text_changed)
         self.search_entry.connect("activate", self._on_search_activate)
         search_box.append(self.search_entry)
 
         self.search_next_button = Gtk.Button.new_from_icon_name('tac-go-down-symbolic')
-        self.search_next_button.set_tooltip_text(_("Find next occurrence"))
+        self.search_next_button.set_tooltip_text(_("Localizar próxima ocorrência"))
         self.search_next_button.add_css_class("flat")
         self.search_next_button.connect("clicked", self._on_search_next_clicked)
         search_box.append(self.search_next_button)
@@ -201,26 +205,26 @@ class MainWindow(Adw.ApplicationWindow):
 
         # File section
         file_section = Gio.Menu()
-        file_section.append(_("Export Project..."), "app.export_project")
-        file_section.append(_("Backup Manager..."), "win.backup_manager")
+        file_section.append(_("Exportar Projeto..."), "app.export_project")
+        file_section.append(_("Gerenciador de Backups..."), "win.backup_manager")
         menu_model.append_section(None, file_section)
 
         # Edit section
         edit_section = Gio.Menu()
-        edit_section.append(_("Undo"), "win.undo")
-        edit_section.append(_("Redo"), "win.redo")
+        edit_section.append(_("Desfazer"), "win.undo")
+        edit_section.append(_("Refazer"), "win.redo")
         menu_model.append_section(None, edit_section)
 
         # Preferences section
         preferences_section = Gio.Menu()
-        preferences_section.append(_("Preferences"), "app.preferences")
+        preferences_section.append(_("Preferências"), "app.preferences")
         menu_model.append_section(None, preferences_section)
 
         # Help section
         help_section = Gio.Menu()
-        help_section.append(_("Welcome Guide"), "win.show_welcome")
-        help_section.append(_("Ask AI Assistant"), "app.ai_assistant")
-        help_section.append(_("About TAC"), "app.about")
+        help_section.append(_("Guia de Boas-vindas"), "win.show_welcome")
+        help_section.append(_("Perguntar à IA"), "app.ai_assistant")
+        help_section.append(_("Sobre o TAC"), "app.about")
         menu_model.append_section(None, help_section)
 
         menu_button.set_menu_model(menu_model)
@@ -252,7 +256,7 @@ class MainWindow(Adw.ApplicationWindow):
         sidebar_header = Adw.HeaderBar()
         sidebar_header.set_show_end_title_buttons(False)
         sidebar_title = Adw.WindowTitle()
-        sidebar_title.set_title(_("Projects"))
+        sidebar_title.set_title(_("Projetos"))
         sidebar_header.set_title_widget(sidebar_title)
         sidebar_box.append(sidebar_header)
 
@@ -391,21 +395,21 @@ class MainWindow(Adw.ApplicationWindow):
 
         # Add paragraph menu button
         self.add_button = Gtk.MenuButton()
-        self.add_button.set_label(_("Add Paragraph"))
+        self.add_button.set_label(_("Adicionar Parágrafo"))
         self.add_button.set_icon_name('tac-list-add-symbolic')
         self.add_button.add_css_class("suggested-action")
 
         # Create menu model
         menu_model = Gio.Menu()
         paragraph_types = [
-            (_("Title 1"), ParagraphType.TITLE_1),
-            (_("Title 2"), ParagraphType.TITLE_2),
-            (_("Introduction"), ParagraphType.INTRODUCTION),
-            (_("Argument"), ParagraphType.ARGUMENT),
-            (_("Argument Resumption"), ParagraphType.ARGUMENT_RESUMPTION),
-            (_("Quote"), ParagraphType.QUOTE),
-            (_("Epigraph"), ParagraphType.EPIGRAPH),
-            (_("Conclusion"), ParagraphType.CONCLUSION),
+            (_("Título 1"), ParagraphType.TITLE_1),
+            (_("Título 2"), ParagraphType.TITLE_2),
+            (_("Introdução"), ParagraphType.INTRODUCTION),
+            (_("Argumento"), ParagraphType.ARGUMENT),
+            (_("Retomada do Argumento"), ParagraphType.ARGUMENT_RESUMPTION),
+            (_("Citação"), ParagraphType.QUOTE),
+            (_("Epígrafe"), ParagraphType.EPIGRAPH),
+            (_("Conclusão"), ParagraphType.CONCLUSION),
         ]
 
         for label, ptype in paragraph_types:
@@ -416,9 +420,9 @@ class MainWindow(Adw.ApplicationWindow):
         
         # Add image button
         image_button = Gtk.Button()
-        image_button.set_label(_("Insert Image"))
+        image_button.set_label(_("Inserir Imagem"))
         image_button.set_icon_name('insert-image-symbolic')
-        image_button.set_tooltip_text(_("Insert Image (Ctrl+Alt+I)"))
+        image_button.set_tooltip_text(_("Inserir Imagem (Ctrl+Alt+I)"))
         image_button.set_action_name('win.insert_image')
         toolbar_box.append(image_button)
 
@@ -436,7 +440,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Go to top button
         top_button = Gtk.Button()
         top_button.set_icon_name('tac-go-up-symbolic')
-        top_button.set_tooltip_text(_("Go to beginning"))
+        top_button.set_tooltip_text(_("Ir para o início"))
         top_button.add_css_class("circular")
         top_button.add_css_class("flat")
         top_button.set_size_request(40, 40)
@@ -446,7 +450,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Go to bottom button
         bottom_button = Gtk.Button()
         bottom_button.set_icon_name('tac-go-down-symbolic')
-        bottom_button.set_tooltip_text(_("Go to end"))
+        bottom_button.set_tooltip_text(_("Ir para o fim"))
         bottom_button.add_css_class("circular")
         bottom_button.add_css_class("flat")
         bottom_button.set_size_request(40, 40)
@@ -463,6 +467,19 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _on_scroll_to_bottom(self, button):
         """Scroll to the bottom of the project"""
+        # Se estiver carregando, marca para rolar assim que terminar (ou a cada lote)
+        if self._is_loading_paragraphs:
+            self._pending_scroll_to_bottom = True
+            # Opcional: Mostra um aviso rápido ou muda o cursor
+            self._show_toast(_("Carregando restante do documento..."), Adw.ToastPriority.LOW)
+            
+            # Força o scroll para o ponto atual imediatamente também
+            if hasattr(self, 'editor_scrolled'):
+                adjustment = self.editor_scrolled.get_vadjustment()
+                adjustment.set_value(adjustment.get_upper())
+            return
+
+        # Comportamento padrão se já carregou tudo
         if hasattr(self, 'editor_scrolled'):
             adjustment = self.editor_scrolled.get_vadjustment()
             adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size())
@@ -472,6 +489,7 @@ class MainWindow(Adw.ApplicationWindow):
         if not self.current_project:
             return
     
+        # Limpa widgets antigos que não estão mais no projeto
         existing_widgets = {}
         child = self.paragraphs_box.get_first_child()
         while child:
@@ -486,6 +504,8 @@ class MainWindow(Adw.ApplicationWindow):
                 self.paragraphs_box.remove(widget)
                 del existing_widgets[paragraph_id]
     
+        # Remove todos da view para reordenar/reinserir corretamente
+        # (Isso é rápido pois não destrói os objetos Python, apenas desanexa do GTK)
         child = self.paragraphs_box.get_first_child()
         while child:
             next_child = child.get_next_sibling()
@@ -494,38 +514,65 @@ class MainWindow(Adw.ApplicationWindow):
     
         self._paragraphs_to_add = list(self.current_project.paragraphs)
         self._existing_widgets = existing_widgets
-
-        GLib.idle_add(self._process_next_paragraph)
-
-    def _process_next_paragraph(self):
-        """Process next paragraph for asynchronous loading"""
-        if not self._paragraphs_to_add:
-            return False
-
-        paragraph = self._paragraphs_to_add.pop(0)
         
-        # Check if it's an image paragraph
-        if paragraph.type == ParagraphType.IMAGE:
+        # Reseta flags de controle
+        self._is_loading_paragraphs = True
+        self._pending_scroll_to_bottom = False
+
+        # Inicia o processamento em lote
+        GLib.idle_add(self._process_paragraph_batch)
+
+    def _process_paragraph_batch(self):
+        """Process a batch of paragraphs for asynchronous loading"""
+        if not self._paragraphs_to_add:
+            self._is_loading_paragraphs = False
+            
+            # Se o usuário clicou em "Ir para o fim" durante o carregamento
+            if self._pending_scroll_to_bottom:
+                GLib.idle_add(self._execute_pending_scroll)
+                self._pending_scroll_to_bottom = False
+            return False # Para o loop do GLib
+
+        # CONFIGURAÇÃO DE PERFORMANCE
+        BATCH_SIZE = 10 
+        
+        count = 0
+        while self._paragraphs_to_add and count < BATCH_SIZE:
+            paragraph = self._paragraphs_to_add.pop(0)
+            
+            # Lógica de criação/reuso do widget (igual ao anterior)
+            widget = None
             if paragraph.id in self._existing_widgets:
                 widget = self._existing_widgets[paragraph.id]
-                self.paragraphs_box.append(widget)
             else:
-                image_widget = self._create_image_widget(paragraph)
-                self.paragraphs_box.append(image_widget)
-                self._existing_widgets[paragraph.id] = image_widget
-        else:
-            if paragraph.id in self._existing_widgets:
-                widget = self._existing_widgets[paragraph.id]
-                self.paragraphs_box.append(widget)
-            else:
-                paragraph_editor = ParagraphEditor(paragraph, config=self.config)
-                paragraph_editor.connect('content-changed', self._on_paragraph_changed)
-                paragraph_editor.connect('remove-requested', self._on_paragraph_remove_requested)
-                paragraph_editor.connect('paragraph-reorder', self._on_paragraph_reorder)
-                self.paragraphs_box.append(paragraph_editor)
-                self._existing_widgets[paragraph.id] = paragraph_editor
+                if paragraph.type == ParagraphType.IMAGE:
+                    widget = self._create_image_widget(paragraph)
+                else:
+                    widget = ParagraphEditor(paragraph, config=self.config)
+                    widget.connect('content-changed', self._on_paragraph_changed)
+                    widget.connect('remove-requested', self._on_paragraph_remove_requested)
+                    widget.connect('paragraph-reorder', self._on_paragraph_reorder)
+                
+                self._existing_widgets[paragraph.id] = widget
+            
+            self.paragraphs_box.append(widget)
+            count += 1
+
+        
+        if self._pending_scroll_to_bottom and hasattr(self, 'editor_scrolled'):
+            adjustment = self.editor_scrolled.get_vadjustment()
+            # Rola para o novo "fim" que acabou de ser criado
+            adjustment.set_value(adjustment.get_upper())
 
         return True
+
+    def _execute_pending_scroll(self):
+        """Helper to execute the final scroll after loading is complete"""
+        if hasattr(self, 'editor_scrolled'):
+            adjustment = self.editor_scrolled.get_vadjustment()
+            adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size())
+        return False    
+
     
     def _create_image_widget(self, paragraph):
         """Create widget to display an image paragraph"""
@@ -535,7 +582,7 @@ class MainWindow(Adw.ApplicationWindow):
         if not metadata:
             # Fallback for malformed image paragraph
             error_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-            error_label = Gtk.Label(label=_("⚠️ Error: Invalid image data"))
+            error_label = Gtk.Label(label=_("⚠️ Erro: Dados de imagem inválidos"))
             error_label.add_css_class('error')
             error_box.append(error_label)
             error_box.paragraph = paragraph  # Store reference
@@ -600,7 +647,7 @@ class MainWindow(Adw.ApplicationWindow):
             else:
                 # Image file not found
                 placeholder = Gtk.Label(
-                    label=_("⚠️ Image not found: {}").format(metadata.get('filename', 'unknown'))
+                    label=_("⚠️ Imagem não encontrada: {}").format(metadata.get('filename', 'unknown'))
                 )
                 placeholder.add_css_class('warning')
                 image_container.append(placeholder)
@@ -608,7 +655,7 @@ class MainWindow(Adw.ApplicationWindow):
         except Exception as e:
             # Error loading image
             error_label = Gtk.Label(
-                label=_("⚠️ Error loading image: {}").format(str(e))
+                label=_("⚠️ Erro ao carregar imagem: {}").format(str(e))
             )
             error_label.add_css_class('error')
             image_container.append(error_label)
@@ -624,14 +671,14 @@ class MainWindow(Adw.ApplicationWindow):
         # Edit button
         edit_btn = Gtk.Button()
         edit_btn.set_icon_name('tac-document-tac-edit-symbolic')
-        edit_btn.set_tooltip_text(_("Edit Image"))
+        edit_btn.set_tooltip_text(_("Editar Imagem"))
         edit_btn.connect('clicked', lambda b: self._on_edit_image(paragraph))
         toolbar.append(edit_btn)
 
         # Remove button
         remove_btn = Gtk.Button()
         remove_btn.set_icon_name('tac-user-trash-symbolic')
-        remove_btn.set_tooltip_text(_("Remove Image"))
+        remove_btn.set_tooltip_text(_("Remover Imagem"))
         remove_btn.add_css_class('destructive-action')
         remove_btn.connect('clicked', lambda b: self._on_remove_image(paragraph))
         toolbar.append(remove_btn)
@@ -646,12 +693,12 @@ class MainWindow(Adw.ApplicationWindow):
         # Show confirmation dialog
         dialog = Adw.MessageDialog.new(
             self,
-            _("Remove Image?"),
-            _("Are you sure you want to remove this image from the document?")
+            _("Remover Imagem?"),
+            _("Tem certeza que deseja remover esta imagem do documento?")
         )
         
-        dialog.add_response("cancel", _("Cancel"))
-        dialog.add_response("remove", _("Remove"))
+        dialog.add_response("cancel", _("Cancelar"))
+        dialog.add_response("remove", _("Remover"))
         dialog.set_response_appearance("remove", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_default_response("cancel")
         
@@ -669,10 +716,10 @@ class MainWindow(Adw.ApplicationWindow):
                     self._refresh_paragraphs()
                     self._update_header_for_view("editor")
                     
-                    self._show_toast(_("Image removed"))
+                    self._show_toast(_("Imagem removida"))
                 except Exception as e:
                     print(f"Error removing image: {e}")
-                    self._show_toast(_("Error removing image"), Adw.ToastPriority.HIGH)
+                    self._show_toast(_("Erro ao remover imagem"), Adw.ToastPriority.HIGH)
             d.destroy()
         
         dialog.connect('response', on_response)
@@ -725,12 +772,12 @@ class MainWindow(Adw.ApplicationWindow):
             self._refresh_paragraphs()
             self._update_header_for_view("editor")
 
-            self._show_toast(_("Image updated"))
+            self._show_toast(_("Imagem atualizada"))
         except (ValueError, Exception) as e:
             print(f"Error updating image: {e}")
             import traceback
             traceback.print_exc()
-            self._show_toast(_("Error updating image"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Erro ao atualizar imagem"), Adw.ToastPriority.HIGH)
 
     def _get_focused_text_view(self):
         """Get the currently focused TextView widget"""
@@ -772,7 +819,7 @@ class MainWindow(Adw.ApplicationWindow):
             if buffer and hasattr(buffer, 'get_can_undo'):
                 if buffer.get_can_undo():
                     buffer.undo()
-                    self._show_toast(_("Undo"))
+                    self._show_toast(_("Desfazer"))
                     return
             
             # Fallback: Try Ctrl+Z key simulation
@@ -782,7 +829,7 @@ class MainWindow(Adw.ApplicationWindow):
             except:
                 pass
         
-        self._show_toast(_("Nothing to undo"))
+        self._show_toast(_("Nada para desfazer"))
 
     def _action_redo(self, action, param):
         """Handle global redo action"""
@@ -792,7 +839,7 @@ class MainWindow(Adw.ApplicationWindow):
             if buffer and hasattr(buffer, 'get_can_redo'):
                 if buffer.get_can_redo():
                     buffer.redo()
-                    self._show_toast(_("Redo"))
+                    self._show_toast(_("Refazer"))
                     return
             
             # Fallback: Try Ctrl+Shift+Z key simulation
@@ -802,7 +849,7 @@ class MainWindow(Adw.ApplicationWindow):
             except:
                 pass
         
-        self._show_toast(_("Nothing to redo"))
+        self._show_toast(_("Nada para refazer"))
 
     # Event handlers
     def _on_create_project_from_welcome(self, widget, template_name):
@@ -861,7 +908,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.current_project.move_paragraph(dragged_id, new_position)
         self._refresh_paragraphs()
         self._update_header_for_view("editor")
-        self._show_toast(_("Paragraph reordered"))
+        self._show_toast(_("Parágrafo reordenado"))
 
     def _on_close_request(self, window):
         """Handle window close request"""
@@ -909,7 +956,7 @@ class MainWindow(Adw.ApplicationWindow):
     def _action_insert_image(self, action, param):
         """Handle insert image action"""
         if not self.current_project:
-            self._show_toast(_("No project open"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Nenhum projeto aberto"), Adw.ToastPriority.HIGH)
             return
         
         # Get current position (insert at end by default)
@@ -951,11 +998,11 @@ class MainWindow(Adw.ApplicationWindow):
     def show_open_project_dialog(self):
         """Show open project dialog"""
         file_chooser = Gtk.FileChooserNative.new(
-            _("Open Project"),
+            _("Abrir Projeto"),
             self,
             Gtk.FileChooserAction.OPEN,
-            _("Open"),
-            _("Cancel")
+            _("Abrir"),
+            _("Cancelar")
         )
 
         projects_dir = self.project_manager.projects_dir
@@ -963,12 +1010,12 @@ class MainWindow(Adw.ApplicationWindow):
             file_chooser.set_current_folder(Gio.File.new_for_path(str(projects_dir)))
 
         filter_json = Gtk.FileFilter()
-        filter_json.set_name(_("TAC Projects (*.json)"))
+        filter_json.set_name(_("Projetos TAC (*.json)"))
         filter_json.add_pattern("*.json")
         file_chooser.add_filter(filter_json)
 
         filter_all = Gtk.FileFilter()
-        filter_all.set_name(_("All Files"))
+        filter_all.set_name(_("Todos os Arquivos"))
         filter_all.add_pattern("*")
         file_chooser.add_filter(filter_all)
 
@@ -982,9 +1029,9 @@ class MainWindow(Adw.ApplicationWindow):
                         self.current_project = project
                         self._show_editor_view()
                         self.project_list.refresh_projects()
-                        self._show_toast(_("Opened project: {}").format(project.name))
+                        self._show_toast(_("Projeto aberto: {}").format(project.name))
                     else:
-                        self._show_toast(_("Failed to open project"), Adw.ToastPriority.HIGH)
+                        self._show_toast(_("Falha ao abrir projeto"), Adw.ToastPriority.HIGH)
             dialog.destroy()
 
         file_chooser.connect('response', on_response)
@@ -997,11 +1044,11 @@ class MainWindow(Adw.ApplicationWindow):
 
         success = self.project_manager.save_project(self.current_project)
         if success:
-            self._show_toast(_("Project saved successfully"))
+            self._show_toast(_("Projeto salvo com sucesso"))
             self.project_list.refresh_projects()
             self.config.add_recent_project(self.current_project.id)
         else:
-            self._show_toast(_("Failed to save project"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Falha ao salvar projeto"), Adw.ToastPriority.HIGH)
 
         return success
     
@@ -1048,14 +1095,14 @@ class MainWindow(Adw.ApplicationWindow):
             self._update_header_for_view("editor")
         else:
             # Only show toast on failure
-            self._show_toast(_("Auto-save failed"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Salvamento automático falhou"), Adw.ToastPriority.HIGH)
         
         return False  # Don't repeat the timeout
 
     def show_export_dialog(self):
         """Show export dialog"""
         if not self.current_project:
-            self._show_toast(_("No project to export"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Nenhum projeto para exportar"), Adw.ToastPriority.HIGH)
             return
 
         dialog = ExportDialog(self, self.current_project, self.export_service)
@@ -1108,7 +1155,7 @@ class MainWindow(Adw.ApplicationWindow):
         self._show_welcome_view()
         
         # Show success toast
-        self._show_toast(_("Database imported successfully"), Adw.ToastPriority.HIGH)
+        self._show_toast(_("Banco de dados importado com sucesso"), Adw.ToastPriority.HIGH)
 
     def _load_project(self, project_id: str):
         """Load a project by ID"""
@@ -1144,7 +1191,7 @@ class MainWindow(Adw.ApplicationWindow):
         self._show_editor_view()
 
         self.project_list.refresh_projects()
-        self._show_toast(_("Created project: {}").format(project.name))
+        self._show_toast(_("Projeto criado: {}").format(project.name))
 
         # Show popover pointing to add button (only for first-time users)
         if self.config.get('show_post_creation_tip', True):
@@ -1176,7 +1223,7 @@ class MainWindow(Adw.ApplicationWindow):
         content_box.append(message_label)
 
         # Got it button
-        got_it_button = Gtk.Button.new_with_label(_("Got it!"))
+        got_it_button = Gtk.Button.new_with_label(_("Entendi!"))
         got_it_button.add_css_class("suggested-action")
         got_it_button.set_halign(Gtk.Align.CENTER)
 
@@ -1232,20 +1279,20 @@ class MainWindow(Adw.ApplicationWindow):
                 self._update_header_for_view("editor")
                 
                 # Show success message
-                self._show_toast(_("Image inserted successfully"))
+                self._show_toast(_("Imagem inserida com sucesso"))
                 
                 # Update statistics
                 current_stats = self.current_project.get_statistics()
                 self.project_list.update_project_statistics(self.current_project.id, current_stats)
             else:
-                self._show_toast(_("Failed to save project"), Adw.ToastPriority.HIGH)
+                self._show_toast(_("Falha ao salvar projeto"), Adw.ToastPriority.HIGH)
         
         except Exception as e:
             print(f"Error adding image: {e}")
             import traceback
             traceback.print_exc()
             
-            self._show_toast(_("Error inserting image"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Erro ao inserir imagem"), Adw.ToastPriority.HIGH)
 
     def _show_toast(self, message: str, priority=Adw.ToastPriority.NORMAL):
         """Show a toast notification"""
@@ -1260,7 +1307,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         if not self.config.get_ai_assistant_enabled():
             self._show_toast(
-                _("Enable the AI assistant in Preferences ▸ AI Assistant."),
+                _("Habilite o assistente de IA em Preferências ▸ Assistente de IA."),
                 Adw.ToastPriority.HIGH,
             )
             return
@@ -1268,12 +1315,12 @@ class MainWindow(Adw.ApplicationWindow):
         missing = self.ai_assistant.missing_configuration()
         if missing:
             labels = {
-                "provider": _("Provider"),
+                "provider": _("Provedor"),
                 "api_key": _("API key"),
             }
             readable = ", ".join(labels.get(item, item) for item in missing)
             self._show_toast(
-                _("Configure {items} in Preferences ▸ AI Assistant.").format(
+                _("Configure {items} em Preferências ▸ Assistente de IA.").format(
                     items=readable
                 ),
                 Adw.ToastPriority.HIGH,
@@ -1286,7 +1333,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Open selection window
     def _on_ai_pdf_clicked(self, btn):
         if not self.config.get_ai_assistant_enabled():
-            self._show_toast(_("Enable AI in Preferences. API key is required. Read Wiki if there is any doubt."), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Habilite IA em Preferências. Chave de API necessária. Leia a Wiki em caso de dúvida."), Adw.ToastPriority.HIGH)
             return
 
         from ui.dialogs import AiPdfDialog
@@ -1310,12 +1357,12 @@ class MainWindow(Adw.ApplicationWindow):
             end_iter = buffer.get_end_iter()
             text = buffer.get_text(start_iter, end_iter, True).strip()
             if not text:
-                self._show_toast(_("Please enter a question for the assistant."))
+                self._show_toast(_("Por favor digite uma pergunta para o assistente."))
                 return False
 
             context_value = context_text if include_context_switch.get_active() else None
             if self.ai_assistant.request_assistance(text, context_value):
-                self._show_toast(_("The AI assistant is processing your request..."))
+                self._show_toast(_("O assistente de IA está processando sua solicitação..."))
                 return True
             return False
 
@@ -1348,11 +1395,11 @@ class MainWindow(Adw.ApplicationWindow):
     ) -> None:
         dialog = Adw.MessageDialog(
             transient_for=self,
-            heading=_("AI Assistant"),
-            body=_("Here is the assistant's suggestion."),
+            heading=_("Assistente de IA"),
+            body=_("Aqui está a sugestão do assistente."),
             close_response="close",
         )
-        dialog.add_response("close", _("Close"))
+        dialog.add_response("close", _("Fechar"))
         dialog.set_default_response("close")
         dialog.set_default_size(820, 640)
 
@@ -1381,7 +1428,7 @@ class MainWindow(Adw.ApplicationWindow):
             content_box.append(frame)
             return inner
 
-        reply_box = add_section(_("Response"))
+        reply_box = add_section(_("Resposta"))
         reply_view = Gtk.TextView(
             editable=False,
             cursor_visible=False,
@@ -1399,17 +1446,17 @@ class MainWindow(Adw.ApplicationWindow):
         actions_row = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         actions_row.set_halign(Gtk.Align.START)
 
-        copy_button = Gtk.Button(label=_("Copy to clipboard"))
+        copy_button = Gtk.Button(label=_("Copiar para área de transferência"))
         copy_button.connect("clicked", lambda *_a: self._copy_to_clipboard(reply))
         actions_row.append(copy_button)
 
-        insert_button = Gtk.Button(label=_("Insert at cursor"))
+        insert_button = Gtk.Button(label=_("Inserir no cursor"))
         insert_button.connect("clicked", lambda *_a: self._insert_text_into_editor(reply))
         actions_row.append(insert_button)
 
         reply_box.append(actions_row)
 
-        apply_button = Gtk.Button(label=_("Apply correction"))
+        apply_button = Gtk.Button(label=_("Aplicar correção"))
         apply_button.add_css_class("suggested-action")
         apply_button.set_sensitive(self._ai_context_target is not None)
         apply_button.connect(
@@ -1419,7 +1466,7 @@ class MainWindow(Adw.ApplicationWindow):
         actions_row.append(apply_button)
 
         if suggestions:
-            suggestions_box = add_section(_("Additional suggestions"))
+            suggestions_box = add_section(_("Sugestões adicionais"))
             suggestions_box.add_css_class("card")
             for suggestion in suggestions:
                 text = suggestion.get("text", "").strip()
@@ -1467,20 +1514,20 @@ class MainWindow(Adw.ApplicationWindow):
             return
         clipboard = display.get_clipboard()
         clipboard.set(text)
-        self._show_toast(_("Copied to clipboard."))
+        self._show_toast(_("Copiado para a área de transferência."))
 
     def _insert_text_into_editor(self, text: str) -> bool:
         text_view = self._get_focused_text_view()
         if not text_view:
             self._show_toast(
-                _("Place the cursor inside a paragraph to insert the text."),
+                _("Posicione o cursor dentro de um parágrafo para inserir o texto."),
                 Adw.ToastPriority.HIGH,
             )
             return False
 
         cleaned = self._extract_ai_output(text)
         if not cleaned:
-            self._show_toast(_("Nothing to insert."))
+            self._show_toast(_("Nada para inserir."))
             return False
 
         buffer = text_view.get_buffer()
@@ -1491,27 +1538,27 @@ class MainWindow(Adw.ApplicationWindow):
         insert_mark = buffer.get_insert()
         iter_ = buffer.get_iter_at_mark(insert_mark)
         buffer.insert(iter_, cleaned + "\n\n")
-        self._show_toast(_("Text inserted into the document."))
+        self._show_toast(_("Texto inserido no documento."))
         return True
 
     def _apply_ai_correction(self, text: str) -> None:
         target = getattr(self, "_ai_context_target", None)
         if not target:
             self._show_toast(
-                _("No paragraph context available. Try inserting at the cursor."),
+                _("Sem contexto de parágrafo disponível. Tente inserir no cursor."),
                 Adw.ToastPriority.HIGH,
             )
             return
 
         cleaned = self._extract_ai_output(text)
         if not cleaned:
-            self._show_toast(_("Nothing to insert."))
+            self._show_toast(_("Nada para inserir."))
             return
 
         text_view = target.get("text_view")
         if not text_view:
             self._show_toast(
-                _("Could not determine the original paragraph."),
+                _("Não foi possível determinar o parágrafo original."),
                 Adw.ToastPriority.HIGH,
             )
             return
@@ -1525,7 +1572,7 @@ class MainWindow(Adw.ApplicationWindow):
         buffer.insert(start_iter, cleaned + "\n\n")
         buffer.end_user_action()
 
-        self._show_toast(_("Paragraph updated with AI suggestion."))
+        self._show_toast(_("Parágrafo atualizado com sugestão da IA."))
         self._ai_context_target = None
 
     def _extract_ai_output(self, text: str) -> str:
@@ -1603,14 +1650,14 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _on_search_activate(self, entry: Gtk.SearchEntry):
         if not self.search_query:
-            self._show_toast(_("Enter text to search."))
+            self._show_toast(_("Digite o texto para pesquisar."))
             return
         if not self._find_next_occurrence(restart=True):
-            self._show_toast(_("No matches found."))
+            self._show_toast(_("Nenhuma correspondência encontrada."))
 
     def _on_search_next_clicked(self, _button: Gtk.Button):
         if not self.search_query:
-            self._show_toast(_("Enter text to search."))
+            self._show_toast(_("Digite o texto para pesquisar."))
             return
         self._find_next_occurrence(restart=False)
 
@@ -1621,7 +1668,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         textviews = self._get_paragraph_textviews()
         if not textviews:
-            self._show_toast(_("No editable paragraphs available."))
+            self._show_toast(_("Nenhum parágrafo editável disponível."))
             return False
 
         query_fold = query.casefold()
@@ -1645,7 +1692,7 @@ class MainWindow(Adw.ApplicationWindow):
                 return True
             restart = False
 
-        self._show_toast(_("Reached the end of the document."))
+        self._show_toast(_("Fim do documento alcançado."))
         self._reset_search_state()
         return False
 
@@ -1691,7 +1738,7 @@ class MainWindow(Adw.ApplicationWindow):
         title_widget = self.header_bar.get_title_widget()
         if view_name == "welcome":
             title_widget.set_title("TAC")
-            title_widget.set_subtitle(_("Continuous Argumentation Technique"))
+            title_widget.set_subtitle(_("Técnica de Argumentação Continuada"))
             self.save_button.set_sensitive(False)
             self.pomodoro_button.set_sensitive(False)
 
@@ -1721,7 +1768,7 @@ class MainWindow(Adw.ApplicationWindow):
             loading_box.append(self.loading_spinner)
             
             loading_label = Gtk.Label()
-            loading_label.set_text(_("Loading project..."))
+            loading_label.set_text(_("Carregando projeto..."))
             loading_label.add_css_class("dim-label")
             loading_box.append(loading_label)
             
@@ -1738,7 +1785,7 @@ class MainWindow(Adw.ApplicationWindow):
             self.loading_spinner.stop()
         
         if error:
-            self._show_toast(_("Failed to open project: {}").format(error), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Falha ao abrir projeto: {}").format(error), Adw.ToastPriority.HIGH)
             self._show_welcome_view()
             return False
         
@@ -1746,9 +1793,9 @@ class MainWindow(Adw.ApplicationWindow):
             self.current_project = project
             # Show editor optimized
             self._show_editor_view_optimized()
-            self._show_toast(_("Opened project: {}").format(project.name))
+            self._show_toast(_("Projeto aberto: {}").format(project.name))
         else:
-            self._show_toast(_("Failed to open project"), Adw.ToastPriority.HIGH)
+            self._show_toast(_("Falha ao abrir projeto"), Adw.ToastPriority.HIGH)
             self._show_welcome_view()
         
         return False 
@@ -1785,10 +1832,10 @@ class MainWindow(Adw.ApplicationWindow):
         # Isso é melhor que o toast pois obriga o usuário a ler e fechar
         error_dialog = Adw.MessageDialog.new(
             self,
-            _("Analysis Failure"),
+            _("Falha na Análise"),
             error_message
         )
-        error_dialog.add_response("close", _("Close"))
+        error_dialog.add_response("close", _("Fechar"))
         error_dialog.set_response_appearance("close", Adw.ResponseAppearance.DESTRUCTIVE)
         error_dialog.set_default_response("close")
         error_dialog.set_close_response("close")
