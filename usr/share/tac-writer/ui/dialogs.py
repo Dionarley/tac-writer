@@ -1403,37 +1403,38 @@ class BackupManagerDialog(Adw.Window):
         return False
 
     def _on_import_database(self, button):
-        """Handle import database button"""
-        file_chooser = Gtk.FileChooserNative.new(
-            _("Import Database"),
-            self,
-            Gtk.FileChooserAction.OPEN,
-            _("Import"),
-            _("Cancel")
-        )
-
-        # Set filter for database files
+        """Handle import database button using Gtk.FileDialog"""
+        # Criar filtros usando Gio.ListStore (padrão novo)
+        filters = Gio.ListStore.new(Gtk.FileFilter)
+        
         filter_db = Gtk.FileFilter()
         filter_db.set_name(_("Database files (*.db)"))
         filter_db.add_pattern("*.db")
-        file_chooser.add_filter(filter_db)
+        filters.append(filter_db)
 
         filter_all = Gtk.FileFilter()
         filter_all.set_name(_("All files"))
         filter_all.add_pattern("*")
-        file_chooser.add_filter(filter_all)
+        filters.append(filter_all)
 
-        file_chooser.connect('response', self._on_import_file_selected)
-        file_chooser.show()
+        dialog = Gtk.FileDialog()
+        dialog.set_title(_("Import Database"))
+        dialog.set_filters(filters)
+        dialog.set_default_filter(filter_db)
+        
+        # Abre o diálogo e define o callback
+        dialog.open(self, None, self._on_import_file_finish)
 
-    def _on_import_file_selected(self, dialog, response):
-        """Handle file selection for import"""
-        if response == Gtk.ResponseType.ACCEPT:
-            file = dialog.get_file()
+    def _on_import_file_finish(self, dialog, result):
+        """Callback for file selection"""
+        try:
+            file = dialog.open_finish(result)
             if file:
                 backup_path = Path(file.get_path())
                 self._confirm_import(backup_path)
-        dialog.destroy()
+        except GLib.Error as e:
+            # Ocorre se o usuário cancelar
+            print(f"File selection cancelled or error: {e}")
 
     def _on_restore_backup(self, backup):
         """Handle restore backup button"""

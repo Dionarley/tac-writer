@@ -1,0 +1,3210 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the tac-writer package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: tac-writer\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: attranslate\n"
+
+#
+# File: usr/share/tac-writer/main.py, line: 42
+#: usr/share/tac-writer/main.py:42
+msgid ""
+"Please install: python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adwaita-1"
+msgstr ""
+"Kérjük, telepítse: python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-"
+"adwaita-1"
+
+#
+# File: usr/share/tac-writer/main.py, line: 50
+#: usr/share/tac-writer/main.py:50
+msgid "Error: GTK 4.0 or higher is required"
+msgstr "Hiba: A GTK 4.0 vagy újabb verzió szükséges"
+
+#
+# File: usr/share/tac-writer/main.py, line: 41
+#: usr/share/tac-writer/main.py:41
+msgid "Error: Required dependencies not found: {}"
+msgstr "Hiba: A szükséges függőségek nem találhatók: {}"
+
+#
+# File: usr/share/tac-writer/main.py, line: 73
+#: usr/share/tac-writer/main.py:73
+msgid "Application interrupted by user."
+msgstr "Alkalmazás megszakítva a felhasználó által."
+
+#
+# File: usr/share/tac-writer/main.py, line: 55
+#: usr/share/tac-writer/main.py:55
+msgid "Error checking dependencies: {}"
+msgstr "Hibaellenőrzési függőségek: {}"
+
+#
+# File: usr/share/tac-writer/main.py, line: 76
+#: usr/share/tac-writer/main.py:76
+msgid "Critical error during startup: {}"
+msgstr "Kritikus hiba a rendszerindítás során: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 210
+#: usr/share/tac-writer/application.py:206
+msgid "PyGTKSpellcheck not installed - disabling spell checking"
+msgstr "A PyGTKSpellcheck nincs telepítve - a helyesírás-ellenőrzés letiltva"
+
+#
+# File: usr/share/tac-writer/application.py, line: 216
+#: usr/share/tac-writer/application.py:211
+msgid "Enchant backend not available - disabling spell checking"
+msgstr "Az Enchant háttér nem elérhető - a helyesírás-ellenőrzés letiltása"
+
+#
+# File: usr/share/tac-writer/application.py, line: 520
+#: usr/share/tac-writer/application.py:577
+msgid "No config available for spell check debug"
+msgstr "Nincs elérhető konfiguráció a helyesírás-ellenőrzés hibakereséséhez"
+
+#
+# File: usr/share/tac-writer/application.py, line: 253
+#: usr/share/tac-writer/application.py:256
+msgid "No spell check dictionaries found - disabling spell checking"
+msgstr "Nincs helyesírás-ellenőrző szótár - a helyesírás-ellenőrzés letiltva"
+
+#
+# File: usr/share/tac-writer/application.py, line: 295
+#: usr/share/tac-writer/application.py:329
+msgid "Main window presented"
+msgstr "Főablak megjelenítve"
+
+#
+# File: usr/share/tac-writer/application.py, line: 508
+#: usr/share/tac-writer/application.py:565
+msgid "Application shutdown complete"
+msgstr "Alkalmazás leállítása befejeződött"
+
+#
+# File: usr/share/tac-writer/application.py, line: 291
+#: usr/share/tac-writer/application.py:325
+msgid "Main window created"
+msgstr "Főablak létrehozva"
+
+#
+# File: usr/share/tac-writer/application.py, line: 502
+#: usr/share/tac-writer/application.py:559
+msgid "Configuration saved"
+msgstr "A konfiguráció mentve"
+
+#
+# File: usr/share/tac-writer/application.py, line: 258
+#: usr/share/tac-writer/application.py:262
+msgid "Import error while checking spell dependencies: {}"
+msgstr "Import hiba a varázslat függőségek ellenőrzése közben: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 262
+#: usr/share/tac-writer/application.py:265
+msgid "Unexpected error checking spell dependencies: {}"
+msgstr "Váratlan hiba a varázslatok függőségeinek ellenőrzésekor: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 278
+#: usr/share/tac-writer/application.py:312
+msgid "Error during application startup: {}: {}"
+msgstr "Hiba az alkalmazás indításakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 298
+#: usr/share/tac-writer/application.py:332
+msgid "Error activating application: {}: {}"
+msgstr "Hiba az alkalmazás aktiválásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 320
+#: usr/share/tac-writer/application.py:355
+msgid "Error setting up actions: {}: {}"
+msgstr "Hiba az akciók beállításakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 343
+#: usr/share/tac-writer/application.py:379
+msgid "Error setting up menu: {}: {}"
+msgstr "Hiba a menü beállításakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 436
+#: usr/share/tac-writer/application.py:485
+msgid "Error setting up theme: {}: {}"
+msgstr "Hiba a téma beállításakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 446
+#: usr/share/tac-writer/application.py:495
+msgid "Error showing new project dialog: {}: {}"
+msgstr "Hiba a új projekt párbeszédablak megjelenítésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 454
+#: usr/share/tac-writer/application.py:503
+msgid "Error showing open project dialog: {}: {}"
+msgstr "Hiba a megnyitott projekt párbeszédablak megjelenítésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 462
+#: usr/share/tac-writer/application.py:511
+msgid "Error saving project: {}: {}"
+msgstr "Hiba a projekt mentésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 470
+#: usr/share/tac-writer/application.py:519
+msgid "Error showing export dialog: {}: {}"
+msgstr "Hiba az exportálási párbeszédpanel megjelenítésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 478
+#: usr/share/tac-writer/application.py:527
+msgid "Error showing preferences dialog: {}: {}"
+msgstr "Hiba a beállítások párbeszédpanel megjelenítésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 486
+#: usr/share/tac-writer/application.py:535
+msgid "Error showing about dialog: {}: {}"
+msgstr "Hiba a névjegy párbeszédablak megjelenítésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 583
+#: usr/share/tac-writer/application.py:543
+msgid "Error opening AI assistant: {}: {}"
+msgstr "Hiba az AI asszisztens megnyitásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 493
+#: usr/share/tac-writer/application.py:550
+msgid "Error quitting application: {}: {}"
+msgstr "Hiba az alkalmazás bezárásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 511
+#: usr/share/tac-writer/application.py:568
+msgid "Error during shutdown: {}: {}"
+msgstr "Hiba a leállítás során: {}: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 285
+#: usr/share/tac-writer/application.py:290
+msgid "Custom icons loaded with priority: {}"
+msgstr "Egyedi ikonok betöltve prioritással: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 289
+#: usr/share/tac-writer/application.py:294
+msgid "Warning: Could not setup icon theme: {}"
+msgstr "Figyelmeztetés: Nem sikerült beállítani az ikon témát: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 433
+#: usr/share/tac-writer/application.py:482
+msgid "Could not apply CSS: {}"
+msgstr "Nem sikerült alkalmazni a CSS-t: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 127
+#: usr/share/tac-writer/application.py:127
+msgid "Warning: Could not set system locale: {}"
+msgstr ""
+"Figyelmeztetés: Nem sikerült beállítani a rendszer nyelvi környezetét: {}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 233
+#: usr/share/tac-writer/core/ai_assistant.py:218
+msgid "Gemini did not return any usable content."
+msgstr "A Gemini nem adott vissza használható tartalmat."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 422
+#: usr/share/tac-writer/core/ai_assistant.py:407
+msgid "Unknown error."
+msgstr "Ismeretlen hiba."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 111
+#: usr/share/tac-writer/core/ai_assistant.py:117
+msgid "Select an AI provider in Preferences ▸ AI Assistant."
+msgstr ""
+"Válasszon egy AI szolgáltatót a Beállítások ▸ AI Asszisztens menüpontban."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 141
+#: usr/share/tac-writer/core/ai_assistant.py:144
+msgid "Revise o texto a seguir e responda apenas com a versão corrigida."
+msgstr ""
+"Javítsa ki az alábbi szöveget, és válaszoljon csak a javított verzióval."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 186
+#: usr/share/tac-writer/core/ai_assistant.py:171
+msgid "Configure the Gemini API key in Preferences."
+msgstr "Állítsa be a Gemini API kulcsot a Beállításokban."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 240
+#: usr/share/tac-writer/core/ai_assistant.py:225
+msgid "Configure the OpenRouter API key in Preferences."
+msgstr "Állítsa be az OpenRouter API kulcsot a Beállításokban."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 278
+#: usr/share/tac-writer/core/ai_assistant.py:263
+msgid "The AI provider returned an empty response."
+msgstr "A mesterséges intelligencia szolgáltató üres választ adott vissza."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 290
+#: usr/share/tac-writer/core/ai_assistant.py:275
+msgid "The AI provider did not return any usable content."
+msgstr "Az AI szolgáltató nem adott vissza használható tartalmat."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 446
+#: usr/share/tac-writer/core/ai_assistant.py:431
+msgid "OpenRouter respondeu com HTTP {status}: {message}{detail}"
+msgstr "OpenRouter válasza: HTTP {status}: {message}{detail}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 472
+#: usr/share/tac-writer/core/ai_assistant.py:441
+msgid "Biblioteca pypdf não instalada."
+msgstr "A pypdf könyvtár nincs telepítve."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 67
+#: usr/share/tac-writer/core/ai_assistant.py:73
+msgid "The AI assistant is already processing another request."
+msgstr ""
+"A mesterséges intelligencia asszisztens már egy másik kérést dolgoz fel."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 150
+#: usr/share/tac-writer/core/ai_assistant.py:162
+msgid "Provider '{provider}' is not supported."
+msgstr "A '{provider}' szolgáltató nem támogatott."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 217
+#: usr/share/tac-writer/core/ai_assistant.py:202
+msgid "Gemini returned an invalid JSON response."
+msgstr "A Gemini érvénytelen JSON választ adott vissza."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 274
+#: usr/share/tac-writer/core/ai_assistant.py:259
+msgid "AI provider returned an invalid JSON response."
+msgstr "Az AI szolgáltató érvénytelen JSON választ adott vissza."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 426
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 432
+#: usr/share/tac-writer/core/ai_assistant.py:417
+msgid "OpenRouter respondeu com HTTP {status}: {message}"
+msgstr "OpenRouter válasza: HTTP {status}: {message}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 480
+#: usr/share/tac-writer/core/ai_assistant.py:449
+msgid "O assistente já está processando uma solicitação."
+msgstr "A segédprogram már feldolgozza a kérést."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 508
+#: usr/share/tac-writer/core/ai_assistant.py:476
+msgid "Não foi possível extrair texto do PDF (pode ser uma imagem ou vazio)."
+msgstr ""
+"Nem sikerült szöveget kinyerni a PDF-ből (lehet, hogy egy kép vagy üres)."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 130
+#: usr/share/tac-writer/core/ai_assistant.py:133
+msgid ""
+"Instrução do usuário:\n"
+"{instruction}\n"
+"\n"
+"Texto para revisão:\n"
+"{context}"
+msgstr ""
+"Felhasználói utasítás:\n"
+"{instruction}\n"
+"\n"
+"Felülvizsgálatra szánt szöveg:\n"
+"{context}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 137
+#: usr/share/tac-writer/core/ai_assistant.py:140
+msgid ""
+"Revise o texto a seguir, corrigindo apenas o necessário e mantendo o tom "
+"acadêmico:\n"
+"{context}"
+msgstr ""
+"Javítsa ki az alábbi szöveget, csak a szükséges módosításokat végezve, és "
+"megőrizve az akadémiai hangnemet:  \n"
+"{context}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 209
+#: usr/share/tac-writer/core/ai_assistant.py:194
+msgid "Gemini responded with HTTP {status}: {detail}"
+msgstr "A Gemini HTTP {status}: {detail} választ adott."
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 95
+#: usr/share/tac-writer/core/ai_assistant.py:101
+msgid "AI assistant error: {error}"
+msgstr "AI asszisztens hiba: {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 204
+#: usr/share/tac-writer/core/ai_assistant.py:189
+msgid "Failed to contact Gemini: {error}"
+msgstr "Nem sikerült kapcsolatba lépni a Gemini-val: {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 262
+#: usr/share/tac-writer/core/ai_assistant.py:247
+msgid "Failed to contact OpenRouter: {error}"
+msgstr "Nem sikerült kapcsolatba lépni az OpenRouter-rel: {error}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 556
+#: usr/share/tac-writer/core/ai_assistant.py:524
+msgid "Erro IA: {}"
+msgstr "Hiba IA: {}"
+
+#
+# File: usr/share/tac-writer/core/ai_assistant.py, line: 502
+#: usr/share/tac-writer/core/ai_assistant.py:473
+msgid "Erro ao ler PDF: {}"
+msgstr "Hiba a PDF olvasásakor: {}"
+
+#
+# File: usr/share/tac-writer/core/models.py, line: 440
+#: usr/share/tac-writer/core/models.py:535
+msgid "Academic Essay"
+msgstr "Akadémiai esszé"
+
+#
+# File: usr/share/tac-writer/core/models.py, line: 441
+#: usr/share/tac-writer/core/models.py:536
+msgid "Standard academic essay structure"
+msgstr "Szabványos akadémiai esszé struktúra"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 825
+#: usr/share/tac-writer/core/services.py:834
+msgid "Warning: ODT export not available (missing xml dependencies)"
+msgstr "Figyelem: ODT export nem elérhető (hiányzó xml függőségek)"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 827
+#: usr/share/tac-writer/core/services.py:836
+msgid "Warning: PDF export not available (missing reportlab)"
+msgstr "Figyelem: PDF exportálás nem elérhető (hiányzik a reportlab)"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 49
+#: usr/share/tac-writer/core/services.py:58
+msgid "ProjectManager initialized with database: {}"
+msgstr "A Projektmenedzser inicializálva a következő adatbázissal: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 136
+#: usr/share/tac-writer/core/services.py:145
+msgid "Migration aborted: Could not create backup"
+msgstr "A migráció megszakítva: Nem sikerült biztonsági másolatot készíteni"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 163
+#: usr/share/tac-writer/core/services.py:172
+msgid "No valid projects to migrate"
+msgstr "Nincsenek érvényes projektek a migráláshoz"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 479
+#: usr/share/tac-writer/core/services.py:488
+msgid "Database maintenance completed"
+msgstr "Az adatbázis karbantartása befejeződött"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 576
+#: usr/share/tac-writer/core/services.py:585
+msgid "Failed to save new project to database"
+msgstr "Nem sikerült elmenteni az új projektet az adatbázisba."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 762
+#: usr/share/tac-writer/core/services.py:771
+msgid "Invalid backup file"
+msgstr "Érvénytelen biztonsági másolat fájl"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 113
+#: usr/share/tac-writer/core/services.py:122
+msgid "Created migration backup: {}"
+msgstr "Létrehozva migrációs biztonsági másolat: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 131
+#: usr/share/tac-writer/core/services.py:140
+msgid "Found {} old JSON projects. Starting migration..."
+msgstr "Találtam {} régi JSON projektet. A migráció megkezdődött..."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 209
+#: usr/share/tac-writer/core/services.py:218
+msgid "Migration complete. {} projects successfully migrated."
+msgstr "Migráció befejezve. {} projekt sikeresen migrálva."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 342
+#: usr/share/tac-writer/core/services.py:351
+msgid "Database backup created: {}"
+msgstr "Adatbázis biztonsági másolat létrehozva: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 671
+#: usr/share/tac-writer/core/services.py:680
+msgid "Manual backup created: {}"
+msgstr "Kézi biztonsági mentés létrehozva: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1060
+# File: usr/share/tac-writer/core/services.py, line: 1557
+#: usr/share/tac-writer/core/services.py:1900
+msgid "Footnotes:"
+msgstr "Lábjegyzetek:"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 66
+#: usr/share/tac-writer/core/services.py:75
+msgid "Database connection error: {}"
+msgstr "Adatbázis kapcsolat hiba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 77
+#: usr/share/tac-writer/core/services.py:86
+msgid "Error checking project existence: {}"
+msgstr "Hiba a projekt létezésének ellenőrzésekor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 86
+#: usr/share/tac-writer/core/services.py:95
+msgid "Invalid project data: missing field '{}'"
+msgstr "Érvénytelen projektadatok: hiányzó mező '{}'"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 117
+#: usr/share/tac-writer/core/services.py:126
+msgid "Failed to create migration backup: {}"
+msgstr "Sikertelen migrációs biztonsági mentés létrehozása: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 160
+#: usr/share/tac-writer/core/services.py:169
+msgid "Warning: {} files have validation errors and will be skipped"
+msgstr ""
+"Figyelmeztetés: {} fájlok érvényességi hibákat tartalmaznak, és át lesznek "
+"ugrva"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 189
+#: usr/share/tac-writer/core/services.py:198
+msgid "Migration transaction committed successfully"
+msgstr "A migrációs tranzakció sikeresen befejeződött."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 270
+#: usr/share/tac-writer/core/services.py:279
+msgid "Database error saving project {}: {}"
+msgstr "Adatbázis hiba a projekt mentésekor {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 307
+#: usr/share/tac-writer/core/services.py:316
+msgid "Database connection error for project '{}': {}"
+msgstr "Adatbázis-kapcsolati hiba a(z) '{}' projekthez: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 310
+#: usr/share/tac-writer/core/services.py:319
+msgid "Unexpected error in save_project for '{}': {}: {}"
+msgstr "Váratlan hiba a save_project során a következőhöz: {}: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 346
+#: usr/share/tac-writer/core/services.py:355
+msgid "Warning: Database backup failed: {}"
+msgstr "Figyelmeztetés: Az adatbázis mentése nem sikerült: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 360
+#: usr/share/tac-writer/core/services.py:369
+msgid "Removed old backup: {}"
+msgstr "Régi biztonsági másolat eltávolítva: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 363
+#: usr/share/tac-writer/core/services.py:372
+msgid "Warning: Cleanup of old backups failed: {}"
+msgstr "Figyelmeztetés: A régi biztonsági mentések törlése nem sikerült: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 467
+#: usr/share/tac-writer/core/services.py:476
+msgid "Database error listing projects: {}"
+msgstr "Adatbázis hiba a projektek listázásakor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 469
+#: usr/share/tac-writer/core/services.py:478
+msgid "Unexpected error listing projects: {}: {}"
+msgstr "Váratlan hiba a projektek listázásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 481
+#: usr/share/tac-writer/core/services.py:490
+msgid "Database maintenance failed: {}"
+msgstr "Az adatbázis karbantartása meghiúsult: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 510
+#: usr/share/tac-writer/core/services.py:519
+msgid "error: {}"
+msgstr "hiba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 517
+#: usr/share/tac-writer/core/services.py:526
+msgid "unexpected error: {}"
+msgstr "váratlan hiba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 561
+#: usr/share/tac-writer/core/services.py:570
+msgid "Database initialization error: {}"
+msgstr "Adatbázis inicializálási hiba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 573
+#: usr/share/tac-writer/core/services.py:582
+msgid "Created project: {} ({})"
+msgstr "Létrehozott projekt: {} ({})"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 578
+#: usr/share/tac-writer/core/services.py:587
+msgid "Error creating project: {}: {}"
+msgstr "Hiba a projekt létrehozásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 620
+#: usr/share/tac-writer/core/services.py:629
+msgid "Loaded project from database: {}"
+msgstr "Betöltött projekt az adatbázisból: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 624
+#: usr/share/tac-writer/core/services.py:633
+msgid "Database error loading project: {}"
+msgstr "Adatbázis hiba a projekt betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 627
+#: usr/share/tac-writer/core/services.py:636
+msgid "Data error loading project: {}: {}"
+msgstr "Adat hiba a projekt betöltésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 630
+#: usr/share/tac-writer/core/services.py:639
+msgid "Unexpected error loading project: {}: {}"
+msgstr "Váratlan hiba a projekt betöltésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 643
+#: usr/share/tac-writer/core/services.py:652
+msgid "Deleted project from database: {}"
+msgstr "Törölt projekt az adatbázisból: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 646
+#: usr/share/tac-writer/core/services.py:655
+msgid "Database error deleting project: {}"
+msgstr "Adatbázis hiba a projekt törlésekor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 675
+#: usr/share/tac-writer/core/services.py:684
+msgid "Error creating manual backup: {}"
+msgstr "Hiba a kézi biztonsági mentés létrehozásakor: {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1137
+# File: usr/share/tac-writer/core/services.py, line: 722
+#: usr/share/tac-writer/core/services.py:731
+msgid "Error listing backups: {}"
+msgstr "Hiba a biztonsági másolatok listázásakor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 754
+#: usr/share/tac-writer/core/services.py:763
+msgid "Backup validation error: {}"
+msgstr "Biztonsági másolat érvényesítési hiba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 771
+#: usr/share/tac-writer/core/services.py:780
+msgid "Current database backed up to: {}"
+msgstr "Jelenlegi adatbázis mentve ide: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 790
+#: usr/share/tac-writer/core/services.py:799
+msgid "Import failed, restored previous database"
+msgstr "Importálás sikertelen, a korábbi adatbázis visszaállítva."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 794
+#: usr/share/tac-writer/core/services.py:803
+msgid "Error importing database: {}: {}"
+msgstr "Hiba az adatbázis importálásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 804
+#: usr/share/tac-writer/core/services.py:813
+msgid "Deleted backup: {}"
+msgstr "Törölt biztonsági másolat: {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1406
+# File: usr/share/tac-writer/core/services.py, line: 808
+#: usr/share/tac-writer/core/services.py:817
+msgid "Error deleting backup: {}"
+msgstr "Hiba a biztonsági másolat törlésekor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1018
+#: usr/share/tac-writer/core/services.py:1062
+msgid "Error exporting project: {}: {}"
+msgstr "Hiba a projekt exportálásakor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1067
+#: usr/share/tac-writer/core/services.py:1124
+msgid "File error exporting to TXT: {}"
+msgstr "Fájl hiba a TXT-be való exportáláskor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1070
+#: usr/share/tac-writer/core/services.py:1127
+msgid "Unexpected error exporting to TXT: {}: {}"
+msgstr "Váratlan hiba a TXT-be történő exportáláskor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1124
+#: usr/share/tac-writer/core/services.py:1196
+msgid "File error exporting to ODT: {}"
+msgstr "Fájl hiba az ODT-be történő exportáláskor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1127
+#: usr/share/tac-writer/core/services.py:1199
+msgid "Unexpected error exporting to ODT: {}: {}"
+msgstr "Váratlan hiba az ODT-be való exportáláskor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1567
+#: usr/share/tac-writer/core/services.py:1912
+msgid "File error exporting to PDF: {}"
+msgstr "Fájl hiba a PDF-be való exportáláskor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1570
+#: usr/share/tac-writer/core/services.py:1915
+msgid "Unexpected error exporting to PDF: {}: {}"
+msgstr "Váratlan hiba a PDF-be való exportáláskor: {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 206
+#: usr/share/tac-writer/core/services.py:215
+msgid "Migration failed with database error: {}"
+msgstr "A migráció meghiúsult adatbázis hiba miatt: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 222
+#: usr/share/tac-writer/core/services.py:231
+msgid "JSON serialization error for project {}: {}"
+msgstr "JSON sorosítási hiba a(z) {} projekthez: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 591
+#: usr/share/tac-writer/core/services.py:600
+msgid "Project with ID {} not found in database."
+msgstr "A(z) {} azonosítójú projekt nem található az adatbázisban."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 782
+#: usr/share/tac-writer/core/services.py:791
+msgid "Successfully imported database with {} projects"
+msgstr "Sikeresen importált adatbázis {} projekttel."
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 95
+#: usr/share/tac-writer/core/services.py:104
+msgid "Invalid paragraph {}: missing field '{}'"
+msgstr "Érvénytelen bekezdés {}: hiányzó mező '{}'"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 156
+#: usr/share/tac-writer/core/services.py:165
+msgid "Error loading {}: {}"
+msgstr "Hiba a {} betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 252
+#: usr/share/tac-writer/core/services.py:261
+msgid "JSON serialization error for paragraph {}: {}"
+msgstr "JSON sorosítási hiba a(z) {} bekezdéshez: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 290
+#: usr/share/tac-writer/core/services.py:299
+msgid "Saved project to database: {}"
+msgstr "Mentett projekt az adatbázisba: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 294
+#: usr/share/tac-writer/core/services.py:303
+msgid "Failed to save project to database: {}"
+msgstr "A projekt mentése az adatbázisba nem sikerült: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 298
+#: usr/share/tac-writer/core/services.py:307
+msgid "Database error saving project '{}': {}"
+msgstr "Adatbázis hiba a projekt mentésekor '{}': {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 302
+#: usr/share/tac-writer/core/services.py:311
+msgid "Unexpected error saving project '{}': {}: {}"
+msgstr "Váratlan hiba a projekt mentésekor '{}': {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 715
+#: usr/share/tac-writer/core/services.py:724
+msgid "Error reading backup file {}: {}"
+msgstr "Hiba a biztonsági mentési fájl olvasásakor {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1014
+#: usr/share/tac-writer/core/services.py:1058
+msgid "Export format '{}' not available"
+msgstr "Az exportálási formátum '{}' nem elérhető"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 185
+#: usr/share/tac-writer/core/services.py:194
+msgid "Failed to migrate {} projects"
+msgstr "A {} projekt migrálása nem sikerült"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 202
+#: usr/share/tac-writer/core/services.py:211
+msgid "Migration failed, transaction rolled back: {}"
+msgstr "A migráció meghiúsult, a tranzakció visszagörgetve: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 197
+#: usr/share/tac-writer/core/services.py:206
+msgid "Warning: Could not rename {}: {}"
+msgstr "Figyelmeztetés: Nem sikerült átnevezni {}: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 1827
+#: usr/share/tac-writer/core/services.py:1890
+msgid "Error adding image to PDF: {}"
+msgstr "Hiba a kép PDF-hez való hozzáadásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 64
+#: usr/share/tac-writer/ui/main_window.py:84
+msgid "TAC - Continuous Argumentation Technique"
+msgstr "TAC - Folyamatos Érvelési Technika"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 108
+#: usr/share/tac-writer/ui/main_window.py:144
+msgid "New Project (Ctrl+N)"
+msgstr "Új projekt (Ctrl+N)"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 189
+# File: usr/share/tac-writer/ui/main_window.py, line: 115
+#: usr/share/tac-writer/ui/main_window.py:151
+msgid "Pomodoro Timer"
+msgstr "Pomodoro Időzítő"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 132
+#: usr/share/tac-writer/ui/main_window.py:160
+msgid "Main Menu"
+msgstr "Főmenü"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 123
+#: usr/share/tac-writer/ui/main_window.py:166
+msgid "Save Project (Ctrl+S)"
+msgstr "Projekt mentése (Ctrl+S)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 149
+#: usr/share/tac-writer/ui/main_window.py:175
+msgid "Ask AI Assistant (Ctrl+Shift+I)"
+msgstr "Kérdezd az AI Asszisztenst (Ctrl+Shift+I)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 165
+#: usr/share/tac-writer/ui/main_window.py:182
+msgid "Search..."
+msgstr "Keresés..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 172
+#: usr/share/tac-writer/ui/main_window.py:189
+msgid "Find next occurrence"
+msgstr "Következő előfordulás keresése"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 142
+#: usr/share/tac-writer/ui/main_window.py:204
+msgid "Export Project..."
+msgstr "Projekt exportálása..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 143
+#: usr/share/tac-writer/ui/main_window.py:205
+msgid "Backup Manager..."
+msgstr "Biztonsági mentés kezelő..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 148
+# File: usr/share/tac-writer/ui/main_window.py, line: 477
+#: usr/share/tac-writer/ui/main_window.py:210
+msgid "Undo"
+msgstr "Visszavonás"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 149
+# File: usr/share/tac-writer/ui/main_window.py, line: 497
+#: usr/share/tac-writer/ui/main_window.py:211
+msgid "Redo"
+msgstr "Újra végrehajtás"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 582
+# File: usr/share/tac-writer/ui/main_window.py, line: 154
+#: usr/share/tac-writer/ui/main_window.py:216
+msgid "Preferences"
+msgstr "Beállítások"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 159
+#: usr/share/tac-writer/ui/main_window.py:221
+msgid "Welcome Guide"
+msgstr "Üdvözlő Útmutató"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 210
+#: usr/share/tac-writer/ui/main_window.py:222
+msgid "Ask AI Assistant"
+msgstr "Kérdezd az AI Asszisztenst"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 160
+#: usr/share/tac-writer/ui/main_window.py:223
+msgid "About TAC"
+msgstr "A TAC-ról"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 192
+#: usr/share/tac-writer/ui/main_window.py:255
+msgid "Projects"
+msgstr "Projektek"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 322
+#: usr/share/tac-writer/ui/main_window.py:394
+msgid "Add Paragraph"
+msgstr "Bejegyzés hozzáadása"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1421
+# File: usr/share/tac-writer/ui/main_window.py, line: 357
+#: usr/share/tac-writer/ui/main_window.py:419
+msgid "Insert Image"
+msgstr "Kép beszúrása"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 409
+#: usr/share/tac-writer/ui/main_window.py:421
+msgid "Insert Image (Ctrl+Alt+I)"
+msgstr "Kép beszúrása (Ctrl+Alt+I)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 357
+#: usr/share/tac-writer/ui/main_window.py:439
+msgid "Go to beginning"
+msgstr "Ugrás a kezdethez"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 367
+#: usr/share/tac-writer/ui/main_window.py:449
+msgid "Go to end"
+msgstr "Ugrás a végére"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1609
+# File: usr/share/tac-writer/ui/main_window.py, line: 627
+#: usr/share/tac-writer/ui/main_window.py:627
+msgid "Edit Image"
+msgstr "Kép szerkesztése"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 565
+#: usr/share/tac-writer/ui/main_window.py:634
+msgid "Remove Image"
+msgstr "Kép eltávolítása"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 580
+#: usr/share/tac-writer/ui/main_window.py:649
+msgid "Remove Image?"
+msgstr "Kép eltávolítása?"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 581
+#: usr/share/tac-writer/ui/main_window.py:650
+msgid "Are you sure you want to remove this image from the document?"
+msgstr "Biztos benne, hogy el akarja távolítani ezt a képet a dokumentumból?"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 101
+# File: usr/share/tac-writer/ui/dialogs.py, line: 334
+# File: usr/share/tac-writer/ui/dialogs.py, line: 481
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1194
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1255
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1327
+# File: usr/share/tac-writer/ui/components.py, line: 880
+# File: usr/share/tac-writer/ui/components.py, line: 917
+# File: usr/share/tac-writer/ui/components.py, line: 1264
+# File: usr/share/tac-writer/ui/components.py, line: 1386
+# File: usr/share/tac-writer/ui/main_window.py, line: 618
+#: usr/share/tac-writer/ui/main_window.py:653
+msgid "Cancel"
+msgstr "Mégsem"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1265
+#: usr/share/tac-writer/ui/main_window.py:654
+msgid "Remove"
+msgstr "Eltávolítás"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 487
+#: usr/share/tac-writer/ui/main_window.py:785
+msgid "Nothing to undo"
+msgstr "Nincs mit visszavonni"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 507
+#: usr/share/tac-writer/ui/main_window.py:805
+msgid "Nothing to redo"
+msgstr "Nincs mit újra csinálni"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 563
+#: usr/share/tac-writer/ui/main_window.py:864
+msgid "Paragraph reordered"
+msgstr "Bekezdés átrendezve"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 614
+#: usr/share/tac-writer/ui/main_window.py:954
+msgid "Open Project"
+msgstr "Projekt megnyitása"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 617
+#: usr/share/tac-writer/ui/main_window.py:957
+msgid "Open"
+msgstr "Megnyitás"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 626
+#: usr/share/tac-writer/ui/main_window.py:966
+msgid "TAC Projects (*.json)"
+msgstr "TAC Projektek (*.json)"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 631
+#: usr/share/tac-writer/ui/main_window.py:971
+msgid "All Files"
+msgstr "Összes fájl"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 710
+#: usr/share/tac-writer/ui/main_window.py:1111
+msgid "Database imported successfully"
+msgstr "Az adatbázis sikeresen importálva."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1111
+#: usr/share/tac-writer/ui/main_window.py:1172
+msgid ""
+"Click here to start writing!\n"
+"\n"
+"Add paragraphs to build your text."
+msgstr ""
+"Kattints ide a kezdéshez! \n"
+"\n"
+"Adj hozzá bekezdéseket a szöveg felépítéséhez."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1118
+#: usr/share/tac-writer/ui/main_window.py:1179
+msgid "Got it!"
+msgstr "Rendben!"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1000
+#: usr/share/tac-writer/ui/main_window.py:1355
+msgid "Close"
+msgstr "Bezárás"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1413
+#: usr/share/tac-writer/ui/main_window.py:1384
+msgid "Response"
+msgstr "Válasz"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1507
+#: usr/share/tac-writer/ui/main_window.py:1470
+msgid "Copied to clipboard."
+msgstr "A vágólapra másolva."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1531
+#: usr/share/tac-writer/ui/main_window.py:1494
+msgid "Text inserted into the document."
+msgstr "Szöveg beillesztve a dokumentumba."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1572
+#: usr/share/tac-writer/ui/main_window.py:1528
+msgid "Paragraph updated with AI suggestion."
+msgstr "A bekezdés frissítve az AI javaslatával."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1598
+#: usr/share/tac-writer/ui/main_window.py:1648
+msgid "Reached the end of the document."
+msgstr "Elérte a dokumentum végét."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1638
+#: usr/share/tac-writer/ui/main_window.py:1788
+msgid "Analysis Failure"
+msgstr "Elemzés hiba"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1195
+# File: usr/share/tac-writer/ui/main_window.py, line: 329
+#: usr/share/tac-writer/ui/main_window.py:401
+msgid "Title 1"
+msgstr "Cím 1"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1196
+# File: usr/share/tac-writer/ui/main_window.py, line: 330
+#: usr/share/tac-writer/ui/main_window.py:402
+msgid "Title 2"
+msgstr "Cím 2"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1197
+# File: usr/share/tac-writer/ui/main_window.py, line: 331
+#: usr/share/tac-writer/ui/main_window.py:403
+msgid "Introduction"
+msgstr "Bevezetés"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1198
+# File: usr/share/tac-writer/ui/main_window.py, line: 332
+#: usr/share/tac-writer/ui/main_window.py:404
+msgid "Argument"
+msgstr "Argumentum"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1202
+# File: usr/share/tac-writer/ui/main_window.py, line: 332
+#: usr/share/tac-writer/ui/main_window.py:405
+msgid "Argument Resumption"
+msgstr "Argumentum folytatása"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1199
+# File: usr/share/tac-writer/ui/main_window.py, line: 333
+#: usr/share/tac-writer/ui/main_window.py:406
+msgid "Quote"
+msgstr "Idézet"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1204
+# File: usr/share/tac-writer/ui/main_window.py, line: 334
+#: usr/share/tac-writer/ui/main_window.py:407
+msgid "Epigraph"
+msgstr "Epigráf"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1200
+# File: usr/share/tac-writer/ui/main_window.py, line: 334
+#: usr/share/tac-writer/ui/main_window.py:408
+msgid "Conclusion"
+msgstr "Következtetés"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 728
+#: usr/share/tac-writer/ui/main_window.py:728
+msgid "Image updated"
+msgstr "Kép frissítve"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 789
+#: usr/share/tac-writer/ui/main_window.py:912
+msgid "No project open"
+msgstr "Nincs megnyitott projekt"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 660
+#: usr/share/tac-writer/ui/main_window.py:1000
+msgid "Project saved successfully"
+msgstr "A projekt sikeresen mentve."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 664
+#: usr/share/tac-writer/ui/main_window.py:1004
+msgid "Failed to save project"
+msgstr "A projekt mentése nem sikerült"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 730
+#: usr/share/tac-writer/ui/main_window.py:1051
+msgid "Auto-save failed"
+msgstr "Automatikus mentés sikertelen"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 671
+#: usr/share/tac-writer/ui/main_window.py:1058
+msgid "No project to export"
+msgstr "Nincs exportálható projekt"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1125
+#: usr/share/tac-writer/ui/main_window.py:1263
+msgid "Enable the AI assistant in Preferences ▸ AI Assistant."
+msgstr ""
+"Engedélyezze az AI asszisztenst a Beállítások ▸ AI Asszisztens menüpontban."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 736
+# File: usr/share/tac-writer/ui/main_window.py, line: 1133
+#: usr/share/tac-writer/ui/main_window.py:1271
+msgid "Provider"
+msgstr "Szolgáltató"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1134
+#: usr/share/tac-writer/ui/main_window.py:1272
+msgid "API key"
+msgstr "API kulcs"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1145
+#: usr/share/tac-writer/ui/main_window.py:1289
+msgid ""
+"Enable AI in Preferences. API key is required. Read Wiki if there is any "
+"doubt."
+msgstr ""
+"AI engedélyezése a Beállításokban. API kulcs szükséges. Olvassa el a "
+"Wikiben, ha kétségei vannak."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 717
+# File: usr/share/tac-writer/ui/main_window.py, line: 1380
+#: usr/share/tac-writer/ui/main_window.py:1351
+msgid "AI Assistant"
+msgstr "AI Asszisztens"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1381
+#: usr/share/tac-writer/ui/main_window.py:1352
+msgid "Here is the assistant's suggestion."
+msgstr "Itt van a segéd javaslata."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1431
+#: usr/share/tac-writer/ui/main_window.py:1402
+msgid "Copy to clipboard"
+msgstr "Másolás a vágólapra"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1450
+#: usr/share/tac-writer/ui/main_window.py:1406
+msgid "Insert at cursor"
+msgstr "Beszúrás a kurzornál"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1456
+#: usr/share/tac-writer/ui/main_window.py:1412
+msgid "Apply correction"
+msgstr "Javítás alkalmazása"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1443
+#: usr/share/tac-writer/ui/main_window.py:1422
+msgid "Additional suggestions"
+msgstr "További javaslatok"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1513
+#: usr/share/tac-writer/ui/main_window.py:1476
+msgid "Place the cursor inside a paragraph to insert the text."
+msgstr "Helyezze a kurzort egy bekezdésbe a szöveg beszúrásához."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1520
+#: usr/share/tac-writer/ui/main_window.py:1483
+msgid "Nothing to insert."
+msgstr "Nincs mit beszúrni."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1545
+#: usr/share/tac-writer/ui/main_window.py:1501
+msgid "No paragraph context available. Try inserting at the cursor."
+msgstr "Nincs bekezdéskörnyezet elérhető. Próbálja meg a kurzornál beszúrni."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1558
+#: usr/share/tac-writer/ui/main_window.py:1514
+msgid "Could not determine the original paragraph."
+msgstr "Nem sikerült meghatározni az eredeti bekezdést."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1556
+# File: usr/share/tac-writer/ui/main_window.py, line: 1563
+#: usr/share/tac-writer/ui/main_window.py:1606
+msgid "Enter text to search."
+msgstr "Írja be a keresendő szöveget."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1559
+#: usr/share/tac-writer/ui/main_window.py:1609
+msgid "No matches found."
+msgstr "Nincsenek találatok."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1574
+#: usr/share/tac-writer/ui/main_window.py:1624
+msgid "No editable paragraphs available."
+msgstr "Nincsenek szerkeszthető bekezdők."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 581
+# File: usr/share/tac-writer/ui/main_window.py, line: 777
+#: usr/share/tac-writer/ui/main_window.py:1694
+msgid "Continuous Argumentation Technique"
+msgstr "Folyamatos Érvelési Technika"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 807
+#: usr/share/tac-writer/ui/main_window.py:1724
+msgid "Loading project..."
+msgstr "Projekt betöltése..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 647
+# File: usr/share/tac-writer/ui/main_window.py, line: 834
+#: usr/share/tac-writer/ui/main_window.py:1751
+msgid "Failed to open project"
+msgstr "A projekt megnyitása nem sikerült"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 476
+#: usr/share/tac-writer/ui/main_window.py:538
+msgid "⚠️ Error: Invalid image data"
+msgstr "⚠️ Hiba: Érvénytelen képadat"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2013
+# File: usr/share/tac-writer/ui/main_window.py, line: 733
+#: usr/share/tac-writer/ui/main_window.py:733
+msgid "Error updating image"
+msgstr "Hiba a kép frissítésekor"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 746
+#: usr/share/tac-writer/ui/main_window.py:1147
+msgid "Created project: {}"
+msgstr "Létrehozott projekt: {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1043
+#: usr/share/tac-writer/ui/main_window.py:1235
+msgid "Image inserted successfully"
+msgstr "Kép sikeresen beillesztve"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1056
+#: usr/share/tac-writer/ui/main_window.py:1248
+msgid "Error inserting image"
+msgstr "Hiba a kép beszúrásakor"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1339
+#: usr/share/tac-writer/ui/main_window.py:1313
+msgid "Please enter a question for the assistant."
+msgstr "Kérjük, adjon meg egy kérdést a segéd számára."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1344
+#: usr/share/tac-writer/ui/main_window.py:1318
+msgid "The AI assistant is processing your request..."
+msgstr "A mesterséges intelligencia asszisztens feldolgozza a kérését..."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 603
+#: usr/share/tac-writer/ui/main_window.py:672
+msgid "Image removed"
+msgstr "Kép eltávolítva"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1138
+#: usr/share/tac-writer/ui/main_window.py:1276
+msgid "Configure {items} in Preferences ▸ AI Assistant."
+msgstr ""
+"Konfigurálja a {items} elemeket a Beállítások ▸ AI Asszisztens menüben."
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 824
+#: usr/share/tac-writer/ui/main_window.py:1741
+msgid "Failed to open project: {}"
+msgstr "A projekt megnyitása nem sikerült: {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 645
+# File: usr/share/tac-writer/ui/main_window.py, line: 832
+#: usr/share/tac-writer/ui/main_window.py:1749
+msgid "Opened project: {}"
+msgstr "Megnyitott projekt: {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 606
+#: usr/share/tac-writer/ui/main_window.py:675
+msgid "Error removing image"
+msgstr "Hiba a kép eltávolításakor"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 541
+#: usr/share/tac-writer/ui/main_window.py:603
+msgid "⚠️ Image not found: {}"
+msgstr "⚠️ Kép nem található: {}"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 549
+#: usr/share/tac-writer/ui/main_window.py:611
+msgid "⚠️ Error loading image: {}"
+msgstr "⚠️ Hiba a kép betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 228
+#: usr/share/tac-writer/ui/components.py:232
+msgid "Minimize"
+msgstr "Minimalizálás"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 588
+#: usr/share/tac-writer/ui/components.py:647
+msgid "Create structured academic texts with guided paragraph types"
+msgstr ""
+"Hozzon létre strukturált akadémiai szövegeket irányított bekezdéstípusokkal"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 600
+#: usr/share/tac-writer/ui/components.py:659
+msgid "How To Wiki"
+msgstr "Hogyan kell Wiki"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 604
+#: usr/share/tac-writer/ui/components.py:663
+msgid "Access the online documentation and tutorials"
+msgstr "Hozzáférés az online dokumentációhoz és oktatóanyagokhoz"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 627
+#: usr/share/tac-writer/ui/components.py:680
+msgid "Start Writing"
+msgstr "Kezdj el írni"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 628
+#: usr/share/tac-writer/ui/components.py:681
+msgid "Choose a template to get started"
+msgstr "Válasszon egy sablont a kezdéshez"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 687
+#: usr/share/tac-writer/ui/components.py:740
+msgid "Search projects..."
+msgstr "Keresés projektek..."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 781
+#: usr/share/tac-writer/ui/components.py:834
+msgid "Rename project"
+msgstr "Projekt átnevezése"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 790
+#: usr/share/tac-writer/ui/components.py:843
+msgid "Delete project"
+msgstr "Projekt törlése"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 863
+#: usr/share/tac-writer/ui/components.py:916
+msgid "Rename Project"
+msgstr "Projekt átnevezése"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 881
+#: usr/share/tac-writer/ui/components.py:934
+msgid "Rename"
+msgstr "Átnevezés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 914
+#: usr/share/tac-writer/ui/components.py:967
+msgid "This project will be moved to trash and can be recovered."
+msgstr "Ez a projekt a kukába lesz helyezve, és visszaállítható."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1328
+# File: usr/share/tac-writer/ui/components.py, line: 918
+#: usr/share/tac-writer/ui/components.py:971
+msgid "Delete"
+msgstr "Törlés"
+
+#: usr/share/tac-writer/ui/components.py:1157
+msgid "Bold"
+msgstr ""
+
+#: usr/share/tac-writer/ui/components.py:1164
+msgid "Italic"
+msgstr ""
+
+#: usr/share/tac-writer/ui/components.py:1171
+msgid "Underline"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1069
+#: usr/share/tac-writer/ui/components.py:1199
+msgid "Remove paragraph"
+msgstr "Bekezdés eltávolítása"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1202
+#: usr/share/tac-writer/ui/components.py:1476
+msgid "Paragraph"
+msgstr "Bekezdés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1260
+#: usr/share/tac-writer/ui/components.py:1536
+msgid "Remove Paragraph?"
+msgstr "Bejegyzés eltávolítása?"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1261
+#: usr/share/tac-writer/ui/components.py:1537
+msgid "This action cannot be undone."
+msgstr "Ez a művelet nem vonható vissza."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1364
+#: usr/share/tac-writer/ui/components.py:1672
+msgid "Manage Footnotes"
+msgstr "Lábjegyzetek kezelése"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1391
+#: usr/share/tac-writer/ui/components.py:1699
+msgid "Save"
+msgstr "Mentés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1408
+#: usr/share/tac-writer/ui/components.py:1716
+msgid ""
+"Add footnotes that will appear as numbered references in your paragraph:"
+msgstr ""
+"Helyezzen el lábjegyzeteket, amelyek számozott hivatkozásként fognak "
+"megjelenni a bekezdésében:"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1424
+#: usr/share/tac-writer/ui/components.py:1732
+msgid "Add Footnote"
+msgstr "Lábjegyzet hozzáadása"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1498
+#: usr/share/tac-writer/ui/components.py:1805
+msgid "Enter footnote text..."
+msgstr "Írja be a lábjegyzet szövegét..."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 281
+#: usr/share/tac-writer/ui/components.py:285
+msgid "Reset"
+msgstr "Visszaállítás"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 386
+#: usr/share/tac-writer/ui/components.py:393
+msgid "⏸ Pause"
+msgstr "⏸ Szünet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 390
+#: usr/share/tac-writer/ui/components.py:397
+msgid "▶ Start"
+msgstr "▶ Indítás"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 638
+#: usr/share/tac-writer/ui/components.py:691
+msgid "Start"
+msgstr "Kezdés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1044
+#: usr/share/tac-writer/ui/components.py:1130
+msgid "Manage footnotes"
+msgstr "Lábjegyzetek kezelése"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1053
+#: usr/share/tac-writer/ui/components.py:1183
+msgid "Toggle spell checking"
+msgstr "Helyesírás-ellenőrzés váltása"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1620
+#: usr/share/tac-writer/ui/components.py:1871
+msgid "Welcome to TAC Writer!"
+msgstr "Üdvözöljük a TAC Writer-ben!"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1621
+#: usr/share/tac-writer/ui/components.py:1872
+msgid ""
+"Let's take a quick tour. Click here to create your first project and start "
+"writing."
+msgstr ""
+"Tartsunk egy gyors túrát. Kattints ide az első projekted létrehozásához és a "
+"írás megkezdéséhez."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1626
+#: usr/share/tac-writer/ui/components.py:1877
+msgid "Project Library"
+msgstr "Projektkönyvtár"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1627
+#: usr/share/tac-writer/ui/components.py:1878
+msgid ""
+"All your projects are listed here. You can search, rename, or delete them at "
+"any time."
+msgstr ""
+"Itt található az összes projekted. Bármikor kereshetsz, átnevezhetsz vagy "
+"törölhetsz őket."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1633
+#: usr/share/tac-writer/ui/components.py:1884
+msgid ""
+"Stay focused with the built-in Pomodoro timer. Perfect for writing sessions!"
+msgstr ""
+"Maradj fókuszált a beépített Pomodoro időzítővel. Tökéletes írási ülésekhez!"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1639
+#: usr/share/tac-writer/ui/components.py:1890
+msgid ""
+"Use AI to revise your exported text. Configure in Preferences. Read wiki for "
+"guided configuration."
+msgstr ""
+"Használj mesterséges intelligenciát az exportált szöveg átdolgozásához. "
+"Állítsd be a Beállításokban. Olvasd el a wikit az útmutatott konfigurációhoz."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1644
+#: usr/share/tac-writer/ui/components.py:1895
+msgid "Save Your Work"
+msgstr "Mentse el a munkáját"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1645
+#: usr/share/tac-writer/ui/components.py:1896
+msgid ""
+"Don't worry! Auto-save is enabled by default, but you can also save manually "
+"here."
+msgstr ""
+"Ne aggódj! Az automatikus mentés alapértelmezés szerint engedélyezve van, de "
+"itt manuálisan is menthetsz."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1751
+#: usr/share/tac-writer/ui/components.py:2002
+msgid "Skip Tour"
+msgstr "Tour kihagyása"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1757
+#: usr/share/tac-writer/ui/components.py:2008
+msgid "Previous"
+msgstr "Előző"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1763
+#: usr/share/tac-writer/ui/components.py:2014
+msgid "Next"
+msgstr "Következő"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1767
+#: usr/share/tac-writer/ui/components.py:2018
+msgid "Finish"
+msgstr "Befejezés"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 170
+#: usr/share/tac-writer/ui/components.py:174
+msgid "Long Break"
+msgstr "Hosszú szünet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 176
+#: usr/share/tac-writer/ui/components.py:180
+msgid "Rest Time"
+msgstr "Pihenőidő"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 575
+#: usr/share/tac-writer/ui/components.py:634
+msgid "Welcome to TAC"
+msgstr "Üdvözöljük a TAC-nál"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 614
+#: usr/share/tac-writer/ui/components.py:673
+msgid "exporting to ODT might require some adjustment in your Office Suite."
+msgstr ""
+"Az ODT-be történő exportálás némi beállítást igényelhet az Office Suite-ban."
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 864
+#: usr/share/tac-writer/ui/components.py:917
+msgid "Enter new name for '{}'"
+msgstr "Írja be az új nevet a(z) '{}' számára"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 913
+#: usr/share/tac-writer/ui/components.py:966
+msgid "Delete '{}'?"
+msgstr "Törölni '{}'?"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1339
+#: usr/share/tac-writer/ui/components.py:1212
+#, fuzzy
+msgid "Please select a word or section to format first."
+msgstr "Kérjük, adjon meg egy kérdést a segéd számára."
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 285
+# File: usr/share/tac-writer/ui/components.py, line: 1244
+#: usr/share/tac-writer/ui/components.py:1521
+msgid "{count} words"
+msgstr "{count} szó"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1335
+#: usr/share/tac-writer/ui/components.py:1581
+msgid "1 footnote"
+msgstr "1 lábjegyzet"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 163
+#: usr/share/tac-writer/ui/components.py:167
+msgid "Session {}"
+msgstr "Munkamenet {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 360
+#: usr/share/tac-writer/ui/components.py:364
+msgid "Error setting up Pomodoro dialog styles: {}"
+msgstr "Hiba a Pomodoro párbeszédstílusok beállításakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 614
+#: usr/share/tac-writer/ui/components.py:673
+msgid "Note:"
+msgstr "Megjegyzés:"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1337
+#: usr/share/tac-writer/ui/components.py:1583
+msgid "{} footnotes"
+msgstr "{} lábjegyzetek"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1338
+#: usr/share/tac-writer/ui/components.py:1634
+msgid "Error setting up spell check: {}"
+msgstr "Hiba a helyesírás-ellenőrzés beállításakor: {}"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 969
+# File: usr/share/tac-writer/ui/components.py, line: 662
+#: usr/share/tac-writer/ui/components.py:716
+msgid "Could not open wiki URL: {}"
+msgstr "Nem sikerült megnyitni a wiki URL-t: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 539
+# File: usr/share/tac-writer/ui/components.py, line: 1092
+#: usr/share/tac-writer/ui/components.py:1251
+msgid "Error toggling spell check: {}"
+msgstr "Hiba a helyesírás-ellenőrzés váltásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 77
+#: usr/share/tac-writer/ui/dialogs.py:79
+msgid "New Project"
+msgstr "Új projekt"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 107
+#: usr/share/tac-writer/ui/dialogs.py:109
+msgid "Create"
+msgstr "Létrehozás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 139
+#: usr/share/tac-writer/ui/dialogs.py:141
+msgid "Project Details"
+msgstr "Projekt részletei"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 143
+# File: usr/share/tac-writer/ui/dialogs.py, line: 356
+#: usr/share/tac-writer/ui/dialogs.py:145
+msgid "Project Name"
+msgstr "Projekt neve"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 145
+#: usr/share/tac-writer/ui/dialogs.py:147
+msgid "Enter project name..."
+msgstr "Adja meg a projekt nevét..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 146
+#: usr/share/tac-writer/ui/dialogs.py:148
+msgid "My New Project"
+msgstr "Az új projektem"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 163
+#: usr/share/tac-writer/ui/dialogs.py:165
+msgid "Author"
+msgstr "Szerző"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 165
+#: usr/share/tac-writer/ui/dialogs.py:167
+msgid "Your name..."
+msgstr "A neved..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 174
+#: usr/share/tac-writer/ui/dialogs.py:176
+msgid "Description"
+msgstr "Leírás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 206
+#: usr/share/tac-writer/ui/dialogs.py:208
+msgid "Template"
+msgstr "Sablon"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 207
+#: usr/share/tac-writer/ui/dialogs.py:209
+msgid "Choose a template to start with"
+msgstr "Válasszon egy sablont a kezdéshez"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 216
+#: usr/share/tac-writer/ui/dialogs.py:218
+msgid "Document Template"
+msgstr "Dokumentum sablon"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 314
+#: usr/share/tac-writer/ui/dialogs.py:346
+msgid "Export Project"
+msgstr "Projekt exportálása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 339
+# File: usr/share/tac-writer/ui/dialogs.py, line: 543
+#: usr/share/tac-writer/ui/dialogs.py:371
+msgid "Export"
+msgstr "Exportálás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 352
+#: usr/share/tac-writer/ui/dialogs.py:384
+msgid "Project Information"
+msgstr "Projektinformáció"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 362
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1041
+#: usr/share/tac-writer/ui/dialogs.py:394
+msgid "Statistics"
+msgstr "Statisztika"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 368
+#: usr/share/tac-writer/ui/dialogs.py:400
+msgid "Export Options"
+msgstr "Exportálási beállítások"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 373
+#: usr/share/tac-writer/ui/dialogs.py:405
+msgid "Format"
+msgstr "Formátum"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 393
+#: usr/share/tac-writer/ui/dialogs.py:425
+msgid "Include Metadata"
+msgstr "Metaadatok hozzáadása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 394
+#: usr/share/tac-writer/ui/dialogs.py:426
+msgid "Include author, creation date, and other project information"
+msgstr ""
+"Tartalmazza a szerzőt, a létrehozás dátumát és egyéb projektinformációkat."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 400
+#: usr/share/tac-writer/ui/dialogs.py:432
+msgid "Output Location"
+msgstr "Kimeneti helyszín"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 404
+#: usr/share/tac-writer/ui/dialogs.py:436
+msgid "Save Location"
+msgstr "Mentési hely"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 405
+#: usr/share/tac-writer/ui/dialogs.py:437
+msgid "Click to choose location"
+msgstr "Kattintson a helyszín kiválasztásához"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 408
+#: usr/share/tac-writer/ui/dialogs.py:440
+msgid "Choose..."
+msgstr "Válasszon..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 477
+#: usr/share/tac-writer/ui/dialogs.py:516
+msgid "Choose Export Location"
+msgstr "Válassza ki az exportálási helyet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 480
+#: usr/share/tac-writer/ui/dialogs.py:519
+msgid "Select"
+msgstr "Kiválasztás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 499
+#: usr/share/tac-writer/ui/dialogs.py:538
+msgid "Exporting..."
+msgstr "Exportálás..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 597
+#: usr/share/tac-writer/ui/dialogs.py:636
+msgid "General"
+msgstr "Általános"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 603
+#: usr/share/tac-writer/ui/dialogs.py:642
+msgid "Appearance"
+msgstr "Megjelenés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 608
+#: usr/share/tac-writer/ui/dialogs.py:647
+msgid "Dark Theme"
+msgstr "Sötét téma"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 609
+#: usr/share/tac-writer/ui/dialogs.py:648
+msgid "Use dark theme for the application"
+msgstr "Használja a sötét témát az alkalmazáshoz"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 615
+#: usr/share/tac-writer/ui/dialogs.py:654
+msgid "Editor"
+msgstr "Szerkesztő"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 648
+#: usr/share/tac-writer/ui/dialogs.py:660
+msgid "Behavior"
+msgstr "Viselkedés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 653
+#: usr/share/tac-writer/ui/dialogs.py:665
+msgid "Auto Save"
+msgstr "Automatikus mentés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 654
+#: usr/share/tac-writer/ui/dialogs.py:666
+msgid "Automatically save projects while editing"
+msgstr "Automatikusan mentse a projekteket szerkesztés közben"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 660
+#: usr/share/tac-writer/ui/dialogs.py:672
+msgid "Word Wrap"
+msgstr "Szó törés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 661
+#: usr/share/tac-writer/ui/dialogs.py:673
+msgid "Wrap text to fit the editor width"
+msgstr "Szöveg tördelése az szerkesztő szélességéhez"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 667
+#: usr/share/tac-writer/ui/dialogs.py:679
+msgid "Show Line Numbers"
+msgstr "Sorok számának megjelenítése"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 668
+#: usr/share/tac-writer/ui/dialogs.py:680
+msgid "Display line numbers in the editor"
+msgstr "A sorok számának megjelenítése a szerkesztőben"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 722
+#: usr/share/tac-writer/ui/dialogs.py:691
+msgid "Assistant Settings"
+msgstr "Asszisztens beállítások"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 724
+#: usr/share/tac-writer/ui/dialogs.py:693
+msgid "Configure the provider and credentials used to generate suggestions."
+msgstr ""
+"Állítsa be a szolgáltatót és a hitelesítő adatokat, amelyeket a javaslatok "
+"generálásához használnak."
+
+#
+# File: usr/share/tac-writer/application.py, line: 502
+#: usr/share/tac-writer/ui/dialogs.py:699
+#, fuzzy
+msgid "Configuration Guide"
+msgstr "A konfiguráció mentve"
+
+#: usr/share/tac-writer/ui/dialogs.py:700
+msgid "Read the documentation to learn how to get API keys"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 822
+#: usr/share/tac-writer/ui/dialogs.py:706
+#, fuzzy
+msgid "Open Documentation"
+msgstr "Tudj meg többet - Online dokumentáció"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 752
+#: usr/share/tac-writer/ui/dialogs.py:735
+msgid "gemini-2.5-flash"
+msgstr "gemini-2.5-villanás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1057
+#: usr/share/tac-writer/ui/dialogs.py:1039
+msgid ""
+"Tac Writer is a tool based on the TAC technique (Continued Argumentation "
+"Technique) and the Pomodoro method. TAC technique helps writers develop an "
+"idea in an organized manner, separating the paragraph into different stages. "
+"Read wiki to take advantage of all the resources. To open wiki click on '?' "
+"icon"
+msgstr ""
+"Tac Writer egy eszköz, amely a TAC technikán (Folyamatos Érvelési Technika) "
+"és a Pomodoro módszeren alapul. A TAC technika segít a szerzőknek egy "
+"ötletet szervezett módon kidolgozni, a bekezdést különböző szakaszokra "
+"bontva. Olvasd el a wikit, hogy kihasználhasd az összes erőforrást. A wiki "
+"megnyitásához kattints a '?' ikonra."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 822
+#: usr/share/tac-writer/ui/dialogs.py:1052
+msgid "Learn More - Online Documentation"
+msgstr "Tudj meg többet - Online dokumentáció"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 826
+#: usr/share/tac-writer/ui/dialogs.py:1056
+msgid "Access the complete guide and tutorials"
+msgstr "Hozzáférés a teljes útmutatóhoz és oktatóanyagokhoz"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 843
+#: usr/share/tac-writer/ui/dialogs.py:1073
+msgid "Show this dialog on startup"
+msgstr "Indítsa el ezt a párbeszédpanelt indításkor"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 861
+#: usr/share/tac-writer/ui/dialogs.py:1091
+msgid "Let's Start"
+msgstr "Kezdjük el"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 978
+#: usr/share/tac-writer/ui/dialogs.py:1180
+msgid "Backup Manager"
+msgstr "Biztonsági mentés kezelő"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1006
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1167
+#: usr/share/tac-writer/ui/dialogs.py:1208
+msgid "Create Backup"
+msgstr "Biztonsági mentés készítése"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1013
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1190
+#: usr/share/tac-writer/ui/dialogs.py:1215
+msgid "Import Database"
+msgstr "Adatbázis importálása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1029
+#: usr/share/tac-writer/ui/dialogs.py:1231
+msgid "Current Database"
+msgstr "Jelenlegi adatbázis"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1035
+#: usr/share/tac-writer/ui/dialogs.py:1245
+msgid "Database Location"
+msgstr "Adatbázis helye"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1053
+#: usr/share/tac-writer/ui/dialogs.py:1263
+msgid "Available Backups"
+msgstr "Elérhető biztonsági mentések"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1054
+#: usr/share/tac-writer/ui/dialogs.py:1264
+msgid "Backups are stored in Documents/TAC Projects/database_backups"
+msgstr ""
+"A biztonsági mentések a Documents/TAC Projects/database_backups mappában "
+"vannak tárolva."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1143
+#: usr/share/tac-writer/ui/dialogs.py:1357
+msgid "Delete backup"
+msgstr "Biztonsági másolat törlése"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1155
+#: usr/share/tac-writer/ui/dialogs.py:1369
+msgid "Creating..."
+msgstr "Létrehozás..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1199
+#: usr/share/tac-writer/ui/dialogs.py:1411
+msgid "Database files (*.db)"
+msgstr "Adatbázis fájlok (*.db)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1204
+#: usr/share/tac-writer/ui/dialogs.py:1416
+msgid "All files"
+msgstr "Minden fájl"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1249
+#: usr/share/tac-writer/ui/dialogs.py:1473
+msgid "Import Database?"
+msgstr "Adatbázis importálása?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1193
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1256
+#: usr/share/tac-writer/ui/dialogs.py:1480
+msgid "Import"
+msgstr "Importálás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1275
+#: usr/share/tac-writer/ui/dialogs.py:1499
+msgid "Importing Database"
+msgstr "Adatbázis importálása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1276
+#: usr/share/tac-writer/ui/dialogs.py:1500
+msgid "Please wait while the database is being imported..."
+msgstr "Kérjük, várjon, amíg az adatbázis importálása folyamatban van..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1323
+#: usr/share/tac-writer/ui/dialogs.py:1551
+msgid "Delete Backup?"
+msgstr "Biztonsági mentés törlése?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1649
+#: usr/share/tac-writer/ui/dialogs.py:1632
+msgid "Update"
+msgstr "Frissítés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1454
+#: usr/share/tac-writer/ui/dialogs.py:1632
+msgid "Insert"
+msgstr "Beszúrás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1478
+#: usr/share/tac-writer/ui/dialogs.py:1657
+msgid "Image File"
+msgstr "Kép fájl"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1479
+#: usr/share/tac-writer/ui/dialogs.py:1658
+msgid "Select an image file to insert into your document"
+msgstr ""
+"Válasszon ki egy képfájlt, amelyet be szeretne illeszteni a dokumentumába."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1484
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1658
+#: usr/share/tac-writer/ui/dialogs.py:1663
+msgid "Select Image"
+msgstr "Kép kiválasztása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1523
+#: usr/share/tac-writer/ui/dialogs.py:1702
+msgid "Image Formatting"
+msgstr "Képformázás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1529
+#: usr/share/tac-writer/ui/dialogs.py:1708
+msgid "Display Width (%)"
+msgstr "Kijelző Szélesség (%)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1530
+#: usr/share/tac-writer/ui/dialogs.py:1709
+msgid "Percentage of page width"
+msgstr "Az oldal szélességének százaléka"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1548
+#: usr/share/tac-writer/ui/dialogs.py:1727
+msgid "Alignment"
+msgstr "Igazítás"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1549
+#: usr/share/tac-writer/ui/dialogs.py:1728
+msgid "Image position on the page"
+msgstr "Kép pozíciója az oldalon"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1579
+#: usr/share/tac-writer/ui/dialogs.py:1758
+msgid "Caption (optional)"
+msgstr "Felirat (opcionális)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1585
+#: usr/share/tac-writer/ui/dialogs.py:1764
+msgid "Alternative Text (optional)"
+msgstr "Alternatív szöveg (opcionális)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1592
+#: usr/share/tac-writer/ui/dialogs.py:1771
+msgid "Position in Document"
+msgstr "Dokumentumbeli pozíció"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1598
+#: usr/share/tac-writer/ui/dialogs.py:1777
+msgid "Insert After"
+msgstr "Beszúrás után"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1599
+#: usr/share/tac-writer/ui/dialogs.py:1778
+msgid "Choose where to place the image"
+msgstr "Válaszd ki, hova szeretnéd elhelyezni a képet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1610
+#: usr/share/tac-writer/ui/dialogs.py:1789
+msgid "Beginning of document"
+msgstr "Dokumentum kezdete"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1645
+#: usr/share/tac-writer/ui/dialogs.py:1824
+msgid "Image Files"
+msgstr "Kép fájlok"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1992
+#: usr/share/tac-writer/ui/dialogs.py:2062
+msgid "PDF Review by AI"
+msgstr "PDF-áttekintés AI által"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2065
+#: usr/share/tac-writer/ui/dialogs.py:2135
+msgid "Select PDF"
+msgstr "PDF kiválasztása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2105
+#: usr/share/tac-writer/ui/dialogs.py:2175
+msgid "Analysis Results"
+msgstr "Elemzési Eredmények"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 550
+#: usr/share/tac-writer/ui/dialogs.py:589
+msgid "Export Successful"
+msgstr "Exportálás sikeres"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 303
+# File: usr/share/tac-writer/ui/dialogs.py, line: 553
+# File: usr/share/tac-writer/ui/dialogs.py, line: 569
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1182
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1233
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1298
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1314
+#: usr/share/tac-writer/ui/dialogs.py:592
+msgid "OK"
+msgstr "Rendben"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 563
+#: usr/share/tac-writer/ui/dialogs.py:602
+msgid "An error occurred while exporting the project."
+msgstr "Hiba történt a projekt exportálása közben."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 566
+#: usr/share/tac-writer/ui/dialogs.py:605
+msgid "Export Failed"
+msgstr "Exportálás sikertelen"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 729
+#: usr/share/tac-writer/ui/dialogs.py:713
+msgid "Enable AI Assistant"
+msgstr "AI Asszisztens engedélyezése"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 730
+#: usr/share/tac-writer/ui/dialogs.py:714
+msgid "Allow prompts to use an external provider (Ctrl+Shift+I)."
+msgstr ""
+"Engedélyezze a kérések számára egy külső szolgáltató használatát "
+"(Ctrl+Shift+I)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 748
+#: usr/share/tac-writer/ui/dialogs.py:731
+msgid "Model Identifier"
+msgstr "Modellazonosító"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 749
+#: usr/share/tac-writer/ui/dialogs.py:732
+#, fuzzy
+msgid "Examples: gemini-2.5-flash"
+msgstr "példák:gemini-2.5-villanás."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 759
+#: usr/share/tac-writer/ui/dialogs.py:742
+msgid "API Key"
+msgstr "API kulcs"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 760
+#: usr/share/tac-writer/ui/dialogs.py:743
+msgid "Stored locally and used to authenticate requests."
+msgstr "Helyben tárolva és a kérések hitelesítésére használva."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 763
+#: usr/share/tac-writer/ui/dialogs.py:746
+msgid "Paste your API key"
+msgstr "Illessze be az API kulcsát"
+
+#: usr/share/tac-writer/ui/dialogs.py:756
+msgid "Save AI Settings"
+msgstr ""
+
+#: usr/share/tac-writer/ui/dialogs.py:838
+msgid "AI Settings Saved"
+msgstr ""
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 946
+#: usr/share/tac-writer/ui/dialogs.py:929
+msgid "Gemini model identifier (for example: gemini-2.5-flash)."
+msgstr "Gemini modell azonosító (például: gemini-2.5-flash)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 948
+#: usr/share/tac-writer/ui/dialogs.py:931
+msgid "Google AI Studio API key."
+msgstr "Google AI Studio API kulcs."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1042
+#: usr/share/tac-writer/ui/dialogs.py:1252
+msgid "{} projects, {} MB"
+msgstr "{} projekt, {} MB"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1093
+#: usr/share/tac-writer/ui/dialogs.py:1307
+msgid "No backups found"
+msgstr "Nincsenek biztonsági másolatok."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1094
+#: usr/share/tac-writer/ui/dialogs.py:1308
+msgid "Create a backup or import an existing database file"
+msgstr ""
+"Készítsen biztonsági másolatot, vagy importáljon egy meglévő adatbázisfájlt."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1112
+#: usr/share/tac-writer/ui/dialogs.py:1326
+msgid "{:.1f} MB • {} projects • {}"
+msgstr "{:.1f} MB • {} projekt • {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1120
+#: usr/share/tac-writer/ui/dialogs.py:1334
+msgid "Valid backup"
+msgstr "Érvényes biztonsági másolat"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1123
+#: usr/share/tac-writer/ui/dialogs.py:1337
+msgid "Invalid or corrupted backup"
+msgstr "Érvénytelen vagy sérült biztonsági másolat"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1135
+#: usr/share/tac-writer/ui/dialogs.py:1349
+msgid "Import this backup"
+msgstr "Importáld ezt a biztonsági másolatot"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1179
+#: usr/share/tac-writer/ui/dialogs.py:1397
+msgid "Backup Failed"
+msgstr "Biztonsági mentés sikertelen"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1180
+#: usr/share/tac-writer/ui/dialogs.py:1398
+msgid "Could not create backup. Check the console for details."
+msgstr ""
+"Nem sikerült biztonsági másolatot készíteni. Ellenőrizze a konzolt a "
+"részletekért."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1295
+#: usr/share/tac-writer/ui/dialogs.py:1523
+msgid "Import Successful"
+msgstr "Importálás sikeres"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1296
+#: usr/share/tac-writer/ui/dialogs.py:1524
+msgid ""
+"Database imported successfully. The application will refresh to show the "
+"imported projects."
+msgstr ""
+"Az adatbázis sikeresen importálva. Az alkalmazás frissülni fog, hogy "
+"megjelenítse az importált projekteket."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1311
+#: usr/share/tac-writer/ui/dialogs.py:1539
+msgid "Import Failed"
+msgstr "Importálás sikertelen"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1312
+#: usr/share/tac-writer/ui/dialogs.py:1540
+msgid "Could not import the database. Your current database remains unchanged."
+msgstr ""
+"Nem sikerült importálni az adatbázist. A jelenlegi adatbázisa változatlan "
+"marad."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1485
+#: usr/share/tac-writer/ui/dialogs.py:1664
+msgid "No file selected"
+msgstr "Nincs fájl kiválasztva"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1489
+#: usr/share/tac-writer/ui/dialogs.py:1668
+msgid "Browse..."
+msgstr "Böngészés..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1556
+#: usr/share/tac-writer/ui/dialogs.py:1735
+msgid "Left"
+msgstr "Balra"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1557
+#: usr/share/tac-writer/ui/dialogs.py:1736
+msgid "Center"
+msgstr "Középpont"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1558
+#: usr/share/tac-writer/ui/dialogs.py:1737
+msgid "Right"
+msgstr "Jobb"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2027
+#: usr/share/tac-writer/ui/dialogs.py:2097
+msgid ""
+"Select a PDF file of your text for review.\n"
+"The AI ​​will perform a spelling, grammar, and semantic analysis.\n"
+"IMPORTANT: Consider the 10,000 character limit for free APIs. Splitting your "
+"text into multiple files may be an alternative to paid API."
+msgstr ""
+"Válasszon ki egy PDF fájlt a szövegéhez a felülvizsgálathoz.  \n"
+"A mesterséges intelligencia helyesírási, nyelvtani és szemantikai elemzést "
+"végez.  \n"
+"FONTOS: Vegye figyelembe a 10 000 karakteres korlátot az ingyenes API-k "
+"esetében. A szöveg több fájlra bontása alternatíva lehet a fizetős API-hoz."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2041
+#: usr/share/tac-writer/ui/dialogs.py:2111
+msgid "Choose PDF..."
+msgstr "Válassza a PDF-et..."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2049
+#: usr/share/tac-writer/ui/dialogs.py:2119
+msgid "Run Analysis"
+msgstr "Elemzés futtatása"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2092
+#: usr/share/tac-writer/ui/dialogs.py:2162
+msgid "Analyzing (may take a few minutes)"
+msgstr "Elemzés (több percet is igénybe vehet)"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 221
+#: usr/share/tac-writer/ui/dialogs.py:284
+msgid "Project name cannot be empty"
+msgstr "A projekt neve nem lehet üres."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 286
+#: usr/share/tac-writer/ui/dialogs.py:287
+msgid "Project name is too long (max 100 characters)"
+msgstr "A projekt neve túl hosszú (max 100 karakter)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 299
+#: usr/share/tac-writer/ui/dialogs.py:300
+msgid "Failed to save project to database"
+msgstr "A projekt mentése az adatbázisba nem sikerült"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 309
+#: usr/share/tac-writer/ui/dialogs.py:310
+msgid "Invalid Input"
+msgstr "Érvénytelen bemenet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 300
+#: usr/share/tac-writer/ui/dialogs.py:320
+msgid "Error Creating Project"
+msgstr "Hiba a projekt létrehozásakor"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 331
+#: usr/share/tac-writer/ui/dialogs.py:332
+msgid "Unexpected Error"
+msgstr "Váratlan hiba"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 363
+#: usr/share/tac-writer/ui/dialogs.py:395
+msgid "{} words, {} paragraphs"
+msgstr "{} szót, {} bekezdést"
+
+#
+# File: usr/share/tac-writer/ui/main_window.py, line: 1056
+#: usr/share/tac-writer/ui/dialogs.py:844
+#, fuzzy
+msgid "Error saving settings"
+msgstr "Hiba a kép beszúrásakor"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 950
+#: usr/share/tac-writer/ui/dialogs.py:936
+msgid "OpenRouter model identifier (for example: x-ai/grok-4.1-fast:free)."
+msgstr "OpenRouter modellazonosító (például: x-ai/grok-4.1-fast:free)."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 956
+#: usr/share/tac-writer/ui/dialogs.py:938
+msgid "OpenRouter API key."
+msgstr "OpenRouter API kulcs."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 960
+#: usr/share/tac-writer/ui/dialogs.py:942
+msgid "model-name"
+msgstr "modell-név"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 962
+#: usr/share/tac-writer/ui/dialogs.py:944
+msgid "Model identifier required by the selected provider."
+msgstr "A kiválasztott szolgáltató által megkövetelt modellazonosító."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 964
+#: usr/share/tac-writer/ui/dialogs.py:946
+msgid "API key used to authenticate requests."
+msgstr "API kulcs a kérések hitelesítéséhez."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 793
+#: usr/share/tac-writer/ui/dialogs.py:1023
+msgid "What is TAC Writer?"
+msgstr "Mi az a TAC Writer?"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 804
+#: usr/share/tac-writer/ui/dialogs.py:1034
+msgid "Continuous Argumentation Technique (TAC in Portuguese):"
+msgstr "Folyamatos Érvelési Technika (TAC portugálul):"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1173
+#: usr/share/tac-writer/ui/dialogs.py:1391
+msgid "Backup created successfully"
+msgstr "A biztonsági másolat sikeresen létrejött"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1230
+#: usr/share/tac-writer/ui/dialogs.py:1450
+msgid "Invalid Backup"
+msgstr "Érvénytelen biztonsági másolat"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1231
+#: usr/share/tac-writer/ui/dialogs.py:1451
+msgid "The selected file is not a valid TAC database backup."
+msgstr "A kiválasztott fájl nem érvényes TAC adatbázis biztonsági másolat."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1250
+#: usr/share/tac-writer/ui/dialogs.py:1474
+msgid ""
+"This will replace your current database with the selected backup.\n"
+"\n"
+"The backup contains {} projects.\n"
+"\n"
+"Your current database will be backed up before importing."
+msgstr ""
+"Ez felülírja a jelenlegi adatbázisát a kiválasztott biztonsági mentéssel.\n"
+"\n"
+"A biztonsági mentés {} projektet tartalmaz.\n"
+"\n"
+"A jelenlegi adatbázisát biztonsági mentés készül, mielőtt importálná."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1324
+#: usr/share/tac-writer/ui/dialogs.py:1552
+msgid ""
+"Are you sure you want to delete '{}'?\n"
+"\n"
+"This action cannot be undone."
+msgstr ""
+"Biztos benne, hogy törölni szeretné a '{}' elemet?\n"
+"\n"
+"Ez a művelet nem vonható vissza."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1501
+#: usr/share/tac-writer/ui/dialogs.py:1680
+msgid "Preview"
+msgstr "Előnézet"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1718
+#: usr/share/tac-writer/ui/dialogs.py:1897
+msgid "Error Loading Image"
+msgstr "Kép betöltési hiba"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 551
+#: usr/share/tac-writer/ui/dialogs.py:590
+msgid ""
+"Project exported to:\n"
+"{}"
+msgstr ""
+"Projekt exportálva ide:  \n"
+"{}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1695
+#: usr/share/tac-writer/ui/dialogs.py:1874
+msgid "Size: {} x {} pixels  •  {:.1f} KB"
+msgstr "Méret: {} x {} pixel  •  {:.1f} KB"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 333
+#: usr/share/tac-writer/ui/dialogs.py:333
+msgid "An unexpected error occurred. Please report this issue:"
+msgstr "Váratlan hiba történt. Kérjük, jelentsd ezt a problémát:"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 452
+#: usr/share/tac-writer/ui/dialogs.py:453
+msgid "Warning: Could not create default export directory: {}"
+msgstr ""
+"Figyelmeztetés: Nem sikerült létrehozni az alapértelmezett exportálási "
+"könyvtárat: {}"
+
+#
+# File: usr/share/tac-writer/core/services.py, line: 156
+#: usr/share/tac-writer/ui/dialogs.py:785
+#, fuzzy
+msgid "Error opening wiki: {}"
+msgstr "Hiba a {} betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 737
+#: usr/share/tac-writer/ui/dialogs.py:815
+msgid "Error loading preferences: {}"
+msgstr "Hiba a beállítások betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 462
+#: usr/share/tac-writer/ui/dialogs.py:843
+#, fuzzy
+msgid "Error saving AI settings: {}"
+msgstr "Hiba a projekt mentésekor: {}: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 751
+#: usr/share/tac-writer/ui/dialogs.py:860
+msgid "Error changing theme: {}"
+msgstr "Hiba a téma megváltoztatásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 760
+#: usr/share/tac-writer/ui/dialogs.py:870
+msgid "Error changing font family: {}"
+msgstr "Hiba a betűtípus családjának megváltoztatásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 767
+#: usr/share/tac-writer/ui/dialogs.py:878
+msgid "Error changing font size: {}"
+msgstr "Hiba a betűméret megváltoztatásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 774
+#: usr/share/tac-writer/ui/dialogs.py:886
+msgid "Error changing auto save: {}"
+msgstr "Hiba az automatikus mentés módosításakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 781
+#: usr/share/tac-writer/ui/dialogs.py:894
+msgid "Error changing word wrap: {}"
+msgstr "Hiba a szóköz módosításakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 788
+#: usr/share/tac-writer/ui/dialogs.py:902
+msgid "Error changing line numbers: {}"
+msgstr "Hiba a sorok számának megváltoztatásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 833
+#: usr/share/tac-writer/ui/dialogs.py:995
+msgid "Error applying welcome dialog CSS: {}"
+msgstr "Hiba a üdvözlő párbeszédablak CSS alkalmazásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 949
+#: usr/share/tac-writer/ui/dialogs.py:1111
+msgid "Error saving welcome dialog preference: {}"
+msgstr "Hiba a üdvözlő párbeszédpanel beállításainak mentésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1072
+#: usr/share/tac-writer/ui/dialogs.py:1236
+msgid "Error getting database info: {}"
+msgstr "Hiba a adatbázis információinak lekérésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1292
+#: usr/share/tac-writer/ui/dialogs.py:1457
+msgid "Error validating backup: {}"
+msgstr "Hiba a biztonsági mentés érvényesítésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1302
+#: usr/share/tac-writer/ui/dialogs.py:1467
+msgid "Error reading backup info: {}"
+msgstr "Hiba a biztonsági másolat információinak olvasásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1622
+#: usr/share/tac-writer/ui/dialogs.py:1801
+msgid "(empty)"
+msgstr "(üres)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1672
+#: usr/share/tac-writer/ui/dialogs.py:1851
+msgid "Error selecting file: {}"
+msgstr "Hiba a fájl kiválasztásakor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1714
+#: usr/share/tac-writer/ui/dialogs.py:1893
+msgid "Error loading image: {}"
+msgstr "Hiba történt a kép betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1901
+#: usr/share/tac-writer/ui/dialogs.py:1898
+msgid "Could not load the selected image file."
+msgstr "A kiválasztott képfájl betöltése nem sikerült."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2069
+#: usr/share/tac-writer/ui/dialogs.py:2052
+msgid "Error loading existing image: {}"
+msgstr "Hiba a meglévő kép betöltésekor: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1212
+#: usr/share/tac-writer/ui/dialogs.py:1376
+msgid "Error in backup thread: {}"
+msgstr "Hiba a biztonsági mentési szálban: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1344
+#: usr/share/tac-writer/ui/dialogs.py:1509
+msgid "Error in import thread: {}"
+msgstr "Hiba az importálási szálban: {}"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 1620
+#: usr/share/tac-writer/ui/dialogs.py:1799
+msgid "Image"
+msgstr "Kép"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "Could not {} the image."
+msgstr "Nem sikerült {} a képet."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "update"
+msgstr "frissítés"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 2021
+#: usr/share/tac-writer/ui/dialogs.py:2004
+msgid "insert"
+msgstr "beszúrás"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 172
+#: usr/share/tac-writer/utils/helpers.py:172
+msgid "0 minutes"
+msgstr "0 perc"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 177
+#: usr/share/tac-writer/utils/helpers.py:177
+msgid "< 1 minute"
+msgstr "< 1 perc"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 275
+#: usr/share/tac-writer/utils/helpers.py:275
+msgid "1 paragraph"
+msgstr "1 bekezdés"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 283
+#: usr/share/tac-writer/utils/helpers.py:283
+msgid "1 word"
+msgstr "kulcs"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 357
+#: usr/share/tac-writer/utils/helpers.py:357
+msgid "Methods:"
+msgstr "Módszerek:"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 57
+#: usr/share/tac-writer/utils/helpers.py:57
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 226
+#: usr/share/tac-writer/utils/helpers.py:226
+msgid "Project name must be at least 2 characters long"
+msgstr "A projekt neve legalább 2 karakter hosszú kell legyen."
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 229
+#: usr/share/tac-writer/utils/helpers.py:229
+msgid "Project name cannot exceed 100 characters"
+msgstr "A projekt neve nem haladhatja meg a 100 karaktert."
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 232
+#: usr/share/tac-writer/utils/helpers.py:232
+msgid "Project name contains invalid characters"
+msgstr "A projekt neve érvénytelen karaktereket tartalmaz"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 249
+#: usr/share/tac-writer/utils/helpers.py:249
+msgid "Path cannot be empty"
+msgstr "Az útvonal nem lehet üres."
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 353
+#: usr/share/tac-writer/utils/helpers.py:353
+msgid "Attributes:"
+msgstr "Attribútumok:"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 181
+#: usr/share/tac-writer/utils/helpers.py:181
+msgid "1 minute"
+msgstr "1 perc"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 256
+#: usr/share/tac-writer/utils/helpers.py:256
+msgid "Parent directory does not exist"
+msgstr "A szülőkönyvtár nem létezik"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 260
+#: usr/share/tac-writer/utils/helpers.py:260
+msgid "Path is too long"
+msgstr "A fájl elérési útja túl hosszú"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 277
+#: usr/share/tac-writer/utils/helpers.py:277
+msgid "{count} paragraphs"
+msgstr "{count} bekezdés"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 348
+# File: usr/share/tac-writer/utils/helpers.py, line: 365
+#: usr/share/tac-writer/utils/helpers.py:348
+msgid "Info"
+msgstr "Információ"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 349
+#: usr/share/tac-writer/utils/helpers.py:349
+msgid "Type: {}"
+msgstr "Típus: {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 350
+#: usr/share/tac-writer/utils/helpers.py:350
+msgid "Module: {}"
+msgstr "Modul: {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 371
+#: usr/share/tac-writer/utils/helpers.py:371
+msgid "Performance: {} took {:.3f} seconds"
+msgstr "Teljesítmény: {} eltartott {:.3f} másodpercig"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 187
+#: usr/share/tac-writer/utils/helpers.py:187
+msgid "{}h {}m"
+msgstr "{}ó {}p"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 363
+#: usr/share/tac-writer/utils/helpers.py:363
+msgid "  ... and {} more methods"
+msgstr "... és {} további módszer"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 183
+#: usr/share/tac-writer/utils/helpers.py:183
+msgid "{} minutes"
+msgstr "{} perc"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 265
+#: usr/share/tac-writer/utils/helpers.py:265
+msgid "Invalid path: {}"
+msgstr "Érvénytelen útvonal: {}"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 330
+#: usr/share/tac-writer/utils/helpers.py:330
+msgid "{:,} words"
+msgstr "{:,} szót"
+
+#
+# File: usr/share/tac-writer/utils/helpers.py, line: 332
+#: usr/share/tac-writer/utils/helpers.py:332
+msgid "{:,} characters"
+msgstr "{: ,} karakter"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 773
+#~ msgid "Site URL (optional)"
+#~ msgstr "Webhely URL (opcionális)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 774
+#~ msgid "Used as HTTP Referer header for OpenRouter rankings."
+#~ msgstr "HTTP Referer fejléc használata az OpenRouter rangsorolásához."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 777
+#~ msgid "https://example.com"
+#~ msgstr "https://example.com"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 789
+#~ msgid "Site title (optional)"
+#~ msgstr "Webhely címe (opcionális)"
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 790
+#~ msgid "Sent via X-Title header for OpenRouter rankings."
+#~ msgstr "Az OpenRouter rangsorolásához az X-Title fejlécen keresztül küldve."
+
+#
+# File: usr/share/tac-writer/ui/dialogs.py, line: 793
+#~ msgid "My Project"
+#~ msgstr "A projektom"
+
+#
+# #-#-#-#-#  tac-writer.pot (tac-writer)  #-#-#-#-#
+#
+# File: usr/share/tac-writer/ui/components.py, line: 494
+# File: usr/share/tac-writer/application.py, line: 229
+#, python-brace-format
+#~ msgid "Error checking dictionary {}: {}"
+#~ msgstr "Hibaellenőrzési szótár {}: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 497
+#, python-brace-format
+#~ msgid "Enchant not available for spell checking: {}"
+#~ msgstr "A varázslat nem elérhető a helyesírás-ellenőrzéshez: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 521
+# File: usr/share/tac-writer/ui/components.py, line: 1020
+#, python-brace-format
+#~ msgid "Spell check setup failed: {}"
+#~ msgstr "A helyesírás-ellenőrzés beállítása nem sikerült: {}"
+
+#
+# File: usr/share/tac-writer/ui/components.py, line: 1000
+#, python-brace-format
+#~ msgid "Error during paragraph editor initialization: {}"
+#~ msgstr "Hiba a bekezdés szerkesztő inicializálása során: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 233
+#, python-brace-format
+#~ msgid "Available spell check dictionaries: {}"
+#~ msgstr "Elérhető helyesírás-ellenőrző szótárak: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 242
+#, python-brace-format
+#~ msgid "Using auto-detected language: {}"
+#~ msgstr "Automatikusan észlelt nyelv: {}"
+
+#
+# File: usr/share/tac-writer/application.py, line: 247
+#, python-brace-format
+#~ msgid "Auto-detected language not available, using fallback: {}"
+#~ msgstr "Automatikusan észlelt nyelv nem elérhető, visszaállás: {}"
