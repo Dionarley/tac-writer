@@ -17,6 +17,8 @@ from core.services import ProjectManager
 from utils.helpers import TextHelper, FormatHelper
 from utils.i18n import _
 
+_CURRENT_DRAG_ID = None
+
 # Try to load PyGTKSpellcheck
 try:
     import gtkspellcheck
@@ -1104,6 +1106,16 @@ class ParagraphEditor(Gtk.Box):
         header_box.set_margin_top(8)
         header_box.set_margin_bottom(4)
 
+        # Drag Handle
+        self.drag_handle = Gtk.Button()
+        self.drag_handle.set_icon_name('open-menu-symbolic')
+        self.drag_handle.set_icon_name('view-grid-symbolic') 
+        self.drag_handle.add_css_class("flat")
+        self.drag_handle.add_css_class("drag-handle")
+        self.drag_handle.set_tooltip_text(_("Arraste para mover"))
+        self.drag_handle.set_cursor(Gdk.Cursor.new_from_name("grab", None))
+        header_box.append(self.drag_handle)
+        
         # Type label
         type_label = Gtk.Label()
         type_label.set_text(self._get_type_label())
@@ -1399,9 +1411,6 @@ class ParagraphEditor(Gtk.Box):
             elif part == '</u>':
                 active_tags.discard('underline')
             else:
-                # É texto
-                # IMPORTANTE: Obter um novo iterador para o final a cada inserção
-                # para garantir que ele seja válido e aponte para o lugar certo.
                 iter_loc = self.text_buffer.get_end_iter()
                 
                 if active_tags:
@@ -1411,32 +1420,50 @@ class ParagraphEditor(Gtk.Box):
                     self.text_buffer.insert(iter_loc, part)
 
     def _setup_drag_and_drop(self):
-        """Setup drag and drop functionality for reordering paragraphs"""
+        """Setup drag and drop functionality using Global State for stability"""
+        
+        # 1. DRAG SOURCE (Origem)
         drag_source = Gtk.DragSource()
         drag_source.set_actions(Gdk.DragAction.MOVE)
+        
         drag_source.connect('prepare', self._on_drag_prepare)
         drag_source.connect('drag-begin', self._on_drag_begin)
         drag_source.connect('drag-end', self._on_drag_end)
-        self.add_controller(drag_source)
+        
+        if hasattr(self, 'drag_handle'):
+            self.drag_handle.add_controller(drag_source)
+        else:
+            self.add_controller(drag_source)
 
-        drop_target = Gtk.DropTarget()
-        drop_target.set_gtypes([GObject.TYPE_STRING])
-        drop_target.set_actions(Gdk.DragAction.MOVE)
+        # 2. DROP TARGET (Destino)
+        # Usamos TYPE_STRING pois é o mais estável no GTK4/Python
+        drop_target = Gtk.DropTarget.new(GObject.TYPE_STRING, Gdk.DragAction.MOVE)
+        
         drop_target.connect('accept', self._on_drop_accept)
         drop_target.connect('enter', self._on_drop_enter)
         drop_target.connect('leave', self._on_drop_leave)
         drop_target.connect('drop', self._on_drop)
+        drop_target.connect('motion', self._on_drop_motion) 
         self.add_controller(drop_target)
 
     def _on_drag_prepare(self, drag_source, x, y):
-        """Prepare drag operation"""
-        content = Gdk.ContentProvider.new_for_value(self.paragraph.id)
-        return content
+        """Prepare drag - Set global state and return dummy content"""
+        global _CURRENT_DRAG_ID
+        # Salva o ID na variável global do Python (seguro)
+        _CURRENT_DRAG_ID = self.paragraph.id
+        
+        # Retorna uma string vazia para o GTK. 
+        # Se cair no TextView, não cola nada visível.
+        return Gdk.ContentProvider.new_for_value("")
 
     def _on_drag_begin(self, drag_source, drag):
         """Start drag operation"""
         self.is_dragging = True
         self.add_css_class("dragging")
+        
+        if hasattr(self, 'drag_handle'):
+            self.drag_handle.set_cursor(Gdk.Cursor.new_from_name("grabbing", None))
+
         try:
             paintable = Gtk.WidgetPaintable.new(self)
             drag_source.set_icon(paintable, 0, 0)
@@ -1444,42 +1471,74 @@ class ParagraphEditor(Gtk.Box):
             pass
 
     def _on_drag_end(self, drag_source, drag, delete_data):
-        """End drag operation"""
+        """End drag operation - Clear global state"""
+        global _CURRENT_DRAG_ID
         self.is_dragging = False
         self.remove_css_class("dragging")
-        self.remove_css_class("drop-target")
+        self.remove_css_class("drop-target-top")
+        self.remove_css_class("drop-target-bottom")
+        
+        # Limpa a variável global
+        _CURRENT_DRAG_ID = None
+        
+        if hasattr(self, 'drag_handle'):
+            self.drag_handle.set_cursor(Gdk.Cursor.new_from_name("grab", None))
 
     def _on_drop_accept(self, drop_target, drop):
         """Check if drop is acceptable"""
-        return drop.get_formats().contain_gtype(GObject.TYPE_STRING)
+        global _CURRENT_DRAG_ID
+        # Só aceita se tivermos um ID interno sendo arrastado.
+        # Isso impede que textos de outros apps sejam aceitos aqui!
+        return _CURRENT_DRAG_ID is not None
 
     def _on_drop_enter(self, drop_target, x, y):
-        """Handle drop enter"""
-        self.add_css_class("drop-target")
+        return Gdk.DragAction.MOVE
+
+    def _on_drop_motion(self, drop_target, x, y):
+        """Visual feedback"""
+        global _CURRENT_DRAG_ID
+        if _CURRENT_DRAG_ID == self.paragraph.id:
+            return Gdk.DragAction.NONE
+
+        widget_height = self.get_allocated_height()
+        
+        self.remove_css_class("drop-target-top")
+        self.remove_css_class("drop-target-bottom")
+        
+        if y < widget_height / 2:
+            self.add_css_class("drop-target-top")
+        else:
+            self.add_css_class("drop-target-bottom")
+            
         return Gdk.DragAction.MOVE
 
     def _on_drop_leave(self, drop_target):
-        """Handle drop leave"""
-        self.remove_css_class("drop-target")
+        self.remove_css_class("drop-target-top")
+        self.remove_css_class("drop-target-bottom")
 
     def _on_drop(self, drop_target, value, x, y):
-        """Handle drop operation"""
-        self.remove_css_class("drop-target")
+        """Handle drop operation using Global State"""
+        global _CURRENT_DRAG_ID
+        
+        # Limpa visual
+        self.remove_css_class("drop-target-top")
+        self.remove_css_class("drop-target-bottom")
 
-        if isinstance(value, str):
-            dragged_paragraph_id = value
-            target_paragraph_id = self.paragraph.id
+        # Recupera o ID da variável global, ignorando o 'value' do GTK
+        dragged_id = _CURRENT_DRAG_ID
+        target_id = self.paragraph.id
 
-            if dragged_paragraph_id == target_paragraph_id:
-                return False
+        if not dragged_id or dragged_id == target_id:
+            return False
 
-            widget_height = self.get_allocated_height()
-            drop_position = "after" if y > widget_height / 2 else "before"
+        widget_height = self.get_allocated_height()
+        drop_position = "after" if y > widget_height / 2 else "before"
 
-            self.emit('paragraph-reorder', dragged_paragraph_id, target_paragraph_id, drop_position)
-            return True
-
-        return False
+        # Emite o sinal para a MainWindow reordenar
+        self.emit('paragraph-reorder', dragged_id, target_id, drop_position)
+        
+        # Retorna True para sinalizar sucesso e remover o efeito "ghost"
+        return True
 
     def _get_type_label(self) -> str:
         """Get display label for paragraph type"""
