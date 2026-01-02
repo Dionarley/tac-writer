@@ -165,10 +165,10 @@ class TacApplication(Adw.Application):
     
     def __init__(self):
         super().__init__(
-            application_id='org.communitybig.tac',
+            application_id='tac-writer',
             flags=Gio.ApplicationFlags.DEFAULT_FLAGS
         )
-        GLib.set_prgname('org.communitybig.tac')
+        GLib.set_prgname('tac-writer')
         
         # Suppress various system warnings for cleaner output
         self._suppress_warnings()
