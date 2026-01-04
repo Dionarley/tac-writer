@@ -17,6 +17,12 @@
 
 ---
 
+![GitHub Release](https://img.shields.io/github/v/release/narayanls/tac-writer?include_prereleases&style=flat-square)
+![GitHub Issues](https://img.shields.io/github/issues/narayanls/tac-writer?style=flat-square)
+![GitHub Stars](https://img.shields.io/github/stars/narayanls/tac-writer?style=flat-square)
+![GitHub Forks](https://img.shields.io/github/forks/narayanls/tac-writer?style=flat-square)
+
+---
 ## Overview
 
 **TAC Writer** is a modern academic writing assistant designed to help students and researchers create structured academic texts using the **Continuous Argumentation Technique (TAC in portuguese)**. Built with GTK4 and libadwaita, TAC provides an intuitive interface for organizing thoughts, managing document structure, and producing high-quality academic content.
