@@ -8,8 +8,8 @@ class DatabaseMerger:
 
     def merge(self, backup_db_path):
         """
-        Mescla dados do backup_db_path para o banco local.
-        Retorna um resumo do que foi feito.
+        Merge data backup_db_path for data local.
+        Returns resume of what it's done.
         """
         if not Path(backup_db_path).exists():
             raise FileNotFoundError("Arquivo de backup não encontrado")
@@ -37,17 +37,17 @@ class DatabaseMerger:
             backup_projects = backup_cursor.fetchall()
 
             for b_proj in backup_projects:
-                # Tenta achar o projeto localmente pelo ID (UUID)
-                # No Tac Writer o ID é TEXT (UUID), então usamos ele como chave primária
+                # Tenta achar o projeto localmente pelo ID
                 query = "SELECT * FROM projects WHERE id = ?"
                 local_cursor.execute(query, (b_proj['id'],))
                 local_proj = local_cursor.fetchone()
 
                 if not local_proj:
-                    # CENÁRIO 1: Projeto Novo (existe no backup, não no local)
+                    # CENÁRIO 1: Projeto Novo
                     cols = list(b_proj.keys())
                     placeholders = ','.join(['?'] * len(cols))
-                    col_names = ','.join(cols)
+                    # CORREÇÃO: Adiciona aspas em volta dos nomes das colunas (ex: "name", "metadata")
+                    col_names = ','.join([f'"{c}"' for c in cols])
                     values = [b_proj[c] for c in cols]
                     
                     local_cursor.execute(
@@ -56,15 +56,15 @@ class DatabaseMerger:
                     )
                     stats["projects_added"] += 1
                 else:
-                    # CENÁRIO 2: Projeto Existe - Verificar qual é mais recente
-                    # Usamos 'modified_at' conforme seu services.py
+                    # CENÁRIO 2: Projeto Existe - Verificar data
                     b_time = b_proj['modified_at']
                     l_time = local_proj['modified_at']
                     
                     if b_time > l_time:
-                        # Atualiza o projeto local com os dados do backup
+                        # Atualiza o projeto local
                         cols = list(b_proj.keys())
-                        set_clause = ', '.join([f"{c} = ?" for c in cols])
+                        # CORREÇÃO: Adiciona aspas no SET clause (ex: "name" = ?)
+                        set_clause = ', '.join([f'"{c}" = ?' for c in cols])
                         values = [b_proj[c] for c in cols]
                         values.append(b_proj['id']) # Para o WHERE
                         
@@ -74,37 +74,27 @@ class DatabaseMerger:
                         )
                         stats["projects_updated"] += 1
                         
-                        # Se atualizamos o projeto, limpamos os parágrafos antigos para reescrever
-                        # Isso evita duplicidade ou desordem, já que vamos inserir os do backup
+                        # Limpa parágrafos antigos para reescrever
                         local_cursor.execute("DELETE FROM paragraphs WHERE project_id = ?", (b_proj['id'],))
 
-                # 2. Mesclar Parágrafos deste Projeto
-                # Se o projeto foi adicionado ou atualizado, precisamos garantir que os parágrafos estejam lá
-                
-                # Primeiro, verificamos se precisamos processar parágrafos.
-                # Se o projeto local era mais recente, não tocamos nos parágrafos (preserva o local).
-                # Se o projeto do backup era mais recente ou novo, inserimos os parágrafos do backup.
-                
+                # 2. Mesclar Parágrafos
                 should_process_paragraphs = False
                 if not local_proj: 
-                    should_process_paragraphs = True # Projeto novo
+                    should_process_paragraphs = True
                 elif b_proj['modified_at'] > local_proj['modified_at']:
-                    should_process_paragraphs = True # Backup mais novo
+                    should_process_paragraphs = True
 
                 if should_process_paragraphs:
-                    # Pegamos os parágrafos do projeto NO BACKUP
+                    # Pegamos os parágrafos do backup ordenados pela coluna "order"
+                    # Nota: Aqui no SELECT fixo eu já uso aspas, mas o problema era no INSERT dinâmico abaixo
                     backup_cursor.execute(
-                        "SELECT * FROM paragraphs WHERE project_id = ? ORDER BY \"order\" ASC", 
+                        'SELECT * FROM paragraphs WHERE project_id = ? ORDER BY "order" ASC', 
                         (b_proj['id'],)
                     )
                     backup_paragraphs = backup_cursor.fetchall()
 
-                    # Como deletamos os parágrafos no update (ou é projeto novo), fazemos INSERT
-                    # Se não tivéssemos deletado, teríamos que checar um por um, o que é lento e complexo
-                    # devido à mudança de ordem dos parágrafos.
-                    
                     for b_para in backup_paragraphs:
-                        # Verifica se o parágrafo já existe (caso não tenhamos feito o DELETE acima)
+                        # Verifica existência
                         local_cursor.execute("SELECT 1 FROM paragraphs WHERE id = ?", (b_para['id'],))
                         exists = local_cursor.fetchone()
                         
@@ -113,15 +103,18 @@ class DatabaseMerger:
                         
                         if not exists:
                             placeholders = ','.join(['?'] * len(cols))
-                            col_names = ','.join(cols)
+                            # CORREÇÃO CRÍTICA: "order" vira "order" com aspas aqui
+                            col_names = ','.join([f'"{c}"' for c in cols])
+                            
                             local_cursor.execute(
                                 f"INSERT INTO paragraphs ({col_names}) VALUES ({placeholders})", 
                                 values
                             )
                         else:
-                            # Se já existe (ex: merge parcial), atualizamos
-                            set_clause = ', '.join([f"{c} = ?" for c in cols])
+                            # Atualiza parágrafo existente
+                            set_clause = ', '.join([f'"{c}" = ?' for c in cols])
                             values.append(b_para['id'])
+                            
                             local_cursor.execute(
                                 f"UPDATE paragraphs SET {set_clause} WHERE id = ?", 
                                 values
