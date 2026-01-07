@@ -1087,11 +1087,12 @@ class ExportService:
                 return self._export_odt(project, file_path)
             elif format_type.lower() == 'pdf' and self.pdf_available:
                 return self._export_pdf(project, file_path)
+            elif format_type.lower() == 'tex' and self.pylatex_available:
+                return self._export_latex(project, file_path)
             else:
                 print(_("Formato de exportação '{}' não disponível").format(format_type))
                 return False
-            elif format_type.lower() == 'tex' and self.pylatex_available:
-                return self._export_latex(project, file_path)
+
             
                 
         except Exception as e:
