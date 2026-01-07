@@ -144,9 +144,15 @@ class MainWindow(Adw.ApplicationWindow):
         self.header_bar.set_title_widget(title_widget)
 
         # Left side buttons
-        self.new_project_button = Gio.Menu()
+        self.new_project_button = Gtk.MenuButton()
+        self.new_project_button.set_icon_name('tac-document-new-symbolic')
+        self.new_project_button.set_tooltip_text(_("Novo Projeto"))
+        
+        new_project_menu=Gio.Menu()
+
         new_project_menu.append(_("Ensaio Padrão (Humanas/Biológicas)"), "win.new_project('standard')")
         new_project_menu.append(_("Ensaio LaTeX (Exatas)"), "win.new_project('latex')")
+
         self.new_project_button.set_menu_model(new_project_menu)
         self.header_bar.pack_start(self.new_project_button)
 
@@ -1019,7 +1025,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.show_backup_manager_dialog()
 
     # Public methods called by application
-    def show_new_project_dialog(self):
+    def show_new_project_dialog(self, project_type="strandard"):
         """Show new project dialog"""
         dialog = NewProjectDialog(self, project_type=project_type)
         dialog.connect('project-created', self._on_project_created)

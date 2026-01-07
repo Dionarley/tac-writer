@@ -74,7 +74,7 @@ class NewProjectDialog(Adw.Window):
         'project-created': (GObject.SIGNAL_RUN_FIRST, None, (object,)),
     }
 
-    def __init__(self, parent, **kwargs):
+    def __init__(self, parent, project_type="strandard", **kwargs):
         super().__init__(**kwargs)
         self.project_type = project_type
         
@@ -299,7 +299,7 @@ class NewProjectDialog(Adw.Window):
             # Update metadata
             project.update_metadata({
                 'author': author,
-                'description': description
+                'description': description,
                 'type': self.project_type
             })
             
