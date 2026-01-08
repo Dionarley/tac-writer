@@ -1061,7 +1061,7 @@ class WelcomeDialog(Adw.Window):
         content_text_box.append(cat_label)
 
         cat_desc = Gtk.Label()
-        cat_desc.set_text(_("Tac Writer is a tool based on the TAC technique (Continued Argumentation Technique) and the Pomodoro method. TAC technique helps writers develop an idea in an organized manner, separating the paragraph into different stages. Read wiki to take advantage of all the resources. To open wiki click on '?' icon"))
+        cat_desc.set_text(_("Tac Writer é uma ferramenta baseada em TAC (Técnica da Argumentação Continuada) e no método Pomodoro. TAC ajuda a escrever o desenvolvimento de uma idea de maneira organizada, separando o parágrafo em diferentes etapas. Leia a wiki para aproveitar todos os recursos. Para abrir a wiki clique no ícone '?'"))
         cat_desc.set_wrap(True)
         cat_desc.set_halign(Gtk.Align.CENTER)
         cat_desc.set_justify(Gtk.Justification.LEFT)
