@@ -1347,7 +1347,10 @@ class ParagraphEditor(Gtk.Box):
             return
 
         # Bold
-        btn_bold = Gtk.Button(icon_name='format-text-bold')
+        img_bold = Gtk.Image.new_from_icon_name('format-text-bold')
+        img_bold.set_pixel_size(24)
+        btn_bold = Gtk.Button()
+        btn_bold.set_child(img_bold)
         btn_bold.set_tooltip_text(_("Negrito"))
         btn_bold.add_css_class("flat")
         btn_bold.connect('clicked', lambda b: self._on_format_clicked(b, 'bold'))
