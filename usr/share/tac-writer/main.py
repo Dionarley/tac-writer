@@ -15,6 +15,11 @@ from pathlib import Path
 warnings.filterwarnings("ignore", category=UserWarning)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
+# Fix for KDE Plasma (dead keys)
+if os.environ.get('XDG_CURRENT_DESKTOP') == 'KDE':
+    os.environ.setdefault('GTK_IM_MODULE', 'xim')
+
+
 # Suppress GTK and enchant warnings via environment variables
 os.environ.setdefault('G_MESSAGES_DEBUG', '')
 os.environ.setdefault('MESA_GLTHREAD', 'false')
