@@ -718,20 +718,20 @@ class WelcomeView(Gtk.Box):
 
     def _on_wiki_clicked(self, button):
         """Handle wiki button click - open external browser"""
-        import subprocess
-        import webbrowser
-        
         wiki_url = "https://github.com/narayanls/tac-writer/wiki"
         
         try:
-            # Try to open with default browser
-            webbrowser.open(wiki_url)
-        except Exception as e:
-            # Fallback: try xdg-open on Linux
+            # Try Gtk.UriLauncher (GTK 4.10+)
+            launcher = Gtk.UriLauncher.new(uri=wiki_url)
+            launcher.launch(self.get_root(), None, None)
+        except AttributeError:
+            # Fallback
             try:
-                subprocess.run(['xdg-open', wiki_url], check=False)
-            except Exception as fallback_error:
-                print(_("Não foi possível abrir URL da wiki: {}").format(fallback_error))
+                Gio.AppInfo.launch_default_for_uri(wiki_url, None)
+            except Exception as e:
+                print(_("Não foi possível abrir URL da wiki: {}").format(e))
+        except Exception as e:
+            print(_("Erro ao lançar navegador: {}").format(e))
 
     def _create_recent_section(self):
         """Create recent projects section"""

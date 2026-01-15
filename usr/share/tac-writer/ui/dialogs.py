@@ -802,10 +802,14 @@ class PreferencesDialog(Adw.PreferencesWindow):
 
     def _on_ai_wiki_clicked(self, button):
         """Open the AI Assistant wiki page"""
-        import webbrowser
         url = "https://github.com/narayanls/tac-writer/wiki/Fun%C3%A7%C3%B5es-Adicionais#-assistente-de-ia-para-revis%C3%A3o-textual"
         try:
-            webbrowser.open(url)
+            # Usar Gtk.UriLauncher is better for GTK4
+            launcher = Gtk.UriLauncher.new(uri=url)
+            launcher.launch(self, None, None)
+        except AttributeError:
+            # Fallback for older versions
+            Gio.AppInfo.launch_default_for_uri(url, None)
         except Exception as e:
             print(_("Erro ao abrir wiki: {}").format(e))
 
@@ -956,9 +960,9 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.ai_api_key_row.set_subtitle(_("Chave de API do Google AI Studio."))
         
         elif provider == "openrouter":
-            self.ai_model_entry.set_placeholder_text("x-ai/grok-4.1-fast:free")
+            self.ai_model_entry.set_placeholder_text("deepseek/deepseek-r1-0528:free")
             self.ai_model_row.set_subtitle(
-                _("Identificador OpenRouter (ex: x-ai/grok-4.1-fast:free).")
+                _("Identificador OpenRouter (ex: deepseek/deepseek-r1-0528:free).")
             )
             self.ai_api_key_row.set_subtitle(_("Chave de API do OpenRouter."))
         
@@ -1143,19 +1147,20 @@ class WelcomeDialog(Adw.Window):
         
     def _on_wiki_clicked(self, button):
         """Handle wiki button click - open external browser"""
-        import webbrowser
-        
         wiki_url = "https://github.com/narayanls/tac-writer/wiki"
         
         try:
-            # Try to open with default browser
-            webbrowser.open(wiki_url)
-        except Exception:
-            # Fallback: try xdg-open on Linux
+            # Try GTK4 native launcher
+            launcher = Gtk.UriLauncher.new(uri=wiki_url)
+            launcher.launch(self, None, None)
+        except AttributeError:
+            # Fallback: Gio.AppInfo
             try:
-                subprocess.run(['xdg-open', wiki_url], check=False)
+                Gio.AppInfo.launch_default_for_uri(wiki_url, None)
             except Exception as e:
-                print(_("Não foi possível abrir URL da wiki: {}").format(e))
+                print(_("Não foi possível abrir URL via Gio: {}").format(e))
+        except Exception as e:
+            print(_("Erro ao abrir lançador: {}").format(e))
 
 
 def AboutDialog(parent):

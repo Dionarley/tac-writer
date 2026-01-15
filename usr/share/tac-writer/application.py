@@ -267,6 +267,7 @@ class TacApplication(Adw.Application):
             traceback.print_exc()
             self.config.set_spell_check_enabled(False)
     
+
     def _setup_icon_theme(self):
         """Setup custom icon theme path with PRIORITY"""
         try:
