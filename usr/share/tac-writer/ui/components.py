@@ -1102,7 +1102,10 @@ class ParagraphEditor(Gtk.Box):
 
     def _setup_spell_check(self):
         """Setup spell check once when text view is ready"""
-        # --- DEBUG: Rastreamento de chamada ---
+        # If LATEX disable spellcheck
+        if self.paragraph.type == ParagraphType.LATEX:
+            return False
+        # DEBUG: Rastreamento de chamada
         print(f"DEBUG: Tentando setup spell check para {self.paragraph.id[:8]}...", flush=True)
 
         if self._spell_check_setup or not self.text_view:
