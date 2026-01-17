@@ -923,28 +923,56 @@ class MainWindow(Adw.ApplicationWindow):
             self.project_list.update_project_statistics(self.current_project.id, current_stats)
 
     def _on_paragraph_reorder(self, paragraph_editor, dragged_id, target_id, position):
-        """Handle paragraph reordering"""
+        """
+        Handle paragraph reordering manually manipulating the widgets.
+        This prevents destroying the widgets during a Drop operation, 
+        fixing the Gdk-WARNING runtime check failure.
+        """
         if not self.current_project:
             return
 
+        # 1. Atualizar o Modelo de Dados (Backend)
         dragged_paragraph = self.current_project.get_paragraph(dragged_id)
         target_paragraph = self.current_project.get_paragraph(target_id)
 
         if not dragged_paragraph or not target_paragraph:
             return
         
-        current_position = self.current_project.paragraphs.index(dragged_paragraph)
-        target_position = self.current_project.paragraphs.index(target_paragraph)
+        current_idx = self.current_project.paragraphs.index(dragged_paragraph)
+        target_idx = self.current_project.paragraphs.index(target_paragraph)
 
+        # Lógica para determinar o novo índice
         if position == "after":
-            new_position = target_position + 1 if current_position < target_position else target_position
-        else: # "before"
-            new_position = target_position if current_position > target_position else target_position -1
+            new_idx = target_idx + 1 if current_idx < target_idx else target_idx
+        else: 
+            new_idx = target_idx if current_idx > target_idx else target_idx - 1
+            
+            if new_idx < 0: new_idx = 0
+
+        # Move no backend
+        self.current_project.move_paragraph(dragged_id, new_idx)
         
-        self.current_project.move_paragraph(dragged_id, new_position)
-        self._refresh_paragraphs()
-        self._update_header_for_view("editor")
-        self._show_toast(_("Parágrafo reordenado"))
+        # 2. Atualizar a Interface
+        dragged_widget = self._existing_widgets.get(dragged_id)
+        target_widget = self._existing_widgets.get(target_id)
+        
+        if dragged_widget and target_widget:
+                        
+            sibling_to_insert_after = None
+            
+            if position == "after":
+                sibling_to_insert_after = target_widget
+            else:
+                sibling_to_insert_after = target_widget.get_prev_sibling()
+
+            if sibling_to_insert_after != dragged_widget:
+                self.paragraphs_box.reorder_child_after(dragged_widget, sibling_to_insert_after)
+
+            # Atualiza cabeçalho (contador de palavras, etc)
+            self._update_header_for_view("editor")
+        else:
+            # Fallback se algo der errado
+            self._refresh_paragraphs()
 
     def _on_close_request(self, window):
         """Handle window close request"""

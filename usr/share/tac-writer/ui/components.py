@@ -1019,6 +1019,10 @@ class ParagraphEditor(Gtk.Box):
         self.text_view = None
         self.text_buffer = None
         self.is_dragging = False
+
+        self.drag_start_x = 0
+        self.drag_start_y = 0
+        self._setup_dnd_styles()
         
         # Spell check components - initialize once
         self.spell_checker = None
@@ -1466,10 +1470,40 @@ class ParagraphEditor(Gtk.Box):
                 else:
                     self.text_buffer.insert(iter_loc, part)
 
+    def _setup_dnd_styles(self):
+        """Setup specific Drag and Drop visual styles (Efeito Kanri - Margens)"""
+        css_provider = Gtk.CssProvider()
+        
+        # Using margin instead of border
+        css = """
+        .drop-target-top {
+            margin-top: 60px;
+            transition: margin 0.15s ease-out;
+            background-image: linear-gradient(to bottom, @accent_color 2px, transparent 2px);
+        }
+        
+        .drop-target-bottom {
+            margin-bottom: 60px;
+            transition: margin 0.15s ease-out;
+            background-image: linear-gradient(to top, @accent_color 2px, transparent 2px);
+        }
+        
+        .dragging {
+            opacity: 0.15;
+        }
+        """
+        try:
+            css_provider.load_from_data(css.encode())
+            self.get_style_context().add_provider(
+                css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
+        except Exception as e:
+            print(f"Erro ao carregar estilos DnD: {e}")
+
     def _setup_drag_and_drop(self):
         """Setup drag and drop functionality using Global State for stability"""
         
-        # 1. DRAG SOURCE (Origem)
+        # 1. DRAG SOURCE
         drag_source = Gtk.DragSource()
         drag_source.set_actions(Gdk.DragAction.MOVE)
         
@@ -1482,8 +1516,7 @@ class ParagraphEditor(Gtk.Box):
         else:
             self.add_controller(drag_source)
 
-        # 2. DROP TARGET (Destino)
-        # Usamos TYPE_STRING pois é o mais estável no GTK4/Python
+        # 2. DROP TARGET
         drop_target = Gtk.DropTarget.new(GObject.TYPE_STRING, Gdk.DragAction.MOVE)
         
         drop_target.connect('accept', self._on_drop_accept)
@@ -1496,11 +1529,12 @@ class ParagraphEditor(Gtk.Box):
     def _on_drag_prepare(self, drag_source, x, y):
         """Prepare drag - Set global state and return dummy content"""
         global _CURRENT_DRAG_ID
-        # Salva o ID na variável global do Python (seguro)
+
+        self.drag_start_x = x
+        self.drag_start_y = y
+
+        # Salva o ID na variável global do Python
         _CURRENT_DRAG_ID = self.paragraph.id
-        
-        # Retorna uma string vazia para o GTK. 
-        # Se cair no TextView, não cola nada visível.
         return Gdk.ContentProvider.new_for_value("")
 
     def _on_drag_begin(self, drag_source, drag):
@@ -1513,9 +1547,15 @@ class ParagraphEditor(Gtk.Box):
 
         try:
             paintable = Gtk.WidgetPaintable.new(self)
-            drag_source.set_icon(paintable, 0, 0)
-        except Exception:
-            pass
+            
+            # Try "grab" middle card
+            icon_x = self.get_width() // 2
+            icon_y = 20 # Top card
+            
+            drag_source.set_icon(paintable, icon_x, icon_y)
+                
+        except Exception as e:
+            print(f"Erro no drag icon: {e}")
 
     def _on_drag_end(self, drag_source, drag, delete_data):
         """End drag operation - Clear global state"""
@@ -1534,21 +1574,20 @@ class ParagraphEditor(Gtk.Box):
     def _on_drop_accept(self, drop_target, drop):
         """Check if drop is acceptable"""
         global _CURRENT_DRAG_ID
-        # Só aceita se tivermos um ID interno sendo arrastado.
-        # Isso impede que textos de outros apps sejam aceitos aqui!
+        # Only accet Internal ID when dropped
         return _CURRENT_DRAG_ID is not None
 
     def _on_drop_enter(self, drop_target, x, y):
         return Gdk.DragAction.MOVE
 
     def _on_drop_motion(self, drop_target, x, y):
-        """Visual feedback"""
         global _CURRENT_DRAG_ID
         if _CURRENT_DRAG_ID == self.paragraph.id:
             return Gdk.DragAction.NONE
 
         widget_height = self.get_allocated_height()
         
+        # Try Kanri Logic
         self.remove_css_class("drop-target-top")
         self.remove_css_class("drop-target-bottom")
         
@@ -1581,10 +1620,12 @@ class ParagraphEditor(Gtk.Box):
         widget_height = self.get_allocated_height()
         drop_position = "after" if y > widget_height / 2 else "before"
 
-        # Emite o sinal para a MainWindow reordenar
-        self.emit('paragraph-reorder', dragged_id, target_id, drop_position)
-        
-        # Retorna True para sinalizar sucesso e remover o efeito "ghost"
+        def do_reorder():
+            self.emit('paragraph-reorder', dragged_id, target_id, drop_position)
+            return False
+
+        GLib.timeout_add(50, do_reorder)
+
         return True
 
     def _get_type_label(self) -> str:
