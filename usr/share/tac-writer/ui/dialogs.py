@@ -81,6 +81,9 @@ class NewProjectDialog(Adw.Window):
         # Adjust title based on type
         if self.project_type == 'latex':
             self.set_title(_("Novo Projeto LaTeX"))
+        elif self.project_type == 'it_essay':
+            # Handle IT Essay title
+            self.set_title(_("Novo Projeto T.I."))
         else:
             self.set_title(_("Novo Projeto"))
             
@@ -416,18 +419,27 @@ class ExportDialog(Adw.Window):
         formats = []
 
         # Verify project type
-        is_latex_project = self.project.metadata.get('type') == 'latex'
+        project_type = self.project.metadata.get('type')
 
-        if is_latex_project:
+        if project_type == 'latex':
             # if LaTex only tex format
             if self.export_service.pylatex_available:
                 formats.append(("LaTeX Source (.tex)", "tex"))
-
-            # txt for backup
             formats.append(("Texto Puro (.txt)", "txt"))
 
+        elif project_type == 'it_essay':
+            # IT Essay specific formats
+            formats.append(("Markdown (.md)", "md")) # New option
+            
+            if self.export_service.odt_available:
+                formats.append(("OpenDocument (.odt)", "odt"))
+                
+            if self.export_service.pylatex_available:
+                formats.append(("LaTeX Source (.tex)", "tex"))
+                
+
         else:
-            # if deafult type
+            # Default type (Standard)
             if self.export_service.odt_available:
                 formats.append(("OpenDocument (.odt)", "odt"))
                 

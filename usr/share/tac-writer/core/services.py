@@ -970,7 +970,7 @@ class ExportService:
                 grouped.append({'type': 'quote', 'content': content})
                 last_was_quote = True
             
-            elif paragraph.type == ParagraphType.EPIGRAPH: # New block
+            elif paragraph.type == ParagraphType.EPIGRAPH:
                 # Write accumulated content first
                 if current_paragraph_content:
                     combined = " ".join(current_paragraph_content)
@@ -1004,6 +1004,21 @@ class ExportService:
                     grouped.append({'type': 'image', 'metadata': img_metadata})
                 last_was_quote = False
             
+            elif paragraph.type == ParagraphType.CODE:
+                # Write accumulated content first
+                if current_paragraph_content:
+                    combined = " ".join(current_paragraph_content)
+                    grouped.append({
+                        'type': 'content',
+                        'content': combined,
+                        'indent': paragraph_starts_with_introduction
+                    })
+                    current_paragraph_content = []
+                    paragraph_starts_with_introduction = False
+                
+                grouped.append({'type': 'code', 'content': content})
+                last_was_quote = False
+
             elif paragraph.type in [ParagraphType.INTRODUCTION, ParagraphType.ARGUMENT, ParagraphType.CONCLUSION, ParagraphType.ARGUMENT_RESUMPTION]:
                 # Determine if should start new paragraph
                 should_start_new = (
@@ -1072,7 +1087,7 @@ class ExportService:
 
     def get_available_formats(self) -> List[str]:
         """Get list of available export formats"""
-        formats = ['txt']
+        formats = ['txt', 'md']
         
         if self.odt_available:
             formats.append('odt')
@@ -1090,6 +1105,8 @@ class ExportService:
         try:
             if format_type.lower() == 'txt':
                 return self._export_txt(project, file_path)
+            elif format_type.lower() == 'md':
+                return self._export_md(project, file_path)
             elif format_type.lower() == 'odt' and self.odt_available:
                 return self._export_odt(project, file_path)
             elif format_type.lower() == 'pdf' and self.pdf_available:
@@ -1321,6 +1338,61 @@ class ExportService:
 
         return NoEscape(text)
 
+    def _export_md(self, project: Project, file_path: str) -> bool:
+        """Export to Markdown format"""
+        try:
+            file_path_obj = Path(file_path)
+            file_path_obj.parent.mkdir(parents=True, exist_ok=True)
+            
+            with open(file_path, 'w', encoding='utf-8') as f:
+                # Header
+                f.write(f"# {project.name}\n\n")
+                if project.metadata.get('author'):
+                    f.write(f"**Autor:** {project.metadata['author']}\n\n")
+                
+                # Content
+                for paragraph in project.paragraphs:
+                    content = paragraph.content.strip()
+                    
+                    # Convert internal tags to Markdown
+                    # Replace <b> with **
+                    content = content.replace("<b>", "**").replace("</b>", "**")
+                    # Replace <i> with *
+                    content = content.replace("<i>", "*").replace("</i>", "*")
+                    # Replace <u> (Markdown doesn't support underline natively, usually ignored or HTML)
+                    content = content.replace("<u>", "").replace("</u>", "")
+
+                    if paragraph.type == ParagraphType.TITLE_1:
+                        f.write(f"# {content}\n\n")
+                    
+                    elif paragraph.type == ParagraphType.TITLE_2:
+                        f.write(f"## {content}\n\n")
+                    
+                    elif paragraph.type == ParagraphType.CODE:
+                        # Fenced code block
+                        f.write("```\n")
+                        f.write(paragraph.content) # Raw content for code (no tag replacement)
+                        f.write("\n```\n\n")
+                    
+                    elif paragraph.type == ParagraphType.QUOTE:
+                        f.write(f"> {content}\n\n")
+                    
+                    elif paragraph.type == ParagraphType.IMAGE:
+                        meta = paragraph.get_image_metadata()
+                        if meta:
+                            caption = meta.get('caption', '')
+                            path = meta.get('filename', 'image.png')
+                            f.write(f"![{caption}]({path})\n\n")
+                    
+                    else:
+                        # Normal text
+                        f.write(f"{content}\n\n")
+            
+            return True
+        except Exception as e:
+            print(f"Error exporting to Markdown: {e}")
+            return False
+
     def _generate_odt_content(self, project: Project) -> str:
         """Generate content.xml for ODT with proper formatting"""
         
@@ -1337,6 +1409,26 @@ class ExportService:
             # Usando o novo método auxiliar
             content = self._format_text_for_odt(paragraph.content)
             
+            # Handle Code Block for ODT
+            if paragraph.type == ParagraphType.CODE:
+                if current_paragraph_content:
+                    combined = " ".join(current_paragraph_content)
+                    style = "Introduction" if paragraph_starts_with_introduction else "Normal"
+                    grouped_odt.append({'type': 'content', 'content': combined, 'style': style})
+                    current_paragraph_content = []
+                    paragraph_starts_with_introduction = False
+                
+                # Preserve spaces/tabs for code
+                code_content = paragraph.content
+                code_content = code_content.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+                code_content = code_content.replace("\n", "<text:line-break/>")
+                # ODT collapses spaces, use text:s for multiple spaces
+                code_content = code_content.replace("  ", "<text:s text:c=\"2\"/>")
+                code_content = code_content.replace("\t", "<text:tab/>")
+                
+                grouped_odt.append({'type': 'code', 'content': code_content})
+                last_was_quote = False
+
             if paragraph.type == ParagraphType.TITLE_1:
                 if current_paragraph_content:
                     combined = " ".join(current_paragraph_content)
@@ -1479,6 +1571,8 @@ class ExportService:
         for item in grouped_odt:
             if item['type'] == 'title1':
                 content_xml += f'<text:p text:style-name="Title1">{item["content"]}</text:p>\n'
+            elif item['type'] == 'code':
+                content_xml += f'<text:p text:style-name="CodeBlock">{item["content"]}</text:p>\n'
             elif item['type'] == 'title2':
                 content_xml += f'<text:p text:style-name="Title2">{item["content"]}</text:p>\n'
             elif item['type'] == 'quote':
@@ -1599,7 +1693,7 @@ class ExportService:
     <style:paragraph-properties fo:text-align="justify" fo:margin-left="4cm" fo:margin-bottom="0.3cm" fo:line-height="100%"/>
   </style:style>
   
-  <style:style style:name="Epigraph" style:family="paragraph"> <!-- New style -->
+  <style:style style:name="Epigraph" style:family="paragraph">
     <style:text-properties fo:font-size="12pt" fo:font-style="italic"/>
     <style:paragraph-properties fo:text-align="right" fo:margin-left="7.5cm" fo:margin-bottom="0.3cm" fo:line-height="150%"/>
   </style:style>
@@ -1625,6 +1719,12 @@ class ExportService:
   <style:style style:name="GraphicsRight" style:family="graphic">
     <style:graphic-properties style:run-through="foreground" style:wrap="none" style:horizontal-pos="right" style:horizontal-rel="paragraph" style:vertical-pos="top" style:vertical-rel="paragraph"/>
   </style:style>
+
+  <style:style style:name="CodeBlock" style:family="paragraph">
+    <style:text-properties style:font-name="Courier New" fo:font-size="10pt" fo:language="zxx" fo:country="none"/>
+    <style:paragraph-properties fo:background-color="#f5f5f5" fo:border="0.06pt solid #cccccc" fo:padding="0.2cm" fo:margin-bottom="0.3cm"/>
+  </style:style>
+
 </office:styles>
 </office:document-styles>'''
         
@@ -2004,6 +2104,8 @@ class ExportService:
             doc.packages.append(Package('graphicx')) # Imagens
             doc.packages.append(Package('amsmath'))  # Equações matemáticas
             doc.packages.append(Package('indentfirst')) # Indentar primeiro parágrafo
+            doc.packages.append(Package('listings')) # Add listings package for Code Blocks
+            doc.preamble.append(NoEscape(r'\lstset{basicstyle=\ttfamily\small, breaklines=true, frame=single}')) # Configure basic listings style
             
             # Metadados
             doc.preamble.append(Command('title', project.name))
@@ -2015,6 +2117,14 @@ class ExportService:
 
             # Iterar sobre os parágrafos
             for paragraph in project.paragraphs:
+                
+                # 1. Handle Code Block
+                if paragraph.type == ParagraphType.CODE:
+                    # Use lstlisting environment
+                    doc.append(NoEscape(r'\begin{lstlisting}'))
+                    doc.append(NoEscape(paragraph.content))
+                    doc.append(NoEscape(r'\end{lstlisting}'))
+                    continue
                 
                 # 1. Tratar Bloco de Equação LaTeX
                 if paragraph.type == ParagraphType.LATEX:

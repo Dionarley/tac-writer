@@ -23,6 +23,7 @@ class ParagraphType(Enum):
     CONCLUSION = "conclusion"
     IMAGE = "image"
     LATEX = "latex"
+    CODE = "code"
 
 class Paragraph:
     """Represents a single paragraph in a document"""
@@ -100,6 +101,15 @@ class Paragraph:
                 'indent_left': 2.0,        
                 'indent_right': 2.0,
                 'line_spacing': 1.2,
+            })
+        elif self.type == ParagraphType.CODE:
+            self.formatting.update({
+                'font_family': 'Monospace',
+                'font_size': 10,
+                'indent_left': 1.0,        
+                'indent_right': 1.0,
+                'line_spacing': 1.1,
+                'alignment': 'left',
             })
 
     def update_content(self, content: str) -> None:
@@ -277,7 +287,7 @@ class Project:
         
         # Find last content paragraph to inherit from
         for paragraph in reversed(self.paragraphs):
-            if paragraph.type not in [ParagraphType.TITLE_1, ParagraphType.TITLE_2, ParagraphType.QUOTE]:
+            if paragraph.type not in [ParagraphType.TITLE_1, ParagraphType.TITLE_2, ParagraphType.QUOTE, ParagraphType.CODE, ParagraphType.LATEX]:
                 return {
                     'font_family': paragraph.formatting.get('font_family', 'Adwaita Sans'),
                     'font_size': paragraph.formatting.get('font_size', 12),

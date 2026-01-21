@@ -152,6 +152,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         new_project_menu.append(_("Ensaio Padrão (Humanas/Biológicas)"), "win.new_project('standard')")
         new_project_menu.append(_("Ensaio LaTeX (Exatas)"), "win.new_project('latex')")
+        new_project_menu.append(_("Ensaio T.I. (Tecnologia/Código)"), "win.new_project('it_essay')")
 
         self.new_project_button.set_menu_model(new_project_menu)
         self.header_bar.pack_start(self.new_project_button)
@@ -423,9 +424,11 @@ class MainWindow(Adw.ApplicationWindow):
         # Add LaTex condition
         if self.current_project and self.current_project.metadata.get('type') == 'latex':
             paragraph_types.append((_("Equação LaTeX"), ParagraphType.LATEX))
+
+        # Add Code condition (IT Essay)
+        if self.current_project and self.current_project.metadata.get('type') == 'it_essay':
+            paragraph_types.append((_("Bloco de Código"), ParagraphType.CODE))
             
-
-
         for label, ptype in paragraph_types:
             menu_model.append(label, f"win.add_paragraph('{ptype.value}')")
 

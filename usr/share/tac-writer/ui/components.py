@@ -713,6 +713,20 @@ class WelcomeView(Gtk.Box):
         row_latex.add_suffix(btn_latex)
         template_group.add(row_latex)
 
+        # 3. IT Essay (New Implementation)
+        row_it = Adw.ActionRow()
+        row_it.set_title(_("Ensaio T.I."))
+        row_it.set_subtitle(_("Focado em tecnologia (Suporte a blocos de código)"))
+
+        btn_it = Gtk.Button()
+        btn_it.set_label(_("Iniciar"))
+        btn_it.add_css_class("suggested-action")
+        btn_it.set_valign(Gtk.Align.CENTER)
+        # Send 'it_essay' to main_window
+        btn_it.connect('clicked', lambda btn: self.emit('create-project', 'it_essay'))
+
+        row_it.add_suffix(btn_it)
+        template_group.add(row_it)
 
         self.append(template_group)
 
@@ -1074,6 +1088,30 @@ class ParagraphEditor(Gtk.Box):
                 )
                 self.text_view.add_css_class("latex-view")
                 
+            # Logic for Code Block
+            elif self.paragraph.type == ParagraphType.CODE:
+                font_family = 'Monospace'
+                font_size = formatting.get('font_size', 10)
+                
+                # Add specific visual style for Code
+                css_provider = Gtk.CssProvider()
+                css = """
+                .code-view {
+                    font-family: 'Monospace';
+                    background-color: #f3f3f3;
+                    color: #2e3436;
+                    border: 1px solid alpha(#000000, 0.1);
+                    border-radius: 4px;
+                    padding: 8px;
+                }
+                """
+
+                css_provider.load_from_data(css.encode())
+                self.text_view.get_style_context().add_provider(
+                    css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+                )
+                self.text_view.add_css_class("code-view")
+
             else:
                 # Default type
                 font_family = formatting.get('font_family', 'Adwaita Sans')
@@ -1105,8 +1143,8 @@ class ParagraphEditor(Gtk.Box):
 
     def _setup_spell_check(self):
         """Setup spell check once when text view is ready"""
-        # If LATEX disable spellcheck
-        if self.paragraph.type == ParagraphType.LATEX:
+        # If LATEX or CODE disable spellcheck
+        if self.paragraph.type in [ParagraphType.LATEX, ParagraphType.CODE]:
             return False
         # DEBUG: Rastreamento de chamada
         print(f"DEBUG: Tentando setup spell check para {self.paragraph.id[:8]}...", flush=True)
@@ -1120,7 +1158,6 @@ class ParagraphEditor(Gtk.Box):
         
         try:
             # Tenta pegar o helper da janela principal, senão cria um novo
-            # Correção para o problema do get_root() retornando None
             root = self.get_root()
             if root and hasattr(root, 'spell_helper'):
                 self.spell_helper = root.spell_helper
@@ -1139,7 +1176,7 @@ class ParagraphEditor(Gtk.Box):
             import traceback
             traceback.print_exc()
             
-        return False # Para parar o timeout do GLib
+        return False
 
     def _create_header(self):
         """Create paragraph header with type and controls"""
@@ -1213,7 +1250,7 @@ class ParagraphEditor(Gtk.Box):
         header_box.append(self.format_box)
 
         # Spell check toggle button
-        if SPELL_CHECK_AVAILABLE and self.config and self.paragraph.type != ParagraphType.LATEX:
+        if SPELL_CHECK_AVAILABLE and self.config and self.paragraph.type not in [ParagraphType.LATEX, ParagraphType.CODE]:
             self.spell_button = Gtk.ToggleButton()
             self.spell_button.set_icon_name('tac-tools-check-spelling-symbolic')
             self.spell_button.set_tooltip_text(_("Alternar verificação ortográfica"))
@@ -1294,7 +1331,7 @@ class ParagraphEditor(Gtk.Box):
         # Text buffer
         self.text_buffer = Gtk.TextBuffer()
 
-        # --- Define Formatting Tags ---
+        # Define Formatting Tags
         tag_table = self.text_buffer.get_tag_table()
         if not tag_table.lookup('bold'):
             self.text_buffer.create_tag('bold', weight=Pango.Weight.BOLD)
@@ -1348,8 +1385,8 @@ class ParagraphEditor(Gtk.Box):
         if self._formatting_buttons_created:
             return
 
-        # If LaTeX, do not create text formatting buttons
-        if self.paragraph.type == ParagraphType.LATEX:
+        # If LaTeX or CODE, do not create text formatting buttons
+        if self.paragraph.type in [ParagraphType.LATEX, ParagraphType.CODE]:
             return
 
         # Bold
@@ -1569,7 +1606,8 @@ class ParagraphEditor(Gtk.Box):
             ParagraphType.QUOTE: _("Citação"),
             ParagraphType.EPIGRAPH: _("Epígrafe"),
             ParagraphType.CONCLUSION: _("Conclusão"),
-            ParagraphType.LATEX: _("Equação LaTeX")
+            ParagraphType.LATEX: _("Equação LaTeX"),
+            ParagraphType.CODE: _("Bloco de Código")
         }
         return type_labels.get(self.paragraph.type, _("Parágrafo"))
 
