@@ -41,7 +41,8 @@ The Continuous Argumentation Technique emphasizes interconnected paragraphs that
 
 *Welcome Tac Writer*
 
-<img width="511" height="394" alt="tac-welcome" src="https://github.com/user-attachments/assets/a943727c-f6de-4298-bd9b-621ece8bd440" />
+<img width="550" height="450" alt="tac-welcome" src="https://github.com/user-attachments/assets/de3520bf-30bd-4ad6-b520-01926652b44b" />
+
 
 
 ## Key Features
