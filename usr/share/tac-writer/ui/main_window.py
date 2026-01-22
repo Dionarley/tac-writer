@@ -166,6 +166,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.header_bar.pack_start(self.pomodoro_button)
 
         # Right side buttons
+        
         # Menu button
         menu_button = Gtk.MenuButton()
         menu_button.set_icon_name('tac-open-menu-symbolic')
@@ -173,6 +174,7 @@ class MainWindow(Adw.ApplicationWindow):
         self._setup_menu(menu_button)
         self.header_bar.pack_end(menu_button)
 
+	# Save button
         save_button = Gtk.Button()
         save_button.set_icon_name('tac-document-save-symbolic')
         save_button.set_tooltip_text(_("Salvar Projeto (Ctrl+S)"))
@@ -484,19 +486,19 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _on_scroll_to_bottom(self, button):
         """Scroll to the bottom of the project"""
-        # Se estiver carregando, marca para rolar assim que terminar (ou a cada lote)
+        # If loading, scroll after
         if self._is_loading_paragraphs:
             self._pending_scroll_to_bottom = True
-            # Opcional: Mostra um aviso rápido ou muda o cursor
+            # Optional: Show a quick warning or change the cursor
             self._show_toast(_("Carregando restante do documento..."), Adw.ToastPriority.LOW)
             
-            # Força o scroll para o ponto atual imediatamente também
+            # Force scroll to current point immediately too
             if hasattr(self, 'editor_scrolled'):
                 adjustment = self.editor_scrolled.get_vadjustment()
                 adjustment.set_value(adjustment.get_upper())
             return
 
-        # Comportamento padrão se já carregou tudo
+        # Default behavior if everything has already loaded
         if hasattr(self, 'editor_scrolled'):
             adjustment = self.editor_scrolled.get_vadjustment()
             adjustment.set_value(adjustment.get_upper() - adjustment.get_page_size())
@@ -515,7 +517,7 @@ class MainWindow(Adw.ApplicationWindow):
             else:
                 self._preserved_scroll_position = None
 
-        # Limpa widgets antigos que não estão mais no projeto
+        # Cleans up old widgets that are no longer in the project
         existing_widgets = {}
         child = self.paragraphs_box.get_first_child()
         while child:
@@ -530,7 +532,7 @@ class MainWindow(Adw.ApplicationWindow):
                 self.paragraphs_box.remove(widget)
                 del existing_widgets[paragraph_id]
     
-        # Remove todos da view para reordenar/reinserir corretamente
+        # Removes all from view to reorder/reinsert correctly
         child = self.paragraphs_box.get_first_child()
         while child:
             next_child = child.get_next_sibling()
@@ -540,33 +542,33 @@ class MainWindow(Adw.ApplicationWindow):
         self._paragraphs_to_add = list(self.current_project.paragraphs)
         self._existing_widgets = existing_widgets
         
-        # Reseta flags de controle
+        # Reset control flags
         self._is_loading_paragraphs = True
         self._pending_scroll_to_bottom = False
 
-        # Inicia o processamento em lote
+        # Start batch processing
         GLib.idle_add(self._process_paragraph_batch)
 
     def _process_paragraph_batch(self):
         """Process a batch of paragraphs for asynchronous loading"""
-        # CONFIGURAÇÃO DE PERFORMANCE
+        # PERFORMANCE SETUP
         BATCH_SIZE = 10 
         
         count = 0
         while self._paragraphs_to_add and count < BATCH_SIZE:
             paragraph = self._paragraphs_to_add.pop(0)
             
-            # Lógica de criação/reuso do widget
+            # Widget creation/reuse logic
             row_widget = None
             if paragraph.id in self._existing_widgets:
                 row_widget = self._existing_widgets[paragraph.id]
             else:
                 editor_widget = None # Inicializa variável
 
-                # --- CORREÇÃO AQUI: Usar 'editor_widget' em vez de 'widget' ---
+                # Use 'editor_widget' instead of 'widget
                 if paragraph.type == ParagraphType.IMAGE:
                     editor_widget = self._create_image_widget(paragraph)
-                    # Garante que o widget de imagem tenha a referência do parágrafo
+                    # Ensures image widget has paragraph reference
                     if not hasattr(editor_widget, 'paragraph'):
                         editor_widget.paragraph = paragraph
                 else:
@@ -574,7 +576,7 @@ class MainWindow(Adw.ApplicationWindow):
                     editor_widget.connect('content-changed', self._on_paragraph_changed)
                     editor_widget.connect('remove-requested', self._on_paragraph_remove_requested)
 
-                # Agora editor_widget não é mais None
+                # Now editor_widget is no longer None
                 from ui.components import ReorderableParagraphRow 
                 row_widget = ReorderableParagraphRow(editor_widget)
 
@@ -586,11 +588,11 @@ class MainWindow(Adw.ApplicationWindow):
             self.paragraphs_box.append(row_widget)
             count += 1
 
-        # VERIFICAÇÃO DE TÉRMINO
+        # TERMINATION CHECK
         if not self._paragraphs_to_add:
             self._is_loading_paragraphs = False
             
-            # CORREÇÃO: Restaurar a rolagem APENAS quando tudo estiver carregado
+            # FIX: Restore scrolling ONLY when everything is loaded
             if self._preserved_scroll_position is not None:
                 GLib.idle_add(self._restore_scroll_position, priority=GLib.PRIORITY_LOW)
             
@@ -608,7 +610,7 @@ class MainWindow(Adw.ApplicationWindow):
             adj = self.editor_scrolled.get_vadjustment()
             adj.set_value(self._preserved_scroll_position)
             
-            # Limpa a posição preservada para evitar saltos futuros indesejados
+            # Clears the preserved position to avoid unwanted future jumps
             self._preserved_scroll_position = None
         return False
 
@@ -951,7 +953,7 @@ class MainWindow(Adw.ApplicationWindow):
         current_idx = self.current_project.paragraphs.index(dragged_paragraph)
         target_idx = self.current_project.paragraphs.index(target_paragraph)
 
-        # Lógica para determinar o novo índice
+        # Logic to determine the new index
         if position == "after":
             new_idx = target_idx + 1 if current_idx < target_idx else target_idx
         else: 
@@ -962,7 +964,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Move no backend
         self.current_project.move_paragraph(dragged_id, new_idx)
         
-        # 2. Atualizar a Interface
+        # 2. Update the Interface
         dragged_widget = self._existing_widgets.get(dragged_id)
         target_widget = self._existing_widgets.get(target_id)
         
@@ -981,7 +983,7 @@ class MainWindow(Adw.ApplicationWindow):
             # Atualiza cabeçalho (contador de palavras, etc)
             self._update_header_for_view("editor")
         else:
-            # Fallback se algo der errado
+            # Fallback if something goes wrong
             self._refresh_paragraphs()
 
     def _on_close_request(self, window):
@@ -1000,7 +1002,6 @@ class MainWindow(Adw.ApplicationWindow):
         
         # Check if project needs saving (optional confirmation)
         if self.current_project and self.config.get('confirm_on_close', True):
-            # Could add unsaved changes dialog here
             pass
         
         return False
@@ -1061,7 +1062,6 @@ class MainWindow(Adw.ApplicationWindow):
         self.show_welcome_dialog()
 
         # Force the tour to show after welcome dialog is closed
-        # by temporarily enabling it
         self.config.set('show_first_run_tutorial', True)
         
     def _action_backup_manager(self, action, param):
@@ -1177,7 +1177,7 @@ class MainWindow(Adw.ApplicationWindow):
             # Only show toast on failure
             self._show_toast(_("Salvamento automático falhou"), Adw.ToastPriority.HIGH)
         
-        return False  # Don't repeat the timeout
+        return False  
 
     def show_export_dialog(self):
         """Show export dialog"""
@@ -1385,7 +1385,7 @@ class MainWindow(Adw.ApplicationWindow):
         toast.set_priority(priority)
         self.toast_overlay.add_toast(toast)
 
-    # --- AI assistant helpers -------------------------------------------------
+    # AI assistant helpers
     def _on_ai_assistant_requested(self, *_args):
         if not self.ai_assistant:
             return
@@ -1713,7 +1713,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         return cleaned.strip()
 
-    # --- Search helpers -------------------------------------------------------
+    # Search helpers
     def _reset_search_state(self):
         self._search_state = {'paragraph_index': -1, 'offset': -1}
 
@@ -1911,15 +1911,14 @@ class MainWindow(Adw.ApplicationWindow):
         self._update_header_for_view("editor")
 
     def handle_ai_pdf_error(self, error_message: str):
-        """Lida com erros vindos do assistente de IA durante análise de PDF"""
+        """Handle errors from AI assistent while PDF analyse is runnig"""
         
-        # 1. Fecha a janela de "Analisando..." (o spinner)
+        # 1. Close spinner window
         if self.pdf_loading_dialog:
             self.pdf_loading_dialog.destroy()
             self.pdf_loading_dialog = None
 
-        # 2. Mostra o erro em um diálogo de alerta (Adw.MessageDialog)
-        # Isso é melhor que o toast pois obriga o usuário a ler e fechar
+        # 2. Show error in dialog altert (Adw.MessageDialog)
         error_dialog = Adw.MessageDialog.new(
             self,
             _("Falha na Análise"),
@@ -1930,7 +1929,7 @@ class MainWindow(Adw.ApplicationWindow):
         error_dialog.set_default_response("close")
         error_dialog.set_close_response("close")
         
-        # Conecta o sinal para fechar o diálogo
+        # Connect the signal to close the dialog
         error_dialog.connect("response", lambda dlg, resp: dlg.destroy())
         
         error_dialog.present()

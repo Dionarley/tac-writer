@@ -450,7 +450,7 @@ class WritingAiAssistant:
                 return False
             self._inflight = True
 
-        # Executa em thread separada para não travar a UI
+        # Runs in a separate thread to avoid crashing the UI
         worker = threading.Thread(
             target=self._process_pdf_thread,
             args=(pdf_path,),
@@ -461,7 +461,7 @@ class WritingAiAssistant:
 
     def _process_pdf_thread(self, pdf_path: str) -> None:
         try:
-            # 1. Extração do Texto do PDF
+            # 1. Text Extraction from PDF
             text_content = ""
             try:
                 reader = PdfReader(pdf_path)
@@ -475,7 +475,7 @@ class WritingAiAssistant:
             if not text_content.strip():
                 raise RuntimeError(_("Não foi possível extrair texto do PDF (pode ser uma imagem ou vazio)."))
 
-            # 2. Montagem do Prompt
+            # 2. Prompt Assembly
             fixed_prompt = (
                 "Faça uma revisão ortográfica, gramatical e semântica do texto abaixo. "
                 "Procure por palavras que, ainda que digitadas corretamente, possam não fazer sentido "
@@ -506,20 +506,20 @@ class WritingAiAssistant:
 
         except Exception as exc:
             self.logger.error("AI PDF review failed: %s", exc)
-            # MUDANÇA AQUI: Em vez de só mandar um toast, chamamos a notificação de erro específica
+            # Call the specific error notification
             GLib.idle_add(self._notify_pdf_error, str(exc))
         finally:
             with self._lock:
                 self._inflight = False
 
-    # ADICIONE ESTE MÉTODO NOVO
+    # ADD THIS NEW METHOD
     def _notify_pdf_error(self, error_msg: str) -> bool:
         """Notifica a janela principal que houve um erro no processamento do PDF"""
         window = self._window_ref()
-        # Verifica se a janela tem o método de tratamento de erro
+        # Checks if the window has the error handling method
         if window and hasattr(window, "handle_ai_pdf_error"):
             window.handle_ai_pdf_error(error_msg)
-        # Fallback para o toast antigo caso o método não exista
+        # Fallback to the old toast if the method does not exist
         elif window: 
             self._queue_toast(_("Erro IA: {}").format(error_msg))
         return False

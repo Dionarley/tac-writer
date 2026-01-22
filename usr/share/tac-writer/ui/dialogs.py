@@ -28,7 +28,7 @@ def get_system_fonts():
     font_names = []
     
     try:
-        # Method 1: Try PangoCairo
+        # Method 1: Try Pangocairo
         gi.require_version('PangoCairo', '1.0')
         from gi.repository import PangoCairo
         font_map = PangoCairo.font_map_get_default()
@@ -718,7 +718,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         self.line_numbers_row.connect('notify::active', self._on_line_numbers_changed)
         behavior_group.add(self.line_numbers_row)
 
-        # AI assistant page
+        # AI page assistant
         ai_page = Adw.PreferencesPage()
         ai_page.set_title(_("Assistente de IA"))
         ai_page.set_icon_name('applications-science-symbolic')
@@ -731,7 +731,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         )
         ai_page.add(ai_group)
 
-         # Link para a Wiki
+         # Link to Wiki
         wiki_row = Adw.ActionRow()
         wiki_row.set_title(_("Guia de Configuração"))
         wiki_row.set_subtitle(_("Leia a documentação para saber como obter as chaves de API"))
@@ -770,7 +770,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         )
         self.ai_model_entry = Gtk.Entry()
         self.ai_model_entry.set_placeholder_text(_("gemini-2.5-flash"))
-        # Removido o salvamento automático no 'changed' para usar o botão
+        # Removed autosave on 'changed' to use button
         self.ai_model_row.add_suffix(self.ai_model_entry)
         self.ai_model_row.set_activatable_widget(self.ai_model_entry)
         ai_group.add(self.ai_model_row)
@@ -802,14 +802,14 @@ class PreferencesDialog(Adw.PreferencesWindow):
         # Add button to group
         ai_group.add(save_btn)
 
-        # Lista de widgets para habilitar/desabilitar
+        # List of widgets to enable/disable
         self._ai_config_widgets = [
             self.ai_provider_row,
             self.ai_model_row,
             self.ai_model_entry,
             self.ai_api_key_row,
             self.ai_api_key_entry,
-            save_btn # Inclui o botão na lista para desabilitar se a IA estiver desligada
+            save_btn 
         ]
 
     def _on_ai_wiki_clicked(self, button):
@@ -949,7 +949,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         self._update_ai_controls_sensitive(enabled)
 
     def _on_ai_provider_changed(self, combo_row, pspec):
-        # Apenas atualiza a UI, o salvamento real ocorre no botão Salvar
+        # Just updates the UI, the actual saving happens on the Save button
         index = combo_row.get_selected()
         if 0 <= index < len(self._ai_provider_options):
             provider_id = self._ai_provider_options[index][0]
@@ -960,7 +960,6 @@ class PreferencesDialog(Adw.PreferencesWindow):
             widget.set_sensitive(enabled)
 
     def _update_ai_provider_ui(self, provider: str) -> None:
-        # Se o provider vier vazio ou inválido (ex: antigo groq), define um padrão
         if not provider or provider == "groq":
             provider = "gemini"
 
@@ -979,7 +978,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
             self.ai_api_key_row.set_subtitle(_("Chave de API do OpenRouter."))
         
         else:
-            # Fallback genérico
+            # Generic fallback
             self.ai_model_entry.set_placeholder_text(_("nome-do-modelo"))
             self.ai_model_row.set_subtitle(
                 _("Identificador do modelo exigido pelo provedor.")
@@ -1464,7 +1463,7 @@ class BackupManagerDialog(Adw.Window):
         dialog.set_filters(filters)
         dialog.set_default_filter(filter_db)
         
-        # Abre o diálogo e define o callback
+        # Open the dialog and define the callback
         dialog.open(self, None, self._on_import_file_finish)
 
     def _on_import_file_finish(self, dialog, result):
@@ -1475,7 +1474,7 @@ class BackupManagerDialog(Adw.Window):
                 backup_path = Path(file.get_path())
                 self._confirm_import(backup_path)
         except GLib.Error as e:
-            # Ocorre se o usuário cancelar
+            # Occurs if the user cancels
             print(f"File selection cancelled or error: {e}")
 
     def _on_restore_backup(self, backup):
@@ -1499,7 +1498,7 @@ class BackupManagerDialog(Adw.Window):
         dialog.add_response("replace", _("Substituir Tudo"))
         dialog.add_response("merge", _("Mesclar (Sincronizar)"))
         
-        # Estilos dos botões
+        # Button styles
         dialog.set_response_appearance("replace", Adw.ResponseAppearance.DESTRUCTIVE)
         dialog.set_response_appearance("merge", Adw.ResponseAppearance.SUGGESTED)
         
@@ -2222,7 +2221,7 @@ class AiPdfDialog(Adw.Window):
         dialog = Gtk.FileDialog()
         dialog.set_title(_("Selecionar PDF"))
         
-        # Filtro para PDF
+        # Filter for PDF
         pdf_filter = Gtk.FileFilter()
         pdf_filter.set_name("PDF files")
         pdf_filter.add_pattern("*.pdf")
@@ -2250,7 +2249,7 @@ class AiPdfDialog(Adw.Window):
             self.run_btn.set_label(_("Analisando (pode levar alguns minutos)"))
             self.spinner.start()
             
-            # Chama o método no core
+            # Call the method in core
             success = self.ai_assistant.request_pdf_review(self.selected_file_path)
             
 
@@ -2263,7 +2262,7 @@ class AiResultDialog(Adw.Window):
         self.set_title(_("Resultados da Análise"))
         self.set_transient_for(parent)
         self.set_modal(True)
-        # Aumentei um pouco o tamanho padrão para leitura confortável
+        # I increased the default size a little for comfortable reading
         self.set_default_size(900, 700)
 
         # Container Principal
@@ -2289,13 +2288,13 @@ class AiResultDialog(Adw.Window):
         text_view.set_vexpand(True)
         text_view.set_hexpand(True)
         
-        # Margens para o texto não colar na borda
+        # Margins so the text doesn't stick to the edge
         text_view.set_margin_top(20)
         text_view.set_margin_bottom(20)
         text_view.set_margin_start(20)
         text_view.set_margin_end(20)
         
-        # Define o texto
+        # Sets the text
         buff = text_view.get_buffer()
         buff.set_text(result_text)
         

@@ -149,10 +149,10 @@ def setup_system_localization():
             try:
                 gettext.bindtextdomain(domain, '/usr/share/locale')
             except Exception:
-                pass  # Silent failure for optional domains
+                pass 
     
     except Exception:
-        pass  # Silent failure for gettext configuration
+        pass  
     
     return target_language
 
@@ -187,8 +187,6 @@ class TacApplication(Adw.Application):
     
     def _suppress_warnings(self):
         """Suppress system warnings for cleaner output"""
-        # COMENTADO: Não suprima erros do enchant enquanto estiver debugando
-        # warnings.filterwarnings("ignore", category=UserWarning, module="enchant")
         
         # Suppress mesa OpenGL warnings
         os.environ.setdefault('MESA_GLTHREAD', 'false')
@@ -196,10 +194,7 @@ class TacApplication(Adw.Application):
         # Suppress GTK debug messages
         os.environ.setdefault('G_MESSAGES_DEBUG', '')
         
-        # COMENTADO: Precisamos ver os erros do enchant no Arch
-        # import logging
-        # logging.getLogger('enchant').setLevel(logging.ERROR)
-
+        
     def _check_spell_dependencies(self):
         """Check and configure spell checking dependencies"""
         if not SPELL_CHECK_AVAILABLE:
@@ -213,7 +208,7 @@ class TacApplication(Adw.Application):
             return
         
         try:
-            # Debug: Listar backends e dicionários encontrados
+            # Debug: List found backends and dictionaries
             try:
                 broker = enchant.Broker()
                 print(f"DEBUG: Enchant Backends: {broker.describe()}")
@@ -222,14 +217,13 @@ class TacApplication(Adw.Application):
                 pass
 
             # Check for available dictionaries
-            # Arch Fix: Testar tanto 'pt_BR' quanto 'pt-BR'
+            # Arch Fix: Test both 'pt_BR' and 'pt-BR'
             target_langs = ['pt_BR', 'pt-BR', 'en_US', 'en-US', 'en_GB', 'es_ES', 'fr_FR', 'de_DE', 'it_IT']
             available_dicts = []
             
             for lang in target_langs:
                 try:
                     if enchant.dict_exists(lang):
-                        # Normalizar para o formato que o app usa (com underscore)
                         norm_lang = lang.replace('-', '_')
                         if norm_lang not in available_dicts:
                             available_dicts.append(norm_lang)
@@ -241,7 +235,7 @@ class TacApplication(Adw.Application):
                 
                 self.config.set('spell_check_available_languages', available_dicts)
                 
-                # Tenta usar a linguagem detectada, mas verifica se ela realmente existe na lista
+                # Tries to use the detected language, but checks if it actually exists in the list
                 if DETECTED_SPELLCHECK_LANGUAGE in available_dicts:
                     detected = DETECTED_SPELLCHECK_LANGUAGE
                 elif DETECTED_SPELLCHECK_LANGUAGE.replace('-', '_') in available_dicts:
@@ -254,8 +248,6 @@ class TacApplication(Adw.Application):
                 
             else:
                 print(_("Nenhum dicionário encontrado - desativando verificação ortográfica"))
-                # No Arch, às vezes dicts existem mas o enchant não vê sem configuração
-                # Não desabilite forçadamente se houver dúvida, apenas logue.
                 self.config.set_spell_check_enabled(False)
                 
         except ImportError as e:
@@ -283,7 +275,7 @@ class TacApplication(Adw.Application):
                 # Get current search paths
                 current_paths = icon_theme.get_search_path()
 
-                # CRITICAL: Prepend (not append) to ensure priority
+                # Prepend (not append) to ensure priority
                 new_paths = [icons_dir] + current_paths
                 icon_theme.set_search_path(new_paths)
 

@@ -1406,7 +1406,7 @@ class ExportService:
         last_was_quote = False
         
         for i, paragraph in enumerate(project.paragraphs):
-            # Usando o novo método auxiliar
+            # Using the new helper method
             content = self._format_text_for_odt(paragraph.content)
             
             # Handle Code Block for ODT
@@ -2069,7 +2069,7 @@ class ExportService:
                 story.append(Spacer(1, 20))
                 story.append(RLParagraph(_("Notas de rodapé:"), title2_style))
                 for i, footnote_text in enumerate(all_footnotes):
-                    # Formatar o texto da nota de rodapé também
+                    # Format footnote text too
                     formatted_footnote = self._format_text_for_pdf(footnote_text)
                     footnote_content = f"{i + 1}. {formatted_footnote}"
                     story.append(RLParagraph(footnote_content, footnote_style))
@@ -2107,7 +2107,7 @@ class ExportService:
             doc.packages.append(Package('listings')) # Add listings package for Code Blocks
             doc.preamble.append(NoEscape(r'\lstset{basicstyle=\ttfamily\small, breaklines=true, frame=single}')) # Configure basic listings style
             
-            # Metadados
+            # Metadata
             doc.preamble.append(Command('title', project.name))
             if project.metadata.get('author'):
                 doc.preamble.append(Command('author', project.metadata.get('author')))
@@ -2115,7 +2115,7 @@ class ExportService:
             
             doc.append(NoEscape(r'\maketitle'))
 
-            # Iterar sobre os parágrafos
+            # Iterate over paragraphs
             for paragraph in project.paragraphs:
                 
                 # 1. Handle Code Block
@@ -2126,13 +2126,13 @@ class ExportService:
                     doc.append(NoEscape(r'\end{lstlisting}'))
                     continue
                 
-                # 1. Tratar Bloco de Equação LaTeX
+                # 1. Treat LaTeX Equation Block
                 if paragraph.type == ParagraphType.LATEX:
                     content = paragraph.content.strip()
                     if not content:
                         continue
                     
-                    # Se o usuário já escreveu um ambiente
+                    # If the user has already written an environment
                     if content.startswith('\\begin') or content.startswith('$$') or content.startswith('\\['):
                         doc.append(NoEscape(content))
                     else:
@@ -2142,12 +2142,12 @@ class ExportService:
                     
                     continue 
 
-                # 2. Tratar Imagens
+                # 2. Treat Images
                 if paragraph.type == ParagraphType.IMAGE:
                     img_metadata = paragraph.get_image_metadata()
                     if img_metadata and Path(img_metadata['path']).exists():
                         with doc.create(Figure(position='h!')) as pic:
-                            # Calcula largura
+                            # Calculates width
                             width_str = r'0.8\textwidth'
                             if 'width_percent' in img_metadata:
                                 width_str = f"{img_metadata['width_percent']/100:.2f}\\textwidth"
@@ -2171,13 +2171,13 @@ class ExportService:
                     doc.append(Quote(formatted_text))
                     
                 elif paragraph.type == ParagraphType.EPIGRAPH:
-                    # Formatação customizada para epígrafe
+                    # Custom formatting for epigraph
                     doc.append(NoEscape(r'\begin{flushright}\textit{' + formatted_text + r'}\end{flushright}'))
                 
                 else:
                     doc.append(formatted_text)
                     
-                    # Tratar Notas de Rodapé
+                    # Treating Footnotes
                     if hasattr(paragraph, 'footnotes') and paragraph.footnotes:
                         for note in paragraph.footnotes:
                             doc.append(Command('footnote', self._format_text_for_latex(note)))
@@ -2185,7 +2185,7 @@ class ExportService:
                     # Add new line after paragraph
                     doc.append(NewLine())
 
-            # Gerar o arquivo .tex
+            # Generate the .tex file
             
             doc.generate_tex(str(file_path_obj.with_suffix('')))
             

@@ -417,8 +417,6 @@ class Project:
             # Types that continue a paragraph, but only if one was already started
             elif p.type in [ParagraphType.ARGUMENT, ParagraphType.CONCLUSION]:
                 if not is_in_paragraph:
-                    # If we find an argument without an introduction before,
-                    # count it as a separate paragraph to not lose it
                     total_paragraphs += 1
                     is_in_paragraph = False  # Reset for the next one
             # Other types (TITLE_1, TITLE_2, QUOTE) don't affect main paragraph counting

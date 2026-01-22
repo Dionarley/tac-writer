@@ -13,7 +13,7 @@ class Config:
     """Application configuration manager"""
 
     # Application version and metadata
-    APP_VERSION = "1.21.1"
+    APP_VERSION = "1.21.2"
     APP_NAME = "TAC"
     APP_FULL_NAME = "TAC - Continuous Argumentation Technique"
     APP_DESCRIPTION = "Academic Writing Assistant"
@@ -264,7 +264,7 @@ class Config:
         """Set list of available spell check languages"""
         self.set('spell_check_available_languages', languages)
 
-    # --- AI assistant helpers ---
+    # AI assistant helpers
     def get_ai_assistant_enabled(self) -> bool:
         return self.get('ai_assistant_enabled', False)
 

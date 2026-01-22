@@ -14,11 +14,11 @@ class DatabaseMerger:
         if not Path(backup_db_path).exists():
             raise FileNotFoundError("Arquivo de backup não encontrado")
 
-        # Conectar aos dois bancos
+        # Connect to both banks
         local_conn = sqlite3.connect(self.local_db_path)
         backup_conn = sqlite3.connect(backup_db_path)
         
-        # Configurar para retornar dicionários
+        # Configure to return dictionaries
         local_conn.row_factory = sqlite3.Row
         backup_conn.row_factory = sqlite3.Row
         
@@ -32,21 +32,21 @@ class DatabaseMerger:
         }
 
         try:
-            # 1. Obter todos os projetos do Backup
+            # Get all projects from Backup
             backup_cursor.execute("SELECT * FROM projects")
             backup_projects = backup_cursor.fetchall()
 
             for b_proj in backup_projects:
-                # Tenta achar o projeto localmente pelo ID
+                # Try to find the project locally by ID
                 query = "SELECT * FROM projects WHERE id = ?"
                 local_cursor.execute(query, (b_proj['id'],))
                 local_proj = local_cursor.fetchone()
 
                 if not local_proj:
-                    # CENÁRIO 1: Projeto Novo
+                    # SCENARIO 1: New Project
                     cols = list(b_proj.keys())
                     placeholders = ','.join(['?'] * len(cols))
-                    # CORREÇÃO: Adiciona aspas em volta dos nomes das colunas (ex: "name", "metadata")
+                    # Add " in columms name (ex: "name", "metadata")
                     col_names = ','.join([f'"{c}"' for c in cols])
                     values = [b_proj[c] for c in cols]
                     
@@ -56,14 +56,14 @@ class DatabaseMerger:
                     )
                     stats["projects_added"] += 1
                 else:
-                    # CENÁRIO 2: Projeto Existe - Verificar data
+                    # SCENARIO 2: Project Exists - Check date
                     b_time = b_proj['modified_at']
                     l_time = local_proj['modified_at']
                     
                     if b_time > l_time:
-                        # Atualiza o projeto local
+                        # Update the local project
                         cols = list(b_proj.keys())
-                        # CORREÇÃO: Adiciona aspas no SET clause (ex: "name" = ?)
+                        # Add " in SET clause (ex: "name" = ?)
                         set_clause = ', '.join([f'"{c}" = ?' for c in cols])
                         values = [b_proj[c] for c in cols]
                         values.append(b_proj['id']) # Para o WHERE
@@ -74,10 +74,10 @@ class DatabaseMerger:
                         )
                         stats["projects_updated"] += 1
                         
-                        # Limpa parágrafos antigos para reescrever
+                        # Cleans up old paragraphs for rewriting
                         local_cursor.execute("DELETE FROM paragraphs WHERE project_id = ?", (b_proj['id'],))
 
-                # 2. Mesclar Parágrafos
+                # 2. Merge Paragraphs
                 should_process_paragraphs = False
                 if not local_proj: 
                     should_process_paragraphs = True
@@ -85,8 +85,6 @@ class DatabaseMerger:
                     should_process_paragraphs = True
 
                 if should_process_paragraphs:
-                    # Pegamos os parágrafos do backup ordenados pela coluna "order"
-                    # Nota: Aqui no SELECT fixo eu já uso aspas, mas o problema era no INSERT dinâmico abaixo
                     backup_cursor.execute(
                         'SELECT * FROM paragraphs WHERE project_id = ? ORDER BY "order" ASC', 
                         (b_proj['id'],)
@@ -94,7 +92,7 @@ class DatabaseMerger:
                     backup_paragraphs = backup_cursor.fetchall()
 
                     for b_para in backup_paragraphs:
-                        # Verifica existência
+                        # Check existence
                         local_cursor.execute("SELECT 1 FROM paragraphs WHERE id = ?", (b_para['id'],))
                         exists = local_cursor.fetchone()
                         
@@ -103,7 +101,6 @@ class DatabaseMerger:
                         
                         if not exists:
                             placeholders = ','.join(['?'] * len(cols))
-                            # CORREÇÃO CRÍTICA: "order" vira "order" com aspas aqui
                             col_names = ','.join([f'"{c}"' for c in cols])
                             
                             local_cursor.execute(
@@ -111,7 +108,7 @@ class DatabaseMerger:
                                 values
                             )
                         else:
-                            # Atualiza parágrafo existente
+                            # Update existing paragraph
                             set_clause = ', '.join([f'"{c}" = ?' for c in cols])
                             values.append(b_para['id'])
                             

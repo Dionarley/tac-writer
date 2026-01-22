@@ -491,7 +491,7 @@ class SpellCheckHelper:
 
         try:
             import enchant
-            # Tenta listar os ditados que o enchant realmente vê
+            # Try to list the sayings that the enchant actually sees
             try:
                 broker = enchant.Broker()
                 dicts = broker.list_dicts()
@@ -500,7 +500,7 @@ class SpellCheckHelper:
                 pass
 
             self.available_languages = []
-            # Lista expandida para tentar pegar variações
+            # Expanded list to try to catch variations
             candidates = ['pt_BR', 'pt-BR', 'pt', 'en_US', 'en-US', 'en', 'es_ES', 'es']
             
             for lang in candidates:
@@ -520,7 +520,7 @@ class SpellCheckHelper:
             return None
 
         try:
-            # Determina o idioma
+            # Determine the language
             if language:
                 target_lang = language
             elif self.config:
@@ -538,7 +538,7 @@ class SpellCheckHelper:
             except Exception as e1:
                 print(f"DEBUG: Falha inicial com '{target_lang}': {e1}", flush=True)
                 
-                # Tenta variações comuns no Linux/Arch
+                # Try common variations on Linux/Arch
                 alternatives = []
                 if '_' in target_lang:
                     alternatives.append(target_lang.replace('_', '-')) # pt_BR -> pt-BR
@@ -553,7 +553,7 @@ class SpellCheckHelper:
                 for alt in alternatives:
                     try:
                         print(f"DEBUG: Tentando alternativa '{alt}'...", flush=True)
-                        # SEM O ARGUMENTO enable=True AQUI TAMBÉM
+                        # WITHOUT THE enable=True ARGUMENT HERE TOO
                         spell_checker = gtkspellcheck.SpellChecker(text_view, language=alt)
                         print(f"DEBUG: Sucesso com '{alt}'!", flush=True)
                         break
@@ -562,7 +562,7 @@ class SpellCheckHelper:
                         continue
 
             if spell_checker:
-                # Força a habilitação AGORA, após a criação
+                # Force enable NOW, after creation
                 spell_checker.enabled = True
                 
                 checker_id = id(text_view)
@@ -1146,7 +1146,7 @@ class ParagraphEditor(Gtk.Box):
         # If LATEX or CODE disable spellcheck
         if self.paragraph.type in [ParagraphType.LATEX, ParagraphType.CODE]:
             return False
-        # DEBUG: Rastreamento de chamada
+        # DEBUG: Call tracking
         print(f"DEBUG: Tentando setup spell check para {self.paragraph.id[:8]}...", flush=True)
 
         if self._spell_check_setup or not self.text_view:
@@ -1157,7 +1157,7 @@ class ParagraphEditor(Gtk.Box):
             return False
         
         try:
-            # Tenta pegar o helper da janela principal, senão cria um novo
+            # Try to get the helper from the main window, otherwise it will create a new one
             root = self.get_root()
             if root and hasattr(root, 'spell_helper'):
                 self.spell_helper = root.spell_helper
@@ -1244,7 +1244,7 @@ class ParagraphEditor(Gtk.Box):
         self.format_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=2)
         self.format_box.add_css_class("linked")
         
-        # Flag para saber se os botões já foram criados
+        # Flag to know if the buttons have already been created
         self._formatting_buttons_created = False
         
         header_box.append(self.format_box)
@@ -1434,19 +1434,19 @@ class ParagraphEditor(Gtk.Box):
         current_iter = start_iter
         
         while not current_iter.is_end():
-            # Encontrar o próximo ponto onde as tags mudam ou o fim do texto
+            # Find the next point where tags change or the end of text
             next_iter = current_iter.copy()
             if not next_iter.forward_to_tag_toggle(None):
                 next_iter = end_iter
 
-            # Pegar o texto desse segmento
+            # Get the text from this segment
             text_segment = self.text_buffer.get_text(current_iter, next_iter, False)
             
-            # Verificar quais tags estão ativas no início deste segmento
+            # Check which tags are active at the beginning of this segment
             tags = current_iter.get_tags()
             tag_names = [t.get_property('name') for t in tags]
             
-            # Aplicar tags de abertura
+            # Apply opening tags
             if 'bold' in tag_names: output.append('<b>')
             if 'italic' in tag_names: output.append('<i>')
             if 'underline' in tag_names: output.append('<u>')
@@ -1469,14 +1469,14 @@ class ParagraphEditor(Gtk.Box):
         if not self.text_buffer:
             return
 
-        # Limpar buffer atual
+        # Clear current buffer
         self.text_buffer.set_text("")
         
         if not html_content:
             return
 
-        # Regex para separar tags do texto
-        # Captura <b>, </b>, <i>, </i>, <u>, </u>
+        # Regex to separate tags from text
+        # Capture <b>, </b>, <i>, </i>, <u>, </u>
         parts = re.split(r'(</?[biu]>)', html_content)
         
         active_tags = set()
@@ -1501,7 +1501,7 @@ class ParagraphEditor(Gtk.Box):
                 iter_loc = self.text_buffer.get_end_iter()
                 
                 if active_tags:
-                    # Método nativo do GTK: insere e aplica tags de uma vez
+                    # Native GTK method: inserts and applies tags at once
                     self.text_buffer.insert_with_tags_by_name(iter_loc, part, *list(active_tags))
                 else:
                     self.text_buffer.insert(iter_loc, part)
@@ -1539,7 +1539,7 @@ class ParagraphEditor(Gtk.Box):
     def _setup_drag_and_drop(self):
         """Setup drag and drop functionality using Global State for stability"""
         
-        # 1. DRAG SOURCE
+        # DRAG SOURCE
         drag_source = Gtk.DragSource()
         drag_source.set_actions(Gdk.DragAction.MOVE)
         
@@ -1559,7 +1559,7 @@ class ParagraphEditor(Gtk.Box):
         self.drag_start_x = x
         self.drag_start_y = y
 
-        # Salva o ID na variável global do Python
+        # Saves the ID to the Python global variable
         _CURRENT_DRAG_ID = self.paragraph.id
         return Gdk.ContentProvider.new_for_value("")
 
@@ -1589,7 +1589,7 @@ class ParagraphEditor(Gtk.Box):
         self.is_dragging = False
         self.remove_css_class("dragging")
         
-        # Limpa a variável global
+        # Clears the global variable
         _CURRENT_DRAG_ID = None
         
         if hasattr(self, 'drag_handle'):
@@ -1780,9 +1780,7 @@ class TextEditor(Gtk.Box):
         self._update_word_count()
         self.emit('content-changed')
         
-        #text = self.get_text()
-        #self.emit('content-changed', text)
-
+        
     def get_text(self) -> str:
         """Get current text content"""
         start_iter = self.text_buffer.get_start_iter()
@@ -2160,14 +2158,12 @@ class FirstRunTour:
 
         self.popover.set_child(content_box)
 
-        # CRITICAL FIX: If target widget is disabled, use window as parent
-        # Otherwise GTK will disable the entire popover!
+        # If target widget is disabled, use window as parent
         if target_widget.get_sensitive():
             # Widget is enabled - use it as parent (normal behavior)
             self.popover.set_parent(target_widget)
         else:
             # Widget is DISABLED - use main window as parent
-            # and manually position the popover
             self.popover.set_parent(self.main_window)
             self.popover.set_pointing_to(self._get_widget_rect(target_widget))
 
@@ -2180,7 +2176,6 @@ class FirstRunTour:
         height = widget.get_height()
 
         # Get widget position relative to window
-        # In GTK4, compute_point returns (success, point)
         result = widget.compute_point(self.main_window, Graphene.Point().init(0, 0))
 
         if result and result[0]:  # Check if successful
@@ -2229,7 +2224,7 @@ class ReorderableParagraphRow(Gtk.Box):
     """
     __gtype_name__ = 'TacReorderableParagraphRow'
     
-    # Repassa o sinal de reordenação vindo do drop target
+    # Forwards the reordering signal coming from the drop target
     __gsignals__ = {
         'paragraph-reorder': (GObject.SIGNAL_RUN_FIRST, None, (str, str, str)),
     }
@@ -2261,7 +2256,7 @@ class ReorderableParagraphRow(Gtk.Box):
         self.bottom_revealer.set_transition_duration(200)
         self.append(self.bottom_revealer)
 
-        # --- Controladores ---
+        # --- Controllers ---
         self._setup_drop_targets()
         self._setup_motion_controller()
         self._setup_css()
@@ -2313,7 +2308,7 @@ class ReorderableParagraphRow(Gtk.Box):
         height = self.get_height()
         is_top_half = y < (height / 2)
 
-        # Lógica do Planify:
+        # Planify logic:
         if self.top_revealer.get_reveal_child() != is_top_half:
             self.top_revealer.set_reveal_child(is_top_half)
             
@@ -2334,7 +2329,7 @@ class ReorderableParagraphRow(Gtk.Box):
     def _handle_drop(self, position):
         global _CURRENT_DRAG_ID
         
-        # Limpa visual
+        # Clean visual
         self._on_hover_leave(None)
 
         dragged_id = _CURRENT_DRAG_ID
@@ -2343,6 +2338,6 @@ class ReorderableParagraphRow(Gtk.Box):
         if not dragged_id or dragged_id == target_id:
             return False
             
-        # Emite o sinal para a MainWindow lidar com a lógica de dados e UI
+        # Sends the signal to the MainWindow to handle data and UI logic
         self.emit('paragraph-reorder', dragged_id, target_id, position)
         return True
