@@ -71,7 +71,7 @@ The Continuous Argumentation Technique emphasizes interconnected paragraphs that
 - **Backup System**: Automatic backup creation
 
 ### 📤 **Export Options**
-- **Multiple Formats**: TXT, ODT, PDF
+- **Multiple Formats**: TXT, ODT, PDF, MD, TEX
 - **Academic Standards**: Export formats suitable for academic submission
 
 ### ⚡ **Productivity Features**
