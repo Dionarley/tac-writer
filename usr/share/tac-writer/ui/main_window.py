@@ -185,8 +185,8 @@ class MainWindow(Adw.ApplicationWindow):
 
         # AI assistant button
         self.ai_button = Gtk.Button()
-        self.ai_button.set_icon_name('avatar-default-symbolic')
-        self.ai_button.set_tooltip_text(_("Perguntar à IA (Ctrl+Shift+I)"))
+        self.ai_button.set_icon_name('tac-document-properties-symbolic')
+        self.ai_button.set_tooltip_text(_("Revisão de texto por IA (Ctrl+Shift+I)"))
         self.ai_button.connect('clicked', self._on_ai_pdf_clicked)
         self.header_bar.pack_end(self.ai_button)
 
@@ -233,7 +233,7 @@ class MainWindow(Adw.ApplicationWindow):
         # Help section
         help_section = Gio.Menu()
         help_section.append(_("Guia de Boas-vindas"), "win.show_welcome")
-        help_section.append(_("Perguntar à IA"), "app.ai_assistant")
+        help_section.append(_("Revisão de texto por IA"), "app.ai_assistant")
         help_section.append(_("Sobre o TAC"), "app.about")
         menu_model.append_section(None, help_section)
 
@@ -1442,7 +1442,7 @@ class MainWindow(Adw.ApplicationWindow):
             end_iter = buffer.get_end_iter()
             text = buffer.get_text(start_iter, end_iter, True).strip()
             if not text:
-                self._show_toast(_("Por favor digite uma pergunta para o assistente."))
+                self._show_toast(_("Por favor adicione o texto a ser analisado."))
                 return False
 
             context_value = context_text if include_context_switch.get_active() else None
