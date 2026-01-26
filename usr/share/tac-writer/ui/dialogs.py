@@ -721,7 +721,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         # AI page assistant
         ai_page = Adw.PreferencesPage()
         ai_page.set_title(_("Assistente de IA"))
-        ai_page.set_icon_name('applications-science-symbolic')
+        ai_page.set_icon_name('tac-document-properties-symbolic')
         self.add(ai_page)
 
         ai_group = Adw.PreferencesGroup()
