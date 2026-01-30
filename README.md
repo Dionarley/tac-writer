@@ -165,7 +165,7 @@ O TAC Writer segue a especificação XDG Base Directory:
 
 Ao relatar bugs, por favor inclua:
 
-- **Informações do Sistema**: Versão do SO, ambiente de desktop, versão do GTK
+- **Informações do Sistema**: Versão do SO, ambiente de desktop, versão do GTK e versão do Python
 - **Passos para Reprodução**: Passos claros para reproduzir o problema
 - **Comportamento Esperado vs Real**: O que deveria acontecer vs o que realmente acontece
 - **Capturas de tela/Logs**: Auxílios visuais ou arquivos de log relevantes
