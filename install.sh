@@ -13,8 +13,8 @@ PRETTY_NAME_LOWER=$(echo "$PRETTY_NAME" | tr '[:upper:]' '[:lower:]')
 # ==========================================
 APP_NAME="tac-writer"
 GITHUB_USER="narayanls"
-VERSION_TAG="v1.2.7"     # Tag da Release no Github
-VERSION_FILE="1.2.7"     # Versão no nome do arquivo
+VERSION_TAG="v1.2.8"     # Tag da Release no Github
+VERSION_FILE="1.2.8"     # Versão no nome do arquivo
 DEBUG_MODE="1"             # 1 = Ativa logs detalhados e não apaga temp imediatamente
 
 # --- LÓGICA DE DEPENDÊNCIAS SUSE (Leap/Regata vs Tumbleweed) ---

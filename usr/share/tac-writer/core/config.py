@@ -19,7 +19,7 @@ class Config:
     APP_DESCRIPTION = "Academic Writing Assistant"
     APP_WEBSITE = "https://github.com/big-comm/tac-writer"
     APP_COPYRIGHT = "© 2025 TAC Development"
-    APP_DEVELOPERS = ["Tales Mendonça, Narayan Silva"]
+    APP_DEVELOPERS = ["Tales Mendonça, Narayan Silva, Jibreel al-Yahya"]
     APP_DESIGNERS = ["Narayan Silva"]
 
     def __init__(self):
