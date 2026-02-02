@@ -670,11 +670,6 @@ class WelcomeView(Gtk.Box):
 
         self.append(content_box)
 
-        # Note
-        note = Gtk.Label()
-        note.set_markup("<span size='small'><i>" + _("Nota:") + " " + _("exportar para ODT pode exigir ajustes na sua Suíte Office.") + "</i></span>")
-        note.set_halign(Gtk.Align.CENTER)
-        content_box.append(note)
 
     def _create_template_section(self):
         """Create template selection section"""
