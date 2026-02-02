@@ -22,6 +22,10 @@ if os.environ.get('APPIMAGE'):
 # Fix for KDE Plasma (dead keys)
 if os.environ.get('XDG_CURRENT_DESKTOP') == 'KDE':
     os.environ.setdefault('GTK_IM_MODULE', 'xim')
+    
+# Fix for Hyprland (dead keys/accents issue)
+if os.environ.get('XDG_CURRENT_DESKTOP') == 'Hyprland':
+    os.environ.setdefault('GTK_IM_MODULE', 'gtk-im-context-simple')
 
 
 # Suppress GTK and enchant warnings via environment variables
