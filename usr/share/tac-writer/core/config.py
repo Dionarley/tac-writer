@@ -13,11 +13,11 @@ class Config:
     """Application configuration manager"""
 
     # Application version and metadata
-    APP_VERSION = "1.27.4"
+    APP_VERSION = "1.27.5"
     APP_NAME = "TAC"
     APP_FULL_NAME = "TAC - Continuous Argumentation Technique"
     APP_DESCRIPTION = "Academic Writing Assistant"
-    APP_WEBSITE = "https://github.com/big-comm/tac-writer"
+    APP_WEBSITE = "https://tacwriter.com.br"
     APP_COPYRIGHT = "© 2025 TAC Development"
     APP_DEVELOPERS = ["Tales Mendonça, Narayan Silva, Jibreel al-Yahya"]
     APP_DESIGNERS = ["Narayan Silva"]
