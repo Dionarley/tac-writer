@@ -2168,7 +2168,9 @@ class ExportService:
                     doc.append(Subsection(formatted_text))
                 
                 elif paragraph.type == ParagraphType.QUOTE:
-                    doc.append(Quote(formatted_text))
+                    quote = Quote()
+                    quote.append(formatted_text)
+                    doc.append(quote)
                     
                 elif paragraph.type == ParagraphType.EPIGRAPH:
                     # Custom formatting for epigraph
