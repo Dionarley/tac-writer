@@ -1,7 +1,7 @@
 # TAC Writer
 
 <p align="center">
-  <img src="https://github.com/big-comm/comm-tac-writer/blob/main/usr/share/icons/hicolor/scalable/apps/tac-writer.svg" alt="Logo do TAC Writer" width="128" height="128">
+  <img src="https://github.com/narayanls/tac-writer/blob/main/usr/share/icons/hicolor/scalable/apps/tac-writer.svg" alt="Logo do TAC Writer" width="128" height="128">
 </p>
 
 <p align="center">
@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/big-comm/comm-tac-writer/releases"><img src="https://img.shields.io/badge/Version-1.2.8-blue.svg" alt="Versão"/></a>
-  <a href="https://github.com/big-comm/comm-tac-writer/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-green.svg" alt="Licença"/></a>
+  <a href="https://github.com/narayanls/tac-writer/releases"><img src="https://img.shields.io/badge/Version-1.2.8-blue.svg" alt="Versão"/></a>
+  <a href="https://github.com/narayanls/tac-writer/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-green.svg" alt="Licença"/></a>
   <a href="https://www.gtk.org/"><img src="https://img.shields.io/badge/GTK-4.0+-orange.svg" alt="Versão GTK"/></a>
   <a href="https://gnome.pages.gitlab.gnome.org/libadwaita/"><img src="https://img.shields.io/badge/libadwaita-1.0+-purple.svg" alt="Versão libadwaita"/></a>
 </p>
