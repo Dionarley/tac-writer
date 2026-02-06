@@ -2088,25 +2088,51 @@ class ExportService:
             return False
 
     def _export_latex(self, project: Project, file_path: str) -> bool:
-        """Export for LaTeX format (.tex)"""
+        """Export for LaTeX format (.tex) com regras ABNT e tamanhos de fonte corrigidos"""
         try:
             file_path_obj = Path(file_path)
             file_path_obj.parent.mkdir(parents=True, exist_ok=True)
 
-            # Create document with deafult ABNT margins
+            # 1. Configuração do Documento
+            # IMPORTANTE: Adicionado '12pt' e 'a4paper' para base correta ABNT
             geometry_options = {"tmargin": "3cm", "lmargin": "3cm", "rmargin": "2cm", "bmargin": "2cm"}
-            doc = Document(geometry_options=geometry_options)
+            doc = Document(
+                documentclass='article',
+                document_options=['12pt', 'a4paper'], 
+                geometry_options=geometry_options
+            )
 
-            # Add essential packages
+            # Pacotes Essenciais
             doc.packages.append(Package('babel', options=['brazilian'])) 
             doc.packages.append(Package('inputenc', options=['utf8']))
             doc.packages.append(Package('fontenc', options=['T1']))
-            doc.packages.append(Package('graphicx')) # Imagens
-            doc.packages.append(Package('amsmath'))  # Equações matemáticas
-            doc.packages.append(Package('indentfirst')) # Indentar primeiro parágrafo
-            doc.packages.append(Package('listings')) # Add listings package for Code Blocks
-            doc.preamble.append(NoEscape(r'\lstset{basicstyle=\ttfamily\small, breaklines=true, frame=single}')) # Configure basic listings style
+            doc.packages.append(Package('graphicx'))
+            doc.packages.append(Package('amsmath'))
             
+            # Pacotes para formatação ABNT
+            doc.packages.append(Package('indentfirst'))
+            doc.packages.append(Package('setspace'))
+            doc.packages.append(Package('listings'))
+            
+            # Configuração de Code Block
+            doc.preamble.append(NoEscape(r'\lstset{basicstyle=\ttfamily\footnotesize, breaklines=true, frame=single}'))
+
+            # Configurações de Parágrafo
+            doc.preamble.append(NoEscape(r'\setlength{\parindent}{1.25cm}')) # Recuo 1.25
+            doc.preamble.append(Command('onehalfspacing')) # Espaçamento 1.5
+
+            # Definição do Ambiente de Citação ABNT no Preamble
+            # Alterado para \footnotesize (10pt) para garantir diferença visual do texto base (12pt)
+            doc.preamble.append(NoEscape(r'''
+\newenvironment{citacao}
+  {\begin{list}{}{\setlength{\leftmargin}{4cm}}\item[]\footnotesize\singlespacing}
+  {\end{list}}
+'''))
+            
+            # Classe Helper para o PyLaTeX entender o ambiente 'citacao'
+            class CitacaoABNT(Environment):
+                _latex_name = 'citacao'
+
             # Metadata
             doc.preamble.append(Command('title', project.name))
             if project.metadata.get('author'):
@@ -2115,39 +2141,71 @@ class ExportService:
             
             doc.append(NoEscape(r'\maketitle'))
 
-            # Iterate over paragraphs
+            # --- BUFFER DE TEXTO ---
+            text_buffer = []
+
+            def flush_buffer():
+                """Escreve o texto acumulado no documento"""
+                if text_buffer:
+                    full_text = " ".join([str(t) for t in text_buffer])
+                    doc.append(NoEscape(full_text))
+                    doc.append(NewLine())
+                    text_buffer.clear()
+
             for paragraph in project.paragraphs:
                 
-                # 1. Handle Code Block
-                if paragraph.type == ParagraphType.CODE:
-                    # Use lstlisting environment
+                # Agrupa textos corridos
+                if paragraph.type in [ParagraphType.INTRODUCTION, ParagraphType.ARGUMENT, 
+                                     ParagraphType.CONCLUSION, ParagraphType.ARGUMENT_RESUMPTION]:
+                    
+                    chunk = self._format_text_for_latex(paragraph.content)
+                    
+                    if hasattr(paragraph, 'footnotes') and paragraph.footnotes:
+                        for note in paragraph.footnotes:
+                            note_fmt = self._format_text_for_latex(note)
+                            chunk += NoEscape(r'\footnote{' + note_fmt + r'}')
+                    
+                    text_buffer.append(chunk)
+                    continue
+
+                # --- Elementos de Quebra ---
+                flush_buffer()
+
+                if paragraph.type == ParagraphType.TITLE_1:
+                    doc.append(Section(self._format_text_for_latex(paragraph.content)))
+                
+                elif paragraph.type == ParagraphType.TITLE_2:
+                    doc.append(Subsection(self._format_text_for_latex(paragraph.content)))
+                
+                elif paragraph.type == ParagraphType.QUOTE:
+                    # Instancia a classe CitacaoABNT
+                    citacao = CitacaoABNT()
+                    citacao.append(self._format_text_for_latex(paragraph.content))
+                    doc.append(citacao)
+                    
+                elif paragraph.type == ParagraphType.EPIGRAPH:
+                    formatted = self._format_text_for_latex(paragraph.content)
+                    doc.append(NoEscape(r'\begin{flushright}\textit{' + formatted + r'}\end{flushright}'))
+                
+                elif paragraph.type == ParagraphType.CODE:
                     doc.append(NoEscape(r'\begin{lstlisting}'))
                     doc.append(NoEscape(paragraph.content))
                     doc.append(NoEscape(r'\end{lstlisting}'))
-                    continue
                 
-                # 1. Treat LaTeX Equation Block
-                if paragraph.type == ParagraphType.LATEX:
+                elif paragraph.type == ParagraphType.LATEX:
                     content = paragraph.content.strip()
-                    if not content:
-                        continue
-                    
-                    # If the user has already written an environment
-                    if content.startswith('\\begin') or content.startswith('$$') or content.startswith('\\['):
-                        doc.append(NoEscape(content))
-                    else:
-                        doc.append(NoEscape(r'\begin{equation}'))
-                        doc.append(NoEscape(content))
-                        doc.append(NoEscape(r'\end{equation}'))
-                    
-                    continue 
+                    if content:
+                        if content.startswith('\\begin') or content.startswith('$$') or content.startswith('\\['):
+                            doc.append(NoEscape(content))
+                        else:
+                            doc.append(NoEscape(r'\begin{equation}'))
+                            doc.append(NoEscape(content))
+                            doc.append(NoEscape(r'\end{equation}'))
 
-                # 2. Treat Images
-                if paragraph.type == ParagraphType.IMAGE:
+                elif paragraph.type == ParagraphType.IMAGE:
                     img_metadata = paragraph.get_image_metadata()
                     if img_metadata and Path(img_metadata['path']).exists():
                         with doc.create(Figure(position='h!')) as pic:
-                            # Calculates width
                             width_str = r'0.8\textwidth'
                             if 'width_percent' in img_metadata:
                                 width_str = f"{img_metadata['width_percent']/100:.2f}\\textwidth"
@@ -2156,39 +2214,9 @@ class ExportService:
                             
                             if img_metadata.get('caption'):
                                 pic.add_caption(img_metadata['caption'])
-                    continue
 
-                # 3. Tratar Texto Comum (Títulos, Citações, Parágrafos)
-                formatted_text = self._format_text_for_latex(paragraph.content)
-                
-                if paragraph.type == ParagraphType.TITLE_1:
-                    doc.append(Section(formatted_text))
-                
-                elif paragraph.type == ParagraphType.TITLE_2:
-                    doc.append(Subsection(formatted_text))
-                
-                elif paragraph.type == ParagraphType.QUOTE:
-                    quote = Quote()
-                    quote.append(formatted_text)
-                    doc.append(quote)
-                    
-                elif paragraph.type == ParagraphType.EPIGRAPH:
-                    # Custom formatting for epigraph
-                    doc.append(NoEscape(r'\begin{flushright}\textit{' + formatted_text + r'}\end{flushright}'))
-                
-                else:
-                    doc.append(formatted_text)
-                    
-                    # Treating Footnotes
-                    if hasattr(paragraph, 'footnotes') and paragraph.footnotes:
-                        for note in paragraph.footnotes:
-                            doc.append(Command('footnote', self._format_text_for_latex(note)))
-                    
-                    # Add new line after paragraph
-                    doc.append(NewLine())
+            flush_buffer()
 
-            # Generate the .tex file
-            
             doc.generate_tex(str(file_path_obj.with_suffix('')))
             
             return True
