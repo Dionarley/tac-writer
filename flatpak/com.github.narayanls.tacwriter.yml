@@ -1,0 +1,43 @@
+
+#####################################
+## under construction
+#####################################
+
+
+app-id: br.com.tacwriter.TacWriter
+runtime: org.gnome.Platform
+runtime-version: '45' # '45' Versão estável do GNOME/Libadwaita #" 47" # Versão atual estável do GNOME/GTK4
+sdk: org.gnome.Sdk
+command: tac-writer
+
+finish-args:
+  # Acesso à interface gráfica
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Acesso a ficheiros para escrita académica
+  - --filesystem=home
+  # Integração com o sistema (fontes e temas)
+  - --share=ipc
+  # Necessário para corretores ortográficos e dicionários online (se aplicável)
+  - --share=network
+
+modules:
+  # Dependência técnica: Corretor ortográfico (Exemplo com Hunspell)
+  - name: hunspell
+    sources:
+      - type: archive
+        url: https://github.com
+        sha256: 10212df9864e2905191509710526938ff21a8d0574f877c6812896da34749301
+
+  # O projeto principal tac-writer
+  - name: tac-writer
+    buildsystem: meson # Ou 'simple' / 'python' dependendo da vossa estrutura
+    sources:
+      - type: git
+        url: https://github.com
+        branch: main
+    # Dependências de bibliotecas Python podem ser adicionadas aqui
+
+
+  
