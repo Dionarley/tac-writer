@@ -20,6 +20,12 @@
   </description>
   
   <launchable type="desktop-id">br.com.tacwriter.TacWriter.desktop</launchable>
+    <screenshots>
+    <screenshot type="default">
+      <image>https://github.com/narayanls/tac-writer/blob/main/screenshots/tac-main-light.png</image>
+      <caption>Interface principal de escrita do Tac-Writer</caption>
+    </screenshot>
+  </screenshots>
 
   <url type="homepage">https://www.tacwriter.com.br</url>
   <url type="bugtracker">https://github.com/narayanls/tac-writer</url>
