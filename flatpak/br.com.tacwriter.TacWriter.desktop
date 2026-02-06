@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Tac-Writer
+GenericName=Assistente de Escrita Académica
+Comment=Escrita académica baseada na Técnica de Argumentação Contínua (TAC)
+Exec=tac-writer %U
+Icon=br.com.tacwriter.TacWriter
+Terminal=false
+Categories=Office;Education;Science;GTK;
+MimeType=application/pdf;text/x-tex;
+Keywords=Académico;Escrita;TAC;LaTeX;Tese;Artigo;
+StartupNotify=true
+X-Flatpak-Renames=tac-writer;

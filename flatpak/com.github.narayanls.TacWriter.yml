@@ -1,0 +1,92 @@
+modules:
+  - name: python-deps
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix=/app requests pylatex ordered-set PyGObject pycairo
+    sources:
+      - type: file
+        path: requirements.txt
+
+  - name: tac-writer
+    buildsystem: simple
+    build-commands:
+      - install -D main.py /app/bin/tac-writer
+      - cp -r . /app/share/tac-writer/
+    sources:
+      - type: dir
+        path: .
+
+################################################################################################################
+
+
+app-id: br.com.tacwriter.TacWriter
+runtime: org.gnome.Platform
+runtime-version: '45' # '45' Versão estável do GNOME/Libadwaita #" 47" # Versão atual estável do GNOME/GTK4
+sdk: org.gnome.Sdk
+command: tac-writer
+
+finish-args:
+  # Acesso à interface gráfica
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Acesso a ficheiros para escrita académica
+  - --filesystem=home
+  # Integração com o sistema (fontes e temas)
+  - --share=ipc
+  # Necessário para corretores ortográficos e dicionários online (se aplicável)
+  - --share=network
+
+modules:
+  # Dependência técnica: Corretor ortográfico (Exemplo com Hunspell)
+  - name: hunspell
+    sources:
+      - type: archive
+        url: https://github.com
+        sha256: 10212df9864e2905191509710526938ff21a8d0574f877c6812896da34749301
+
+  # O projeto principal tac-writer
+  - name: tac-writer
+    buildsystem: meson # Ou 'simple' / 'python' dependendo da vossa estrutura
+    sources:
+      - type: git
+        url: https://github.com
+        branch: main
+    # Dependências de bibliotecas Python podem ser adicionadas aqui
+
+
+    
+################################################################################################################
+
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  - --filesystem=home
+  - --share=network # Essencial para o 'requests'
+
+modules:
+  # Dependência do pyenchant (biblioteca de sistema)
+  - name: enchant
+    sources:
+      - type: archive
+        url: https://github.com
+        sha256: 099e46a78f237887e35b7194f481a54774393699c279a0b127598c199587c674
+
+  # Módulos Python (Devem ser instalados via pip no prefixo /app)
+  - name: python3-dependencies
+    buildsystem: simple
+    build-commands:
+      - pip3 install --verbose --exists-action=i --no-index --find-links="file://${PWD}/vendor" --prefix=${FLATPAK_DEST} reportlab pygtkspellcheck pyenchant Pillow requests pypdf pylatex
+    sources:
+      # O ideal é usar o flatpak-pip-generator para gerar uma lista de fontes offline
+      - type: shell
+        commands:
+          - pip3 download --dest vendor reportlab pygtkspellcheck pyenchant Pillow requests pypdf pylatex
+
+  - name: tac-writer
+    buildsystem: meson
+    sources:
+      - type: git
+        url: https://github.com
+        branch: main

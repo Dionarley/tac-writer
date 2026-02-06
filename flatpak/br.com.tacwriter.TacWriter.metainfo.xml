@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>br.com.tacwriter</id>
+  
+  <name>TacWriter</name>
+  <summary>Academic Writing Assistant for Continuous Argumentation Technique.</summary>
+  
+  <metadata_license>FTL</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  
+  <description>
+    <p>
+      O TAC Writer é um assistente de escrita acadêmica moderno projetado para ajudar estudantes e pesquisadores a criar textos acadêmicos estruturados usando a Técnica da Argumentação Contínua (TAC). Construído com GTK4 e libadwaita, o TAC oferece uma interface intuitiva para organizar pensamentos, gerenciar a estrutura do documento e produzir conteúdo acadêmico de alta qualidade.
+    </p>
+    <ul>
+      <li>Integração nativa com LaTeX para exportação profissional.</li>
+      <li>Interface moderna construída em GTK4 e Libadwaita.</li>
+      <li>Suporte a dicionários e corretores ortográficos avançados.</li>
+    </ul>    
+  </description>
+  
+  <launchable type="desktop-id">br.com.tacwriter.TacWriter.desktop</launchable>
+
+  <url type="homepage">https://www.tacwriter.com.br</url>
+  <url type="bugtracker">https://github.com/narayanls/tac-writer</url>
+  <url type="vcs-browser">https://github.com/narayanls/tac-writer</url>
+
+  <content_rating type="oars-1.1" />
+  
+  <releases>
+    <release version="1.2.x" date="2026-02-05" />
+  </releases>
+</component>
