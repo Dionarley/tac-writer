@@ -33,9 +33,9 @@ A Técnica da Argumentação Contínua enfatiza parágrafos interconectados que 
 ## Capturas de Tela
 
 *Interface principal de edição com estrutura de parágrafos*
-<img width="814" height="491" alt="tac-main-dark" src="https://github.com/user-attachments/assets/91a345f5-f3c7-46b4-bf17-5a193f1113ad" />
+<img width="814" height="491" alt="tac-main-dark" src="https://github.com/user-attachments/assets/9cc684f7-bae6-420e-b7e8-b8815e79e484" />
 
-<img width="814" height="491" alt="tac-main-light" src="https://github.com/user-attachments/assets/74c4a7d7-5ef6-4e91-820c-f7148d92f62f" />
+<img width="814" height="491" alt="tac-main-light" src="https://github.com/user-attachments/assets/47904bf0-0f8f-472c-991a-2f93a853e21a" />
 
 
 ----------------------
