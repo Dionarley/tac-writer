@@ -1,29 +1,16 @@
-id: com.github.narayanls.TacWriter
+id: io.github.narayanls.tacwriter
 runtime: org.gnome.Platform
-runtime-version: "47" # Versão atual estável do GNOME/GTK4
+runtime-version: "47"
 sdk: org.gnome.Sdk
 command: tac-writer
 
-# Fix textlive
-sdk-extensions:
-  - org.freedesktop.Sdk.Extension.texlive
-
-# Adiciona suporte a LaTeX (necessário para o pylatex)
-add-extensions:
-  org.freedesktop.Sdk.Extension.texlive:
-    directory: texlive
-    version: '23.08'
-    versions: 23.08
-    no-autodownload: true
-
-# Permissões do aplicativo (Sandbox)
 finish-args:
   - --share=ipc
   - --socket=fallback-x11
   - --socket=wayland
-  - --share=network           # Necessário para requests e dropbox
+  - --device=dri              # Remove o aviso do libEGL/DRI3
+  - --share=network           
   - --filesystem=host        
-  # Necessário para o PyEnchant encontrar os dicionários do sistema/host se não vierem no bundle
   - --env=ENCHANT_CONFIG_DIR=/app/share/enchant
 
 cleanup:
@@ -34,27 +21,18 @@ cleanup:
   - /__pycache__
 
 modules:
-  - name: texlive
-    buildsystem: simple
-    build-commands:
-      - /usr/lib/sdk/texlive/install.sh
-    cleanup:
-      - "*"
+  - python3-requirements.yaml
 
-  - python3-requirements.json
-
-  # 3. Instalação
   - name: tac-writer
     buildsystem: simple
     build-commands:
-      # Cria os diretórios necessários
       - mkdir -p /app/bin
-      - mkdir -p /app/share/tac-writer
+      - mkdir -p /app/share
       
-      # Copia o código fonte para o local de instalação
-      - cp -r . /app/share/tac-writer/
+      # Copia tudo que está em usr/share (seu app, o .desktop e os ícones) 
+      - cp -r share/* /app/share/
       
-      # Cria um script executável (wrapper) para rodar o app
+      # Cria o executável
       - |
         echo '#!/bin/sh' > /app/bin/tac-writer
         echo 'export PYTHONPATH=/app/share/tac-writer:$PYTHONPATH' >> /app/bin/tac-writer
@@ -63,4 +41,5 @@ modules:
     
     sources:
       - type: dir
-        path: .
+        # Agora apontamos para a pasta "usr" raiz do repositório de build
+        path: usr
