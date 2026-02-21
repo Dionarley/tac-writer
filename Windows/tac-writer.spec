@@ -1,6 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
 import sys
+import re   # IMPORTANTE PARA A CORREÇÃO DO CACHE
 from pathlib import Path
 
 MINGW = os.path.join(os.environ.get('MSYSTEM_PREFIX', '/mingw64'))
@@ -40,46 +41,46 @@ if os.path.exists(hicolor_dir):
             dst = os.path.relpath(root, MINGW)
             icons.append((src, dst))
 
-# GDK Pixbuf loaders
+# GDK Pixbuf loaders (SEM DUPLICAÇÃO)
 pixbuf_dir = os.path.join(MINGW, 'lib', 'gdk-pixbuf-2.0')
 pixbufs = []
 if os.path.exists(pixbuf_dir):
     for root, dirs, files in os.walk(pixbuf_dir):
         for f in files:
+            if f == 'loaders.cache':
+                continue # Ignoramos o arquivo original quebrado
             src = os.path.join(root, f)
             dst = os.path.relpath(root, MINGW)
             pixbufs.append((src, dst))
 
-# Enchant (spell check)
-enchant_data = []
-enchant_lib_dir = os.path.join(MINGW, 'lib', 'enchant-2')
-if os.path.exists(enchant_lib_dir):
-    for f in os.listdir(enchant_lib_dir):
-        enchant_data.append((os.path.join(enchant_lib_dir, f), 'lib/enchant-2'))
 
-enchant_dict_dir = os.path.join(MINGW, 'share', 'enchant')
-if os.path.exists(enchant_dict_dir):
-    for root, dirs, files in os.walk(enchant_dict_dir):
+# CORREÇÃO CRÍTICA DO CACHE DE IMAGENS (SVGs) PARA WINDOWS
+cache_src = os.path.join(pixbuf_dir, '2.10.0', 'loaders.cache')
+patched_cache_dir = os.path.abspath(os.path.join('build', 'patched_cache'))
+os.makedirs(patched_cache_dir, exist_ok=True)
+patched_cache_file = os.path.join(patched_cache_dir, 'loaders.cache')
+
+if os.path.exists(cache_src):
+    with open(cache_src, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Substitui os caminhos absolutos do MSYS2 pelos nomes relativos das DLLs
+    content = re.sub(r'"[^"]*/([^/]+\.dll)"', r'"\1"', content)
+    
+    with open(patched_cache_file, 'w', encoding='utf-8') as f:
+        f.write(content)
+    
+    pixbufs.append((patched_cache_file, 'lib/gdk-pixbuf-2.0/2.10.0'))
+
+# Arquivos nativos do GTK4 (Temas, Componentes Visuais e Shaders)
+gtk4_dir = os.path.join(MINGW, 'share', 'gtk-4.0')
+gtk4_data = []
+if os.path.exists(gtk4_dir):
+    for root, dirs, files in os.walk(gtk4_dir):
         for f in files:
             src = os.path.join(root, f)
             dst = os.path.relpath(root, MINGW)
-            enchant_data.append((src, dst))
-
-# Hunspell dictionaries
-hunspell_dir = os.path.join(MINGW, 'share', 'hunspell')
-hunspell = []
-if os.path.exists(hunspell_dir):
-    for f in os.listdir(hunspell_dir):
-        hunspell.append((os.path.join(hunspell_dir, f), 'share/hunspell'))
-
-# Myspell dictionaries
-myspell_dir = os.path.join(MINGW, 'share', 'myspell')
-if os.path.exists(myspell_dir):
-    for root, dirs, files in os.walk(myspell_dir):
-        for f in files:
-            src = os.path.join(root, f)
-            dst = os.path.relpath(root, MINGW)
-            hunspell.append((src, dst))
+            gtk4_data.append((src, dst))
 
 # Arquivos do próprio app
 app_data = []
@@ -100,9 +101,8 @@ for resource_dir in ['resources', 'assets', 'data']:
                 src = os.path.join(root, f)
                 app_data.append((src, root))
 
-# Juntar todos os data files
-all_datas = (gtk_dlls + typelibs + schemas + icons + pixbufs + 
-             enchant_data + hunspell + app_data)
+# Juntar todos os data files (agora inclui o gtk4_data)
+all_datas = (gtk_dlls + typelibs + schemas + icons + pixbufs + gtk4_data + app_data)
 
 a = Analysis(
     ['main.py'],
@@ -153,7 +153,7 @@ exe = EXE(
     strip=False,
     upx=True,
     console=False,
-    icon='icons/hicolor/scalable/actions/tac-writer.ico',
+    icon='icons/hicolor/scalable/apps/tac-writer.ico',
 )
 
 coll = COLLECT(

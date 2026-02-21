@@ -1,5 +1,6 @@
-#define MyAppName "TAC Writer"
-#define MyAppVersion "1.3.1-1"
+#define MyAppName "Tac Writer"
+#define MyAppVersion "1.3.1-4"
+#define MyAppNumericVersion "1.3.1.4"
 #define MyAppPublisher "TAC"
 #define MyAppURL "https://github.com/narayanls/tac-writer"
 #define MyAppExeName "TacWriter.exe"
@@ -18,7 +19,7 @@ DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=installer_output
 OutputBaseFilename=TacWriter-{#MyAppVersion}-Setup-x64
-SetupIconFile=icons\hicolor\scalable\actions\tac-writer.ico
+SetupIconFile=icons\hicolor\scalable\apps\tac-writer.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
 UninstallDisplayName={#MyAppName}
 Compression=lzma2
@@ -27,10 +28,10 @@ WizardStyle=modern
 PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-VersionInfoVersion={#MyAppVersion}
+VersionInfoVersion={#MyAppNumericVersion}
+VersionInfoProductVersion={#MyAppNumericVersion}
 VersionInfoCompany={#MyAppPublisher}
 VersionInfoProductName={#MyAppName}
-VersionInfoProductVersion={#MyAppVersion}
 DisableWelcomePage=no
 InfoBeforeFile=INFO_BEFORE.txt
 
@@ -66,26 +67,26 @@ begin
 end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
+var
+  VersionPath: String;
+  AppDataFolder: String;
 begin
   if CurStep = ssPostInstall then
   begin
-    // Salva versão no AppData para o app poder ler
-    SaveStringToFile(
-      ExpandConstant('{localappdata}\tac\version.txt'),
-      '{#MyAppVersion}', False
-    );
+    // Define os caminhos
+    AppDataFolder := ExpandConstant('{localappdata}\tac');
+    VersionPath := AddBackslash(AppDataFolder) + 'version.txt';
+
+    // CORREÇÃO: Cria a pasta 'tac' se ela não existir, senão o SaveStringToFile falha
+    if not DirExists(AppDataFolder) then
+      ForceDirectories(AppDataFolder);
+
+    // Salva a versão (sobrescreve se existir)
+    SaveStringToFile(VersionPath, '{#MyAppVersion}', True);
   end;
 end;
 
 procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
 begin
-  if CurUninstallStep = usPostUninstall then
-  begin
-    // Remove dados locais se o usuário quiser
-    if MsgBox('Deseja remover também os dados e configurações do {#MyAppName}?',
-              mbConfirmation, MB_YESNO) = IDYES then
-    begin
-      DelTree(ExpandConstant('{localappdata}\tac'), True, True, True);
-    end;
+DelTree(ExpandConstant('{localappdata}\tac\version.txt'), True, True, True);
   end;
-end;
