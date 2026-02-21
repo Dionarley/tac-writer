@@ -288,6 +288,10 @@ class UpdateChecker:
     def _compare_versions(a: str, b: str) -> int:
         """Return -1 if a < b, 0 if equal, 1 if a > b."""
         def _ints(v: str) -> List[int]:
+            # Remove o epoch (ex: '1:') se existir, para não quebrar o .isdigit()
+            if ':' in v:
+                v = v.split(':', 1)[-1]
+                
             return [int(x) for x in v.replace("-", ".").split(".")
                     if x.isdigit()]
 
