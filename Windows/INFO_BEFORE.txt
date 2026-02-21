@@ -12,4 +12,4 @@ Requisitos
 - 300 MB de espaço em disco
 
 Novidades desta versão
-- Esquema de cores para temas personalizados
+- Melhorias no Esquema de Cores personalizado.
