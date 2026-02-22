@@ -85,6 +85,7 @@ class Gtk4SpellChecker:
         self._tag = None
         self._check_timeout_id = None
         self._current_popover = None
+        self._handled_click = False
 
         self._init_dictionary(language)
         self._create_tag()
@@ -154,7 +155,12 @@ class Gtk4SpellChecker:
         # Right-click for suggestions
         click = Gtk.GestureClick()
         click.set_button(3)
-        click.connect('pressed', self._on_right_click)
+        click.set_propagation_phase(Gtk.PropagationPhase.CAPTURE)
+        
+        # Conectamos as duas ações separadamente!
+        click.connect('pressed', self._on_right_click_pressed)
+        click.connect('released', self._on_right_click_released)
+        
         self.text_view.add_controller(click)
 
     # --- Core spell checking ---
@@ -199,90 +205,104 @@ class Gtk4SpellChecker:
         return False  # Don't repeat
 
     # --- Right-click suggestions ---
-    def _on_right_click(self, gesture, n_press, x, y):
-        """Show correction suggestions on right-click"""
+    def _get_iter_at_click(self, x, y):
+        """Função auxiliar para pegar a posição do texto no clique"""
+        bx, by = self.text_view.window_to_buffer_coords(Gtk.TextWindowType.WIDGET, int(x), int(y))
+        result = self.text_view.get_iter_at_location(bx, by)
+        if isinstance(result, tuple):
+            return result[1] if result[0] else None
+        return result
+
+    def _on_right_click_pressed(self, gesture, n_press, x, y):
+        """PASSO 1: Botão ABAIXOU. Verificamos se há erro e bloqueamos o menu padrão."""
+        self._handled_click = False  # Reseta o estado
+        
         if not self._enabled or not self._dict:
             return
 
-        try:
-            # Cleanup old popover
-            if self._current_popover:
-                self._current_popover.popdown()
-                self._current_popover.unparent()
-                self._current_popover = None
+        text_iter = self._get_iter_at_click(x, y)
+        if not text_iter:
+            return
 
-            # Convert widget coords → buffer coords
-            bx, by = self.text_view.window_to_buffer_coords(
-                Gtk.TextWindowType.WIDGET, int(x), int(y)
-            )
+        if text_iter.has_tag(self._tag):
+            # A palavra tem erro! Reivindicamos o evento AQUI.
+            gesture.set_state(Gtk.EventSequenceState.CLAIMED)
+            self._handled_click = True  # Avisa o 'released' que nós dominamos este clique
+        else:
+            # Palavra correta. Deixa o GTK abrir o menu padrão normalmente.
+            pass
 
-            # Get TextIter at click position
-            result = self.text_view.get_iter_at_location(bx, by)
-            if isinstance(result, tuple):
-                success, text_iter = result
-                if not success:
-                    return
-            else:
-                text_iter = result
+    def _on_right_click_released(self, gesture, n_press, x, y):
+        """PASSO 2: Botão LEVANTOU. Abrimos o pop-up com segurança."""
+        # Se não dominamos o clique no 'pressed', ignoramos e saímos
+        if not self._handled_click:
+            return
 
-            # Only act on misspelled words
-            if not text_iter.has_tag(self._tag):
-                return
+        self._handled_click = False  # Reseta para o próximo clique
 
-            # Find word boundaries
-            word_start = text_iter.copy()
-            word_end = text_iter.copy()
-            if not word_start.starts_word():
-                word_start.backward_word_start()
-            if not word_end.ends_word():
-                word_end.forward_word_end()
+        text_iter = self._get_iter_at_click(x, y)
+        if not text_iter:
+            return
 
-            misspelled = self.buffer.get_text(word_start, word_end, False)
-            if not misspelled:
-                return
+        self._show_popover(text_iter, x, y)
 
-            suggestions = self._dict.suggest(misspelled)[:7]
+    def _show_popover(self, text_iter, x, y):
+        """Constrói e exibe o pop-up clicável"""
+        if self._current_popover:
+            self._current_popover.popdown()
+            self._current_popover.unparent()
+            self._current_popover = None
 
-            # Build popover
-            popover = Gtk.Popover()
-            popover.set_parent(self.text_view)
+        word_start = text_iter.copy()
+        word_end = text_iter.copy()
+        if not word_start.starts_word():
+            word_start.backward_word_start()
+        if not word_end.ends_word():
+            word_end.forward_word_end()
 
-            rect = Gdk.Rectangle()
-            rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
-            popover.set_pointing_to(rect)
+        misspelled = self.buffer.get_text(word_start, word_end, False)
+        if not misspelled:
+            return
 
-            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
-            box.set_margin_top(6)
-            box.set_margin_bottom(6)
-            box.set_margin_start(6)
-            box.set_margin_end(6)
+        suggestions = self._dict.suggest(misspelled)[:7]
 
-            if suggestions:
-                for s in suggestions:
-                    btn = Gtk.Button(label=s)
-                    btn.add_css_class("flat")
-                    btn.connect('clicked', self._replace_word,
-                               word_start.get_offset(), word_end.get_offset(),
-                               s, popover)
-                    box.append(btn)
-            else:
-                lbl = Gtk.Label(label=_("Sem sugestões"))
-                lbl.add_css_class("dim-label")
-                box.append(lbl)
+        popover = Gtk.Popover()
+        popover.set_parent(self.text_view)
+        popover.set_autohide(True)
 
-            box.append(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
+        rect = Gdk.Rectangle()
+        rect.x, rect.y, rect.width, rect.height = int(x), int(y), 1, 1
+        popover.set_pointing_to(rect)
 
-            add_btn = Gtk.Button(label=_("Adicionar ao dicionário"))
-            add_btn.add_css_class("flat")
-            add_btn.connect('clicked', self._add_to_dict, misspelled, popover)
-            box.append(add_btn)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        box.set_margin_top(6)
+        box.set_margin_bottom(6)
+        box.set_margin_start(6)
+        box.set_margin_end(6)
 
-            popover.set_child(box)
-            self._current_popover = popover
-            popover.popup()
+        if suggestions:
+            for s in suggestions:
+                btn = Gtk.Button(label=s)
+                btn.add_css_class("flat")
+                btn.connect('clicked', self._replace_word,
+                           word_start.get_offset(), word_end.get_offset(),
+                           s, popover)
+                box.append(btn)
+        else:
+            lbl = Gtk.Label(label=_("Sem sugestões"))
+            lbl.add_css_class("dim-label")
+            box.append(lbl)
 
-        except Exception as e:
-            print(f"Spell check right-click error: {e}", flush=True)
+        box.append(Gtk.Separator(orientation=Gtk.Orientation.HORIZONTAL))
+
+        add_btn = Gtk.Button(label=_("Adicionar ao dicionário"))
+        add_btn.add_css_class("flat")
+        add_btn.connect('clicked', self._add_to_dict, misspelled, popover)
+        box.append(add_btn)
+
+        popover.set_child(box)
+        self._current_popover = popover
+        popover.popup()
 
     def _replace_word(self, btn, start_off, end_off, replacement, popover):
         """Replace misspelled word with selected suggestion"""
@@ -1824,21 +1844,23 @@ class ParagraphEditor(Gtk.Box):
         # Create text tags
         tag_table = self.text_buffer.get_tag_table()
 
-        # Remove existing format tag
-        existing_tag = tag_table.lookup("format")
-        if existing_tag:
-            tag_table.remove(existing_tag)
+        # Remove existing format tag using its unique name
+        if hasattr(self, '_current_format_tag_name'):
+            existing_tag = tag_table.lookup(self._current_format_tag_name)
+            if existing_tag:
+                tag_table.remove(existing_tag)
 
-        # Create new formatting tag
-        format_tag = self.text_buffer.create_tag("format")
+        # Create new formatting tag with a unique name for THIS instance
+        self._current_format_tag_name = f"format_{id(self)}"
+        format_tag = self.text_buffer.create_tag(self._current_format_tag_name)
 
-        # Apply styles
+        # Apply styles securely using Enums
         if formatting.get('bold', False):
-            format_tag.set_property("weight", 700)
+            format_tag.set_property("weight", Pango.Weight.BOLD)
         if formatting.get('italic', False):
-            format_tag.set_property("style", 2)
+            format_tag.set_property("style", Pango.Style.ITALIC)
         if formatting.get('underline', False):
-            format_tag.set_property("underline", 1)
+            format_tag.set_property("underline", Pango.Underline.SINGLE)
 
         # Apply tag to all text
         start_iter = self.text_buffer.get_start_iter()
