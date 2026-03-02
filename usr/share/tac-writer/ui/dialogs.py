@@ -4147,18 +4147,33 @@ class ChartDialog(Adw.Window):
         self.set_default_size(600, 500)
         self.set_resizable(True)
 
+        # Paletas de cores disponíveis: (nome, cor_primária, lista_pizza)
+        self.PALETTES = [
+            (_("TAC (Padrão)"),     '#3584e4', ['#3584e4','#e5a50a','#e01b24','#2ec27e','#9141ac','#986a44']),
+            (_("Quente"),           '#e01b24', ['#e01b24','#e5a50a','#ff7800','#c061cb','#986a44','#f9f06b']),
+            (_("Frio"),             '#1c71d8', ['#1c71d8','#2ec27e','#26a269','#613583','#1a5fb4','#4a708b']),
+            (_("Pastel"),           '#99c1f1', ['#99c1f1','#f9f06b','#8ff0a4','#f8d8b0','#dc8add','#cdab8f']),
+            (_("Monocromático"),    '#3584e4', ['#3584e4','#4a90d9','#5c9bd4','#6ea6cf','#80b2ca','#92bdc5']),
+        ]
+
         # Dados iniciais
         self.chart_title = ""
         self.chart_type = "bar"
-        self.chart_data = [["Categoria 1", "10"], ["Categoria 2", "20"]] #[Rótulo, Valor]
+        self.chart_data = [["Categoria 1", "10"], ["Categoria 2", "20"]]
         self.image_path = ""
+        self.palette_index = 0  # TAC Padrão
 
-        if self.edit_mode and hasattr(self.edit_paragraph, 'metadata'):
-            meta = self.edit_paragraph.metadata.get('chart_data', {})
-            self.chart_title = meta.get('title', '')
-            self.chart_type = meta.get('type', 'bar')
-            self.chart_data = meta.get('data', self.chart_data)
-            self.image_path = meta.get('image_path', '')
+        if self.edit_mode:
+            # Dados salvos ficam em 'formatting', não em 'metadata'
+            formatting = getattr(self.edit_paragraph, 'formatting', {})
+            if not isinstance(formatting, dict):
+                formatting = {}
+            meta = formatting.get('chart_data', {})
+            self.chart_title  = meta.get('title', '')
+            self.chart_type   = meta.get('type', 'bar')
+            self.chart_data   = meta.get('data', self.chart_data)
+            self.image_path   = meta.get('image_path', '')
+            self.palette_index = meta.get('palette_index', 0)
 
         self.row_boxes =[] 
 
@@ -4203,6 +4218,12 @@ class ChartDialog(Adw.Window):
         type_map = {"bar": 0, "pie": 1, "line": 2}
         self.combo_type.set_selected(type_map.get(self.chart_type, 0))
         group_settings.add(self.combo_type)
+
+        self.combo_palette = Adw.ComboRow(title=_("Paleta de Cores"))
+        palette_model = Gtk.StringList.new([p[0] for p in self.PALETTES])
+        self.combo_palette.set_model(palette_model)
+        self.combo_palette.set_selected(self.palette_index)
+        group_settings.add(self.combo_palette)
 
         # Dados do Gráfico
         group_data = Adw.PreferencesGroup(title=_("Dados"))
@@ -4317,6 +4338,9 @@ class ChartDialog(Adw.Window):
         type_map = {0: "bar", 1: "pie", 2: "line"}
         chart_type = type_map.get(type_idx, "bar")
 
+        palette_idx = self.combo_palette.get_selected()
+        _, primary_color, pie_colors = self.PALETTES[palette_idx]
+
         # Gerar nome de arquivo e criar pasta se não existir
         images_dir = self.config.data_dir / 'images' / self.project.id
         images_dir.mkdir(parents=True, exist_ok=True)
@@ -4324,14 +4348,16 @@ class ChartDialog(Adw.Window):
         filename = f"chart_{uuid.uuid4().hex[:8]}.png"
         filepath = images_dir / filename
 
-        self._generate_matplotlib_image(filepath, title, chart_type, labels, values)
+        self._generate_matplotlib_image(filepath, title, chart_type, labels, values,
+                                        primary_color, pie_colors)
 
         # 3. Empacotar os metadados
         meta = {
             'title': title,
             'type': chart_type,
             'data': raw_data,
-            'image_path': str(filepath)
+            'image_path': str(filepath),
+            'palette_index': palette_idx,
         }
 
         from core.models import Paragraph, ParagraphType
@@ -4350,13 +4376,14 @@ class ChartDialog(Adw.Window):
 
         self.destroy()
 
-    def _generate_matplotlib_image(self, filepath, title, chart_type, labels, values):
+    def _generate_matplotlib_image(self, filepath, title, chart_type, labels, values,
+                                    primary_color='#3584e4',
+                                    pie_colors=None):
         """Gera a imagem do gráfico e salva no disco"""
+        if pie_colors is None:
+            pie_colors = ['#3584e4', '#e5a50a', '#e01b24', '#2ec27e', '#9141ac', '#986a44']
+
         plt.figure(figsize=(7, 4.5))
-        
-        # Cores do TAC
-        primary_color = '#3584e4'
-        pie_colors =['#3584e4', '#e5a50a', '#e01b24', '#2ec27e', '#9141ac', '#986a44']
 
         if chart_type == 'bar':
             plt.bar(labels, values, color=primary_color)
