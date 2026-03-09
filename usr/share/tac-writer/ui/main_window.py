@@ -230,7 +230,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.dictionary_button.set_icon_name('tac-dictionary-symbolic')
         self.dictionary_button.set_tooltip_text(_("Dicionário de Sinônimos e Antônimos"))
         self.dictionary_button.connect('clicked', self._on_dictionary_clicked)
-        self.dictionary_button.set_sensitive(False)
+        self.dictionary_button.set_sensitive(True)
         self.header_bar.pack_start(self.dictionary_button)
 
         # Right side buttons

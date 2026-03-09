@@ -1,7 +1,7 @@
 {
   "_meta": {
     "nome": "Dicionário Tac Writer — Sinônimos e Antônimos",
-    "versao": "1.1",
+    "versao": "1.3",
     "contexto": "Escrita formal e acadêmica em português do Brasil",
     "categorias": [
       "conectivos_conclusao",
@@ -15,7 +15,15 @@
       "adjetivos_relevancia",
       "adjetivos_quantidade",
       "adjetivos_avaliacao",
-      "substantivos_textuais"
+      "substantivos_textuais",
+      "adjetivos_estruturais",
+      "conectivos_enfase",
+      "conectivos_finalidade",
+      "conectivos_tempo",
+      "conectivos_conformidade",
+      "conectivos_proporcao",
+      "conectivos_explicacao",
+      "conectivos_exemplificacao"
     ]
   },
   "portanto": {
@@ -2486,6 +2494,1600 @@
       "exógeno",
       "exterior",
       "alheio"
+    ]
+  },
+  "dessa forma": {
+    "categoria": "conectivos_conclusao",
+    "sinonimos": [
+      "portanto",
+      "assim",
+      "logo",
+      "desse modo",
+      "por conseguinte",
+      "nesse sentido"
+    ],
+    "antonimos": [
+      "contudo",
+      "porém",
+      "todavia",
+      "no entanto",
+      "ao contrário"
+    ]
+  },
+  "desse modo": {
+    "categoria": "conectivos_conclusao",
+    "sinonimos": [
+      "portanto",
+      "assim",
+      "logo",
+      "dessa forma",
+      "por conseguinte"
+    ],
+    "antonimos": [
+      "contudo",
+      "porém",
+      "todavia",
+      "inversamente"
+    ]
+  },
+  "de fato": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "com efeito",
+      "efetivamente",
+      "na realidade",
+      "realmente",
+      "de certo"
+    ],
+    "antonimos": [
+      "aparentemente",
+      "supostamente",
+      "superficialmente",
+      "em tese"
+    ]
+  },
+  "com efeito": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "de fato",
+      "efetivamente",
+      "na realidade",
+      "realmente"
+    ],
+    "antonimos": [
+      "aparentemente",
+      "supostamente",
+      "em tese"
+    ]
+  },
+  "ao mesmo tempo": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "simultaneamente",
+      "concomitantemente",
+      "paralelamente",
+      "a um só tempo"
+    ],
+    "antonimos": [
+      "em seguida",
+      "posteriormente",
+      "separadamente",
+      "sucessivamente"
+    ]
+  },
+  "por sua vez": {
+    "categoria": "conectivos_contraste",
+    "sinonimos": [
+      "de seu lado",
+      "da mesma forma",
+      "igualmente",
+      "também",
+      "a seu turno"
+    ],
+    "antonimos": [
+      "ao contrário",
+      "inversamente",
+      "pelo contrário"
+    ]
+  },
+  "com isso": {
+    "categoria": "conectivos_causa_consequencia",
+    "sinonimos": [
+      "assim",
+      "logo",
+      "portanto",
+      "por conseguinte",
+      "daí"
+    ],
+    "antonimos": [
+      "apesar disso",
+      "mesmo assim",
+      "ainda assim",
+      "não obstante"
+    ]
+  },
+  "a saber": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "ou seja",
+      "isto é",
+      "em outras palavras",
+      "quer dizer",
+      "nomeadamente"
+    ],
+    "antonimos": []
+  },
+  "em outros termos": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "ou seja",
+      "isto é",
+      "a saber",
+      "em outras palavras",
+      "dito de outro modo"
+    ],
+    "antonimos": []
+  },
+  "nesse sentido": {
+    "categoria": "conectivos_conclusao",
+    "sinonimos": [
+      "portanto",
+      "assim",
+      "dessa forma",
+      "nessa direção",
+      "nessa perspectiva"
+    ],
+    "antonimos": [
+      "ao contrário",
+      "inversamente",
+      "em sentido oposto"
+    ]
+  },
+  "dominação": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "poder",
+      "controle",
+      "hegemonia",
+      "sujeição",
+      "subordinação"
+    ],
+    "antonimos": [
+      "emancipação",
+      "libertação",
+      "autonomia",
+      "independência"
+    ]
+  },
+  "fetiche": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "ilusão",
+      "mistificação",
+      "reificação",
+      "fantasmagoria"
+    ],
+    "antonimos": [
+      "consciência",
+      "transparência",
+      "desmistificação",
+      "clareza"
+    ]
+  },
+  "totalidade": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "conjunto",
+      "universalidade",
+      "completude",
+      "integralidade",
+      "todo"
+    ],
+    "antonimos": [
+      "particularidade",
+      "fragmento",
+      "parcialidade",
+      "aspecto"
+    ]
+  },
+  "abstração": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "generalização",
+      "idealização",
+      "teorização",
+      "universalização"
+    ],
+    "antonimos": [
+      "concretude",
+      "empiria",
+      "particularidade",
+      "materialidade"
+    ]
+  },
+  "imanência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "interioridade",
+      "intrínseco",
+      "imanência",
+      "permanência interna"
+    ],
+    "antonimos": [
+      "transcendência",
+      "exterioridade",
+      "além",
+      "alteridade"
+    ]
+  },
+  "transcendência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "exterioridade",
+      "superação",
+      "além",
+      "alteridade"
+    ],
+    "antonimos": [
+      "imanência",
+      "interioridade",
+      "inmanência"
+    ]
+  },
+  "emancipação": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "libertação",
+      "autonomia",
+      "superação",
+      "liberação"
+    ],
+    "antonimos": [
+      "submissão",
+      "dominação",
+      "opressão",
+      "sujeição"
+    ]
+  },
+  "autonomia": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "independência",
+      "liberdade",
+      "soberania",
+      "autogestão"
+    ],
+    "antonimos": [
+      "dependência",
+      "subordinação",
+      "heteronomia",
+      "submissão"
+    ]
+  },
+  "ruptura": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "corte",
+      "cisão",
+      "descontinuidade",
+      "quebra",
+      "interrupção"
+    ],
+    "antonimos": [
+      "continuidade",
+      "persistência",
+      "permanência",
+      "manutenção"
+    ]
+  },
+  "crítica": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "análise",
+      "questionamento",
+      "revisão",
+      "exame",
+      "avaliação"
+    ],
+    "antonimos": [
+      "aceitação",
+      "validação",
+      "afirmação",
+      "legitimação"
+    ]
+  },
+  "subjetivo": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "pessoal",
+      "individual",
+      "particular",
+      "arbitrário",
+      "voluntário"
+    ],
+    "antonimos": [
+      "objetivo",
+      "impessoal",
+      "estrutural",
+      "independente",
+      "coletivo"
+    ]
+  },
+  "objetivo": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "estrutural",
+      "impessoal",
+      "concreto",
+      "independente",
+      "factual"
+    ],
+    "antonimos": [
+      "subjetivo",
+      "individual",
+      "arbitrário",
+      "voluntário"
+    ]
+  },
+  "ontológico": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "essencial",
+      "fundamental",
+      "constitutivo",
+      "inerente",
+      "apriorístico"
+    ],
+    "antonimos": [
+      "contingente",
+      "histórico",
+      "derivado",
+      "circunstancial"
+    ]
+  },
+  "empírico": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "observável",
+      "concreto",
+      "factual",
+      "verificável",
+      "experimental"
+    ],
+    "antonimos": [
+      "teórico",
+      "abstrato",
+      "especulativo",
+      "apriorístico"
+    ]
+  },
+  "histórico": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "temporal",
+      "processual",
+      "evolutivo",
+      "contextual",
+      "situado"
+    ],
+    "antonimos": [
+      "a-histórico",
+      "ontológico",
+      "eterno",
+      "imutável",
+      "universal"
+    ]
+  },
+  "redutor": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "simplista",
+      "esquemático",
+      "unilateral",
+      "parcial",
+      "limitado"
+    ],
+    "antonimos": [
+      "abrangente",
+      "amplo",
+      "dialético",
+      "complexo",
+      "multifacetado"
+    ]
+  },
+  "denunciar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "revelar",
+      "expor",
+      "criticar",
+      "apontar",
+      "evidenciar",
+      "desmascarar"
+    ],
+    "antonimos": [
+      "ocultar",
+      "encobrir",
+      "legitimar",
+      "validar",
+      "naturalizar"
+    ]
+  },
+  "assimilar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "incorporar",
+      "absorver",
+      "integrar",
+      "apropriar",
+      "internalizar"
+    ],
+    "antonimos": [
+      "rejeitar",
+      "descartar",
+      "refutar",
+      "recusar",
+      "ignorar"
+    ]
+  },
+  "remeter": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "apontar",
+      "indicar",
+      "reportar",
+      "referenciar",
+      "evocar"
+    ],
+    "antonimos": [
+      "desvincular",
+      "ignorar",
+      "abstrair",
+      "desconectar"
+    ]
+  },
+  "reduzir": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "simplificar",
+      "limitar",
+      "restringir",
+      "resumir",
+      "circunscrever"
+    ],
+    "antonimos": [
+      "ampliar",
+      "expandir",
+      "generalizar",
+      "complexificar",
+      "alargar"
+    ]
+  },
+  "abarcar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "englobar",
+      "compreender",
+      "incluir",
+      "cobrir",
+      "alcançar"
+    ],
+    "antonimos": [
+      "excluir",
+      "limitar",
+      "restringir",
+      "omitir"
+    ]
+  },
+  "historicizar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "contextualizar",
+      "relativizar",
+      "situar",
+      "temporalizar",
+      "periodizar"
+    ],
+    "antonimos": [
+      "ontologizar",
+      "absolutizar",
+      "universalizar",
+      "naturalizar"
+    ]
+  },
+  "ontologizar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "absolutizar",
+      "universalizar",
+      "naturalizar",
+      "reificar",
+      "essencializar"
+    ],
+    "antonimos": [
+      "historicizar",
+      "relativizar",
+      "contextualizar",
+      "problematizar"
+    ]
+  },
+  "mediante": {
+    "categoria": "conectivos_causa_consequencia",
+    "sinonimos": [
+      "por meio de",
+      "através de",
+      "com",
+      "por intermédio de",
+      "via"
+    ],
+    "antonimos": [
+      "sem",
+      "independentemente de",
+      "à margem de"
+    ]
+  },
+  "mensurar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "medir",
+      "quantificar",
+      "avaliar",
+      "aferir",
+      "calcular"
+    ],
+    "antonimos": [
+      "estimar",
+      "intuir",
+      "supor",
+      "ignorar"
+    ]
+  },
+  "consistir": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "compor-se",
+      "constituir-se",
+      "basear-se",
+      "fundamentar-se",
+      "residir em"
+    ],
+    "antonimos": []
+  },
+  "consiste": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "compõe-se",
+      "constitui-se",
+      "baseia-se",
+      "fundamenta-se",
+      "reside em"
+    ],
+    "antonimos": []
+  },
+  "pretender": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "almejar",
+      "objetivar",
+      "visar",
+      "reivindicar",
+      "propugnar"
+    ],
+    "antonimos": [
+      "renunciar",
+      "abdicar",
+      "desconsiderar",
+      "ignorar"
+    ]
+  },
+  "pretensão": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "objetivo",
+      "propósito",
+      "reivindicação",
+      "aspiração",
+      "intento"
+    ],
+    "antonimos": [
+      "renúncia",
+      "abdicação",
+      "modéstia",
+      "despretensão"
+    ]
+  },
+  "potencializar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "amplificar",
+      "intensificar",
+      "fortalecer",
+      "incrementar",
+      "maximizar"
+    ],
+    "antonimos": [
+      "atenuar",
+      "reduzir",
+      "minimizar",
+      "enfraquecer",
+      "limitar"
+    ]
+  },
+  "potencialidade": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "capacidade",
+      "possibilidade",
+      "virtualidade",
+      "aptidão",
+      "potencial"
+    ],
+    "antonimos": [
+      "limitação",
+      "impossibilidade",
+      "restrição",
+      "incapacidade"
+    ]
+  },
+  "especular": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "conjeturar",
+      "hipotetizar",
+      "teorizar",
+      "supor",
+      "refletir"
+    ],
+    "antonimos": [
+      "verificar",
+      "demonstrar",
+      "comprovar",
+      "constatar",
+      "certificar"
+    ]
+  },
+  "especulativo": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "hipotético",
+      "conjetural",
+      "teórico",
+      "abstrato",
+      "não verificado"
+    ],
+    "antonimos": [
+      "empírico",
+      "demonstrável",
+      "verificável",
+      "concreto",
+      "factual"
+    ]
+  },
+  "sobretudo": {
+    "categoria": "conectivos_enfase",
+    "sinonimos": [
+      "principalmente",
+      "especialmente",
+      "mormente",
+      "destacadamente",
+      "em especial",
+      "com ênfase",
+      "acima de tudo"
+    ],
+    "antonimos": [
+      "secundariamente",
+      "minimamente",
+      "marginalmente"
+    ]
+  },
+  "inequívoco": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "inquestionável",
+      "indubitável",
+      "evidente",
+      "incontestável",
+      "claro",
+      "patente",
+      "irrefutável"
+    ],
+    "antonimos": [
+      "ambíguo",
+      "questionável",
+      "duvidoso",
+      "incerto",
+      "equívoco",
+      "discutível"
+    ]
+  },
+  "paradigma": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "modelo",
+      "padrão",
+      "referencial",
+      "matriz",
+      "arquétipo",
+      "parâmetro"
+    ],
+    "antonimos": [
+      "anomalia",
+      "exceção",
+      "desvio",
+      "irregularidade"
+    ]
+  },
+  "subjacente": {
+    "categoria": "adjetivos_estruturais",
+    "sinonimos": [
+      "implícito",
+      "latente",
+      "oculto",
+      "velado",
+      "embutido",
+      "subentendido"
+    ],
+    "antonimos": [
+      "explícito",
+      "evidente",
+      "patente",
+      "manifesto",
+      "superficial",
+      "declarado"
+    ]
+  },
+  "sistêmico": {
+    "categoria": "adjetivos_estruturais",
+    "sinonimos": [
+      "estrutural",
+      "orgânico",
+      "generalizado",
+      "abrangente",
+      "institucionalizado",
+      "endêmico"
+    ],
+    "antonimos": [
+      "pontual",
+      "isolado",
+      "localizado",
+      "acidental",
+      "esporádico"
+    ]
+  },
+  "elucidar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "esclarecer",
+      "explicar",
+      "clarificar",
+      "iluminar",
+      "desvendar",
+      "explanar"
+    ],
+    "antonimos": [
+      "obscurecer",
+      "confundir",
+      "complicar",
+      "ofuscar",
+      "mistificar"
+    ]
+  },
+  "sintetizar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "resumir",
+      "condensar",
+      "sumariar",
+      "compilar",
+      "abreviar",
+      "conglomerar"
+    ],
+    "antonimos": [
+      "detalhar",
+      "pormenorizar",
+      "desenvolver",
+      "expandir",
+      "esmiuçar"
+    ]
+  },
+  "viés": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "tendência",
+      "inclinação",
+      "perspectiva",
+      "predisposição",
+      "direcionamento",
+      "parcialidade"
+    ],
+    "antonimos": [
+      "imparcialidade",
+      "neutralidade",
+      "isenção",
+      "objetividade"
+    ]
+  },
+  "em virtude de": {
+    "categoria": "conectivos_causa_consequencia",
+    "sinonimos": [
+      "devido a",
+      "em razão de",
+      "por conta de",
+      "graças a",
+      "por causa de",
+      "dado que"
+    ],
+    "antonimos": [
+      "a despeito de",
+      "apesar de",
+      "não obstante",
+      "independentemente de"
+    ]
+  },
+  "salvo se": {
+    "categoria": "conectivos_condicao",
+    "sinonimos": [
+      "a menos que",
+      "a não ser que",
+      "exceto se",
+      "desde que não"
+    ],
+    "antonimos": [
+      "independentemente de",
+      "em qualquer caso",
+      "sempre que"
+    ]
+  },
+  "aludir": {
+    "categoria": "verbos_citacao",
+    "sinonimos": [
+      "mencionar",
+      "citar",
+      "referir-se",
+      "fazer referência",
+      "apontar",
+      "remeter"
+    ],
+    "antonimos": [
+      "omitir",
+      "ignorar",
+      "silenciar"
+    ]
+  },
+  "convergência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "confluência",
+      "encontro",
+      "interseção",
+      "aproximação",
+      "concordância",
+      "consonância"
+    ],
+    "antonimos": [
+      "divergência",
+      "afastamento",
+      "distanciamento",
+      "oposição",
+      "discordância"
+    ]
+  },
+  "mapear": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "rastrear",
+      "identificar",
+      "sistematizar",
+      "levantar",
+      "esboçar",
+      "catalogar"
+    ],
+    "antonimos": [
+      "ignorar",
+      "desorganizar",
+      "confundir"
+    ]
+  },
+  "inerente": {
+    "categoria": "adjetivos_estruturais",
+    "sinonimos": [
+      "intrínseco",
+      "inseparável",
+      "próprio",
+      "peculiar",
+      "imanente",
+      "essencial"
+    ],
+    "antonimos": [
+      "extrínseco",
+      "alheio",
+      "exterior",
+      "estranho",
+      "acessório"
+    ]
+  },
+  "por conseguinte": {
+    "categoria": "conectivos_conclusao",
+    "sinonimos": [
+      "logo",
+      "portanto",
+      "assim sendo",
+      "consequentemente",
+      "de tal modo",
+      "em vista disso"
+    ],
+    "antonimos": [
+      "contudo",
+      "porém",
+      "todavia",
+      "apesar disso"
+    ]
+  },
+  "a fim de": {
+    "categoria": "conectivos_finalidade",
+    "sinonimos": [
+      "para",
+      "com o objetivo de",
+      "com a finalidade de",
+      "com o intuito de",
+      "visando a",
+      "de modo a"
+    ],
+    "antonimos": [
+      "apesar de",
+      "embora",
+      "independentemente de"
+    ]
+  },
+  "para que": {
+    "categoria": "conectivos_finalidade",
+    "sinonimos": [
+      "a fim de que",
+      "de modo que",
+      "com o propósito de que",
+      "para"
+    ],
+    "antonimos": [
+      "embora",
+      "apesar de que",
+      "sem que"
+    ]
+  },
+  "conforme": {
+    "categoria": "conectivos_conformidade",
+    "sinonimos": [
+      "segundo",
+      "de acordo com",
+      "como",
+      "consoante",
+      "em conformidade com"
+    ],
+    "antonimos": [
+      "ao contrário de",
+      "em desacordo com",
+      "diferentemente de"
+    ]
+  },
+  "segundo": {
+    "categoria": "conectivos_conformidade",
+    "sinonimos": [
+      "conforme",
+      "de acordo com",
+      "como",
+      "consoante",
+      "na opinião de"
+    ],
+    "antonimos": [
+      "ao contrário de",
+      "em oposição a"
+    ]
+  },
+  "de acordo com": {
+    "categoria": "conectivos_conformidade",
+    "sinonimos": [
+      "conforme",
+      "segundo",
+      "como",
+      "consoante",
+      "em linha com"
+    ],
+    "antonimos": [
+      "ao contrário de",
+      "em desacordo com",
+      "divergentemente de"
+    ]
+  },
+  "à medida que": {
+    "categoria": "conectivos_proporcao",
+    "sinonimos": [
+      "à proporção que",
+      "na medida em que",
+      "conforme",
+      "quanto mais... mais"
+    ],
+    "antonimos": [
+      "independentemente de",
+      "apesar de"
+    ]
+  },
+  "enquanto": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "ao mesmo tempo que",
+      "durante o tempo em que",
+      "quando",
+      "no decorrer de"
+    ],
+    "antonimos": [
+      "depois que",
+      "antes que"
+    ]
+  },
+  "quando": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "no momento em que",
+      "assim que",
+      "logo que",
+      "sempre que"
+    ],
+    "antonimos": [
+      "nunca",
+      "jamais"
+    ]
+  },
+  "assim que": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "logo que",
+      "tão logo",
+      "mal",
+      "no instante em que"
+    ],
+    "antonimos": [
+      "depois que",
+      "quando"
+    ]
+  },
+  "depois que": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "após",
+      "logo após",
+      "em seguida a",
+      "uma vez que"
+    ],
+    "antonimos": [
+      "antes que",
+      "previamente a"
+    ]
+  },
+  "antes que": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "previamente a",
+      "até que",
+      "antes de"
+    ],
+    "antonimos": [
+      "depois que",
+      "após"
+    ]
+  },
+  "até que": {
+    "categoria": "conectivos_tempo",
+    "sinonimos": [
+      "enquanto não",
+      "até o momento em que",
+      "antes que"
+    ],
+    "antonimos": [
+      "desde que",
+      "a partir de quando"
+    ]
+  },
+  "não só... mas também": {
+    "categoria": "conectivos_adicao",
+    "sinonimos": [
+      "não apenas... como também",
+      "tanto... quanto",
+      "não somente... mas igualmente"
+    ],
+    "antonimos": [
+      "nem... nem",
+      "não... nem"
+    ]
+  },
+  "ou seja": {
+    "categoria": "conectivos_explicacao",
+    "sinonimos": [
+      "isto é",
+      "em outras palavras",
+      "quer dizer",
+      "a saber",
+      "dito de outro modo"
+    ],
+    "antonimos": []
+  },
+  "isto é": {
+    "categoria": "conectivos_explicacao",
+    "sinonimos": [
+      "ou seja",
+      "em outras palavras",
+      "quer dizer",
+      "a saber"
+    ],
+    "antonimos": []
+  },
+  "por exemplo": {
+    "categoria": "conectivos_exemplificacao",
+    "sinonimos": [
+      "a título de exemplo",
+      "como",
+      "exemplificando",
+      "tal como",
+      "a exemplo de"
+    ],
+    "antonimos": [
+      "em tese",
+      "genericamente"
+    ]
+  },
+  "discutir": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "debater",
+      "abordar",
+      "tratar",
+      "examinar",
+      "analisar",
+      "ventilar"
+    ],
+    "antonimos": [
+      "ignorar",
+      "omitir",
+      "silenciar sobre"
+    ]
+  },
+  "debater": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "discutir",
+      "argumentar",
+      "contender",
+      "polemizar",
+      "disputar"
+    ],
+    "antonimos": [
+      "concordar",
+      "aceitar passivamente"
+    ]
+  },
+  "criticar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "apontar falhas",
+      "censurar",
+      "reprovar",
+      "questionar",
+      "analisar criticamente"
+    ],
+    "antonimos": [
+      "elogiar",
+      "louvar",
+      "aprovar",
+      "enaltecer"
+    ]
+  },
+  "explicar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "esclarecer",
+      "elucidar",
+      "expor",
+      "descrever",
+      "interpretar",
+      "detalhar"
+    ],
+    "antonimos": [
+      "confundir",
+      "obscurecer",
+      "embaçar"
+    ]
+  },
+  "interpretar": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "compreender",
+      "entender",
+      "decifrar",
+      "ler",
+      "explicar",
+      "hermeneutizar"
+    ],
+    "antonimos": [
+      "deturpar",
+      "distorcer",
+      "falsear"
+    ]
+  },
+  "negar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "refutar",
+      "contestar",
+      "rejeitar",
+      "recusar",
+      "contradizer",
+      "desmentir"
+    ],
+    "antonimos": [
+      "afirmar",
+      "confirmar",
+      "aceitar",
+      "ratificar"
+    ]
+  },
+  "concordar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "estar de acordo",
+      "coincidir",
+      "convergir",
+      "assentir",
+      "anuir",
+      "compactuar"
+    ],
+    "antonimos": [
+      "discordar",
+      "divergir",
+      "contestar"
+    ]
+  },
+  "discordar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "divergir",
+      "contestar",
+      "opor-se",
+      "discrepar",
+      "dissenti"
+    ],
+    "antonimos": [
+      "concordar",
+      "anuir",
+      "coincidir"
+    ]
+  },
+  "claro": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "evidente",
+      "nítido",
+      "manifesto",
+      "patente",
+      "inequívoco",
+      "lúcido"
+    ],
+    "antonimos": [
+      "obscuro",
+      "confuso",
+      "ambíguo",
+      "nebuloso"
+    ]
+  },
+  "obscuro": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "nebuloso",
+      "confuso",
+      "vago",
+      "hermético",
+      "incompreensível"
+    ],
+    "antonimos": [
+      "claro",
+      "evidente",
+      "límpido"
+    ]
+  },
+  "preciso": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "exato",
+      "certo",
+      "determinado",
+      "rigoroso",
+      "acurado",
+      "pontual"
+    ],
+    "antonimos": [
+      "impreciso",
+      "vago",
+      "inexato",
+      "aproximado"
+    ]
+  },
+  "vago": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "impreciso",
+      "indeterminado",
+      "genérico",
+      "difuso",
+      "nebuloso",
+      "ambíguo"
+    ],
+    "antonimos": [
+      "preciso",
+      "específico",
+      "determinado",
+      "claro"
+    ]
+  },
+  "coerente": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "consistente",
+      "lógico",
+      "congruente",
+      "harmonioso",
+      "coeso",
+      "concatenado"
+    ],
+    "antonimos": [
+      "incoerente",
+      "contraditório",
+      "ilógico",
+      "incongruente"
+    ]
+  },
+  "incoerente": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "contraditório",
+      "ilógico",
+      "incongruente",
+      "desconexo",
+      "absurdo"
+    ],
+    "antonimos": [
+      "coerente",
+      "lógico",
+      "consistente"
+    ]
+  },
+  "provável": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "possível",
+      "plausível",
+      "verossímil",
+      "viável",
+      "crível"
+    ],
+    "antonimos": [
+      "improvável",
+      "impossível",
+      "inverossímil"
+    ]
+  },
+  "improvável": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "duvidoso",
+      "incerto",
+      "inverossímil",
+      "implausível",
+      "remoto"
+    ],
+    "antonimos": [
+      "provável",
+      "certo",
+      "evidente"
+    ]
+  },
+  "possível": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "viável",
+      "factível",
+      "realizável",
+      "exequível",
+      "potencial"
+    ],
+    "antonimos": [
+      "impossível",
+      "inviável",
+      "inexequível"
+    ]
+  },
+  "impossível": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "inviável",
+      "inexequível",
+      "absurdo",
+      "inatingível"
+    ],
+    "antonimos": [
+      "possível",
+      "viável",
+      "factível"
+    ]
+  },
+  "importância": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "relevância",
+      "significado",
+      "valor",
+      "peso",
+      "monta",
+      "interesse"
+    ],
+    "antonimos": [
+      "insignificância",
+      "irrelevância",
+      "desimportância"
+    ]
+  },
+  "contexto": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "ambiente",
+      "cenário",
+      "circunstância",
+      "entorno",
+      "quadro",
+      "situação"
+    ],
+    "antonimos": [
+      "isolamento",
+      "abstração",
+      "vazio"
+    ]
+  },
+  "método": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "procedimento",
+      "técnica",
+      "sistema",
+      "metodologia",
+      "abordagem",
+      "processo"
+    ],
+    "antonimos": [
+      "improvisação",
+      "acaso",
+      "aleatoriedade"
+    ]
+  },
+  "teoria": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "doutrina",
+      "concepção",
+      "sistema de ideias",
+      "hipótese",
+      "tese",
+      "postulado"
+    ],
+    "antonimos": [
+      "prática",
+      "empiria",
+      "realidade"
+    ]
+  },
+  "prática": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "empiria",
+      "experiência",
+      "ação",
+      "aplicação",
+      "execução",
+      "exercício"
+    ],
+    "antonimos": [
+      "teoria",
+      "abstração",
+      "especulação"
+    ]
+  },
+  "evidência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "prova",
+      "indício",
+      "sinal",
+      "vestígio",
+      "dado",
+      "testemunho"
+    ],
+    "antonimos": [
+      "suposição",
+      "conjectura",
+      "especulação"
+    ]
+  },
+  "consequência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "resultado",
+      "efeito",
+      "desdobramento",
+      "fruto",
+      "produto",
+      "repercussão"
+    ],
+    "antonimos": [
+      "causa",
+      "origem",
+      "motivo"
+    ]
+  },
+  "causa": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "motivo",
+      "razão",
+      "origem",
+      "fonte",
+      "determinante",
+      "gênese"
+    ],
+    "antonimos": [
+      "consequência",
+      "efeito",
+      "resultado"
+    ]
+  },
+  "objetivo": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "meta",
+      "finalidade",
+      "propósito",
+      "intuito",
+      "alvo",
+      "fim"
+    ],
+    "antonimos": [
+      "meio",
+      "instrumento"
+    ]
+  },
+  "finalidade": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "objetivo",
+      "propósito",
+      "fim",
+      "intenção",
+      "escopo",
+      "razão de ser"
+    ],
+    "antonimos": [
+      "meio",
+      "instrumento"
+    ]
+  },
+  "meio": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "instrumento",
+      "ferramenta",
+      "via",
+      "recurso",
+      "mecanismo",
+      "canal"
+    ],
+    "antonimos": [
+      "fim",
+      "objetivo",
+      "finalidade"
     ]
   }
 }
