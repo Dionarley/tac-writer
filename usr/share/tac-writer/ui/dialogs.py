@@ -5951,15 +5951,29 @@ class DictionaryDialog(Adw.Window):
     # ── Search logic ─────────────────────────────────────────────────────
 
     def _on_search_changed(self, entry):
-        """Live search: trigger when text is cleared."""
-        if not entry.get_text().strip():
+        """Live search as the user types (triggers at 3+ characters)."""
+        text = entry.get_text().strip()
+        if not text:
             self._clear_results()
             self._show_placeholder()
+        elif len(text) >= 3:
+            self._do_search(text)
 
     def _on_search(self, entry):
-        word = entry.get_text().strip().lower()
-        if not word:
-            return
+        """Trigger search on Enter (works for any length)."""
+        word = entry.get_text().strip()
+        if word:
+            self._do_search(word)
+
+    def _do_search(self, word: str):
+        """Core lookup — called both live and on Enter.
+
+        Strategy:
+        1. Exact match (highest priority)
+        2. Prefix match: typed text is the start of a key (e.g. "dessa for" → "dessa forma")
+        3. Not found
+        """
+        word = word.lower().strip()
         self._clear_results()
 
         if not self._dict:
@@ -5967,9 +5981,25 @@ class DictionaryDialog(Adw.Window):
                              _("Verifique se o arquivo dicionario_tacwriter.json está em share/tac-writer/."))
             return
 
+        # 1. Exact match
         entry_data = self._dict.get(word)
         if entry_data:
             self._show_results(word, entry_data)
+            return
+
+        # 2. Prefix match — find all keys that start with the typed text
+        candidates = [
+            k for k in self._dict
+            if k != '_meta' and k.startswith(word)
+        ]
+
+        if len(candidates) == 1:
+            # Single prefix match — show it directly
+            key = candidates[0]
+            self._show_results(key, self._dict[key])
+        elif len(candidates) > 1:
+            # Multiple candidates — show a suggestion list
+            self._show_suggestions(word, candidates)
         else:
             self._show_not_found(word)
 
@@ -6007,6 +6037,47 @@ class DictionaryDialog(Adw.Window):
         box.append(hint)
 
         self.results_box.append(box)
+
+    def _show_suggestions(self, typed: str, candidates: list):
+        """Show a list of clickable suggestions when multiple prefix matches exist."""
+        group = Adw.PreferencesGroup()
+        group.set_title(_('Sugestões para "{}"').format(typed))
+        self.results_box.append(group)
+
+        flow = Gtk.FlowBox()
+        flow.set_selection_mode(Gtk.SelectionMode.NONE)
+        flow.set_min_children_per_line(2)
+        flow.set_max_children_per_line(5)
+        flow.set_row_spacing(6)
+        flow.set_column_spacing(6)
+        flow.set_margin_top(4)
+        flow.set_margin_bottom(4)
+        flow.set_margin_start(4)
+        flow.set_margin_end(4)
+
+        for candidate in sorted(candidates):
+            btn = Gtk.Button(label=candidate)
+            btn.add_css_class('pill')
+            btn.set_tooltip_text(_('Buscar "{}"').format(candidate))
+            btn.connect('clicked', self._on_suggestion_clicked, candidate)
+            flow.append(btn)
+
+        frame = Gtk.Frame()
+        frame.set_child(flow)
+        frame.set_margin_start(8)
+        frame.set_margin_end(8)
+
+        row = Adw.ActionRow()
+        row.set_activatable(False)
+        row.set_child(frame)
+        group.add(row)
+
+    def _on_suggestion_clicked(self, btn, word: str):
+        """Fill the search entry with the suggestion and search it."""
+        self.search_entry.set_text(word)
+        # Move cursor to end
+        self.search_entry.set_position(-1)
+        self._do_search(word)
 
     def _show_not_found(self, word: str):
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
