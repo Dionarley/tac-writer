@@ -1,3 +1,7 @@
+## Changelog
+
+Pequena mas importante correção: contagem de parágrafos agora valida "retomada do argumento" como novo parágrafo.
+
 ## Downloads por Plataforma
 
 ![Linux RPM](https://img.shields.io/github/downloads/narayanls/tac-writer/latest/tac-writer-1.4.2-3-1.x86_64.rpm?style=flat-square&label=Linux+RPM&color=E95420)
