@@ -2342,10 +2342,13 @@ class ImageDialog(Adw.Window):
             )
 
             if self.edit_mode:
-                # Emit update signal
+                # Read new possition
+                selected_index = self.position_dropdown.get_selected()
+
                 self.emit('image-updated', {
-                    'paragraph': image_para,
-                    'original_paragraph': self.edit_paragraph
+                'paragraph': image_para,
+                'original_paragraph': self.edit_paragraph,
+                'position': selected_index         
                 })
             else:
                 # Get insert position

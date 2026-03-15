@@ -985,22 +985,30 @@ class MainWindow(Adw.ApplicationWindow):
         """Handle image update from dialog"""
         updated_paragraph = data.get('paragraph')
         original_paragraph = data.get('original_paragraph')
+        new_position = data.get('position')  # índice vindo do dropdown
 
         if not updated_paragraph or not original_paragraph:
             return
 
         try:
-            # Find and replace the original paragraph
-            index = self.current_project.paragraphs.index(original_paragraph)
-            self.current_project.paragraphs[index] = updated_paragraph
+            # Remove original postion
+            original_index = self.current_project.paragraphs.index(original_paragraph)
+            self.current_project.paragraphs.pop(original_index)
 
-            # Update order
-            updated_paragraph.order = original_paragraph.order
+            # Reinsert image in new position
+            if new_position is None or new_position == original_index:
+            
+                self.current_project.paragraphs.insert(original_index, updated_paragraph)
+            elif new_position == 0:
+                self.current_project.paragraphs.insert(0, updated_paragraph)
+            else:
+                self.current_project.paragraphs.insert(new_position, updated_paragraph)
 
-            # Save project
+            # Update and save
+            self.current_project.update_paragraph_order()
             self.project_manager.save_project(self.current_project)
 
-            # Refresh UI
+            # Update UI
             self._refresh_paragraphs()
             self._update_header_for_view("editor")
 
