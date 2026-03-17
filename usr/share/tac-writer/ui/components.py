@@ -2349,21 +2349,39 @@ class FirstRunTour:
         # Define tour steps with target widget and message
         self.steps = [
             {
+                'target': 'sidebar_toggle_button',
+                'title': _("Mostrar e Ocultar Projetos"),
+                'message': _("Oculte ou mostre a barra lateral com seus projetos a qualquer momento. Adicionalmente, utilize também o atalho F11 para entrar em tela cheia."),
+                'position': Gtk.PositionType.BOTTOM,
+            },       
+            {
                 'target': 'new_project_button',
-                'title': _("Bem-vindo ao Tac Writer!"),
-                'message': _("Vamos fazer um tour rápido. Clique aqui para criar seu primeiro projeto."),
+                'title': _("Criar Novo Projeto"),
+                'message': _("Clicando aqui, você também pode criar um novo projeto."),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {
                 'target': 'sidebar',
                 'title': _("Biblioteca de Projetos"),
-                'message': _("Todos seus projetos estão aqui. Você pode pesquisar, renomear ou excluir a qualquer momento."),
+                'message': _("Todos seus projetos estão aqui. Você pode pesquisar, renomear ou excluir a qualquer momento. Também pode ajustar a largura da barra, se quiser."),
                 'position': Gtk.PositionType.RIGHT,
             },
             {
                 'target': 'pomodoro_button',
                 'title': _("Temporizador Pomodoro"),
                 'message': _("Mantenha o foco com o Pomodoro integrado. Perfeito para sessões de escrita"),
+                'position': Gtk.PositionType.BOTTOM,
+            },
+            {
+                'target': 'goals_button',
+                'title': _("Metas e Estatísticas"),
+                'message': _("Acompanhe seu progresso de escrita com metas e estatísticas detalhadas das suas sessões. Função Premium disponível na Versão do Apoiador."),
+                'position': Gtk.PositionType.BOTTOM,
+            },
+            {
+                'target': 'mindmap_button',
+                'title': _("Mapa Mental e Plano Guiado"),
+                'message': _("Organize suas ideias visualmente antes de escrever. Use o mapa mental para planejar a estrutura do seu projeto. Função Premium disponível na Versão do Apoiador."),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {
@@ -2376,6 +2394,12 @@ class FirstRunTour:
                 'target': 'references_button',
                 'title': _("Catálogo de Referências"),
                 'message': _("Adicione os autores que serão mencionados no projeto para fácil inserção durante uma citação."),
+                'position': Gtk.PositionType.BOTTOM,
+            },
+            {
+                'target': 'dictionary_button',
+                'title': _("Dicionário de Sinônimos e Antônimos"),
+                'message': _("Enriqueça seu texto e evite repetições excessivas. Pesquise por uma palavra (ex. portanto) e consulte sinônimos e antônimos na hora."),
                 'position': Gtk.PositionType.BOTTOM,
             },
             {

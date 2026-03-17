@@ -293,8 +293,8 @@ class MainWindow(Adw.ApplicationWindow):
 
         # File section
         file_section = Gio.Menu()
-        file_section.append(_("Exportar Projeto..."), "app.export_project")
-        file_section.append(_("Gerenciador de Backups..."), "win.backup_manager")
+        file_section.append(_("Exportar Projeto"), "app.export_project")
+        file_section.append(_("Gerenciador de Backups"), "win.backup_manager")
         menu_model.append_section(None, file_section)
 
         # Edit section
@@ -312,7 +312,7 @@ class MainWindow(Adw.ApplicationWindow):
         help_section = Gio.Menu()
         help_section.append(_("Guia de Boas-vindas"), "win.show_welcome")
         help_section.append(_("Versão do Apoiador 💖"), "win.supporter")
-        help_section.append(_("Sobre o TAC"), "app.about")
+        help_section.append(_("Sobre o Tac Writer"), "app.about")
         menu_model.append_section(None, help_section)
 
         menu_button.set_menu_model(menu_model)
@@ -419,6 +419,7 @@ class MainWindow(Adw.ApplicationWindow):
             Gtk.NamedAction.new("win.insert_image")
         )
         shortcut_controller.add_shortcut(insert_image_shortcut)
+
         
         # Toggle Sidebar (F9)
         sidebar_shortcut = Gtk.Shortcut.new(
@@ -559,11 +560,12 @@ class MainWindow(Adw.ApplicationWindow):
         data_button = Gtk.MenuButton()
         data_button.set_label(_("Dados Estruturados"))
         data_button.set_icon_name('tac-x-office-spreadsheet-symbolic')
+        data_button.set_tooltip_text(_("Inserir Tabela, Gráfico ou Mapa"))
         
         data_menu = Gio.Menu()
         data_menu.append(_("📊 Inserir Gráfico (Premium)"), "win.insert_chart")
         data_menu.append(_("📋 Inserir Tabela (Premium)"), "win.insert_table")
-        data_menu.append(_("🗾 Inserir Mapa de Dados (Premium)"), "win.insert_map")
+        data_menu.append(_("🗾 Inserir Mapa Temático (Premium)"), "win.insert_map")
         
         data_button.set_menu_model(data_menu)
         toolbar_box.append(data_button)
@@ -1174,7 +1176,7 @@ class MainWindow(Adw.ApplicationWindow):
             if sibling_to_insert_after != dragged_widget:
                 self.paragraphs_box.reorder_child_after(dragged_widget, sibling_to_insert_after)
 
-            # Atualiza cabeçalho (contador de palavras, etc)
+            # Atualiza cabeçalho (contador de palavras, etc.)
             self._update_header_for_view("editor")
         else:
             # Fallback if something goes wrong
@@ -2163,7 +2165,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         # Message
         message_label = Gtk.Label()
-        message_label.set_text(_("Clique aqui para começar a escrever!\n\nAdicione parágrafos para construir seu texto."))
+        message_label.set_text(_("Use os botões abaixo para construir seu projeto:\n\n Adicione parágrafos, títulos.\n Insira imagens no texto\n Adicione tabelas, gráficos e mapas temáticos."))
         message_label.set_wrap(True)
         message_label.set_max_width_chars(30)
         message_label.set_justify(Gtk.Justification.CENTER)
