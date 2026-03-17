@@ -5709,5 +5709,107 @@
       "ínfimo",
       "relaxante"
     ]
-   }
+   },
+  "elidir": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "suprimir",
+      "eliminar",
+      "anular",
+      "cancelar",
+      "invalidar",
+      "abolir"
+    ],
+    "antonimos": [
+      "incluir",
+      "manter",
+      "preservar",
+      "conservar"
+    ]
+  },
+  "eludir": {
+    "categoria": "verbos_analise",
+    "sinonimos": [
+      "evitar",
+      "escapar",
+      "fugir",
+      "esquivar-se",
+      "burlar",
+      "driblar"
+    ],
+    "antonimos": [
+      "enfrentar",
+      "encarar",
+      "buscar",
+      "afrontar"
+    ]
+  },
+  "engodo": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "engano",
+      "fraude",
+      "ardil",
+      "artimanha",
+      "logro",
+      "embuste"
+    ],
+    "antonimos": [
+      "verdade",
+      "honestidade",
+      "franqueza",
+      "sinceridade"
+    ]
+  },
+  "dileto": {
+    "categoria": "adjetivos_avaliacao",
+    "sinonimos": [
+      "querido",
+      "amado",
+      "estimado",
+      "preferido",
+      "caro",
+      "predileto"
+    ],
+    "antonimos": [
+      "odiado",
+      "desprezado",
+      "detestado",
+      "abominado"
+    ]
+  },
+  "inadvertência": {
+    "categoria": "substantivos_textuais",
+    "sinonimos": [
+      "descuido",
+      "desatenção",
+      "negligência",
+      "lapso",
+      "distração",
+      "omissão"
+    ],
+    "antonimos": [
+      "cuidado",
+      "atenção",
+      "zelo",
+      "vigilância"
+    ]
+  },
+  "imbuir": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "incutir",
+      "infundir",
+      "impregnar",
+      "insuflar",
+      "inculcar",
+      "penetrar"
+    ],
+    "antonimos": [
+      "extrair",
+      "retirar",
+      "eliminar",
+      "expurgar"
+    ]
+  }
 }
