@@ -1,15 +1,22 @@
 """
-Writing AI assistant integration for TAC Writer.
+PDF proofreading AI assistant integration for TAC Writer.
+
+The only entry point is request_pdf_review(). The assistant is restricted to
+identifying errors in the author's text — it must never write new content.
+This design complies with CNPq Portaria nº 2.664/2026, which requires that:
+  (1) AI use must be declared, specifying the tool and its purpose;
+  (2) AI-generated content must not be presented as human authorship;
+  (3) the author remains fully responsible for the final content.
 """
 
 from __future__ import annotations
 
-import json
 import logging
+import os
 import threading
 import weakref
-import os
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List
+
 try:
     from pypdf import PdfReader
     PDF_AVAILABLE = True
@@ -28,20 +35,29 @@ from utils.i18n import _
 
 
 class WritingAiAssistant:
-    """Coordinates conversations with an external AI service."""
+    """Coordinates PDF proofreading requests with an external AI service."""
 
     DEFAULT_GEMINI_MODEL = "gemini-2.5-flash"
     DEFAULT_OPENROUTER_MODEL = "openrouter/polaris-alpha"
-    _SYSTEM_PROMPT = (
-        "You are the TAC Writer assistant, a specialist in Portuguese and English grammar and"
-        " academic writing. Your job is to revise, correct, and refine the provided"
-        " text while preserving the original meaning, maintaining a formal tone,"
-        " and respecting the Continuous Argumentation Technique (introduction,"
-        " argumentation, evidence, connection). Fix only what is grammatically, ortographic, semantic or"
-        " stylistically incorrect, rewriting sentences only where needed. The response"
-        " MUST be a JSON object containing the field 'reply' with the fully corrected"
-        " text (no extra commentary) and, if necessary, 'suggestions' with brief notes."
-        " Do not include any other text outside the JSON."
+
+    # Complies with CNPq Portaria nº 2.664/2026: the AI is restricted to
+    # identifying errors only — it must not rewrite the text or add content.
+    # Authors remain fully responsible for the final work.
+    _PDF_SYSTEM_PROMPT = (
+        "You are an expert proofreader of academic texts in Portuguese. "
+        "Your role is STRICTLY LIMITED to identifying and reporting errors — "
+        "you must NEVER rewrite the text, suggest alternative phrasings that "
+        "add new content, or alter the author's ideas and arguments in any way. "
+        "Point out grammatical, orthographic, and semantic errors, words that "
+        "are spelled correctly but do not fit the context, and excessive "
+        "repetitions within short passages. "
+        "For each issue found, indicate the original passage and briefly explain "
+        "the problem, without replacing it with new authored text. "
+        "At the end of your report, include a note that this AI tool was used "
+        "exclusively for proofreading, so the author can fulfill the mandatory "
+        "AI use disclosure required by CNPq Portaria nº 2.664/2026. "
+        "Present all considerations in Brazilian Portuguese. "
+        "Respond only with the proofreading report, without JSON."
     )
 
     def __init__(self, window, config):
@@ -62,47 +78,93 @@ class WritingAiAssistant:
             missing.append("api_key")
         return missing
 
-    def request_assistance(self, prompt: str, context_text: Optional[str] = None) -> bool:
-        prompt = (prompt or "").strip()
-        if not prompt:
+    def handle_setting_changed(self) -> None:
+        """Placeholder for future cache invalidation."""
+        pass
+
+    # ------------------------------------------------------------------ #
+    # Public entry point                                                   #
+    # ------------------------------------------------------------------ #
+
+    def request_pdf_review(self, pdf_path: str) -> bool:
+        """Read a PDF, extract its text, and send it for proofreading."""
+        if not PDF_AVAILABLE:
+            self._queue_toast(_("Biblioteca pypdf não instalada."))
+            return False
+
+        if not pdf_path or not os.path.exists(pdf_path):
             return False
 
         with self._lock:
             if self._inflight:
-                self._queue_toast(
-                    _("O assistente de IA já está processando outra solicitação.")
-                )
+                self._queue_toast(_("O assistente já está processando uma solicitação."))
                 return False
             self._inflight = True
 
         worker = threading.Thread(
-            target=self._process_request_thread,
-            args=(prompt, context_text),
+            target=self._process_pdf_thread,
+            args=(pdf_path,),
             daemon=True,
         )
         worker.start()
         return True
 
-    def handle_setting_changed(self) -> None:
-        """Placeholder for future cache invalidation."""
-        pass
+    # ------------------------------------------------------------------ #
+    # PDF processing                                                       #
+    # ------------------------------------------------------------------ #
 
-    def _process_request_thread(self, prompt: str, context_text: Optional[str]) -> None:
+    def _process_pdf_thread(self, pdf_path: str) -> None:
         try:
-            messages = self._build_messages(prompt, context_text)
+            text_content = self._extract_pdf_text(pdf_path)
+            messages = self._build_pdf_messages(text_content)
             config = self._load_configuration()
             content = self._perform_request(config, messages)
-            reply, suggestions = self._parse_response_payload(content)
-            GLib.idle_add(self._display_reply, reply, suggestions)
+            clean_reply = self._clean_response(content)
+            GLib.idle_add(self._display_pdf_result, clean_reply)
         except Exception as exc:  # pylint: disable=broad-except
-            self.logger.error("AI assistant request failed: %s", exc)
-            GLib.idle_add(
-                self._queue_toast,
-                _("Erro do assistente de IA: {error}").format(error=str(exc)),
-            )
+            self.logger.error("AI PDF review failed: %s", exc)
+            GLib.idle_add(self._notify_pdf_error, str(exc))
         finally:
             with self._lock:
                 self._inflight = False
+
+    def _extract_pdf_text(self, pdf_path: str) -> str:
+        text_content = ""
+        try:
+            reader = PdfReader(pdf_path)
+            for page in reader.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    text_content += extracted + "\n"
+        except Exception as exc:
+            raise RuntimeError(_("Erro ao ler PDF: {}").format(str(exc))) from exc
+
+        if not text_content.strip():
+            raise RuntimeError(
+                _("Não foi possível extrair texto do PDF (pode ser uma imagem ou vazio).")
+            )
+        return text_content
+
+    def _build_pdf_messages(self, text_content: str) -> List[Dict[str, str]]:
+        user_prompt = (
+            "Examine o texto abaixo e aponte os problemas encontrados, sem reescrever o texto. "
+            "Verifique: ortografia, gramática e semântica; palavras que, mesmo escritas corretamente, "
+            "não fazem sentido no contexto da frase; repetições excessivas de palavras em trechos "
+            "curtos. Para cada problema, indique o trecho original e explique o erro. "
+            "Não produza versões corrigidas — apenas aponte os problemas para que o autor faça "
+            "as correções.\n\n"
+            "--- INÍCIO DO TEXTO ---\n"
+            f"{text_content}\n"
+            "--- FIM DO TEXTO ---"
+        )
+        return [
+            {"role": "system", "content": self._PDF_SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ]
+
+    # ------------------------------------------------------------------ #
+    # Configuration                                                        #
+    # ------------------------------------------------------------------ #
 
     def _load_configuration(self) -> Dict[str, str]:
         config = {
@@ -122,33 +184,9 @@ class WritingAiAssistant:
             config["model"] = self.DEFAULT_OPENROUTER_MODEL
         return config
 
-    def _build_messages(
-        self, prompt: str, context_text: Optional[str]
-    ) -> List[Dict[str, str]]:
-        prompt = (prompt or "").strip()
-        context_text = (context_text or "").strip()
-
-        if context_text:
-            if prompt:
-                user_content = _(
-                    "Instrução do usuário:\n{instruction}\n\nTexto para revisão:\n{context}"
-                ).format(
-                    instruction=prompt,
-                    context=context_text[:4000],
-                )
-            else:
-                user_content = _(
-                    "Revise o texto a seguir, corrigindo apenas o necessário e mantendo o tom acadêmico:\n{context}"
-                ).format(context=context_text[:4000])
-        else:
-            user_content = prompt or _(
-                "Revise o texto a seguir e responda apenas com a versão corrigida."
-            )
-
-        return [
-            {"role": "system", "content": self._SYSTEM_PROMPT},
-            {"role": "user", "content": user_content},
-        ]
+    # ------------------------------------------------------------------ #
+    # HTTP requests                                                        #
+    # ------------------------------------------------------------------ #
 
     def _perform_request(
         self, config: Dict[str, str], messages: List[Dict[str, str]]
@@ -162,7 +200,6 @@ class WritingAiAssistant:
             _("Provider '{provider}' is not supported.").format(provider=provider)
         )
 
-
     def _perform_gemini_request(
         self, config: Dict[str, str], messages: List[Dict[str, str]]
     ) -> str:
@@ -171,7 +208,23 @@ class WritingAiAssistant:
             raise RuntimeError(_("Configure a chave da API Gemini em Preferências."))
 
         model = config.get("model", "").strip() or self.DEFAULT_GEMINI_MODEL
-        system_instruction, contents = self._build_gemini_conversation(messages)
+
+        # Convert messages to Gemini format, extracting the system instruction.
+        system_instruction = ""
+        contents: List[Dict[str, Any]] = []
+        for message in messages:
+            role = message.get("role", "user")
+            text = message.get("content", "")
+            if not text:
+                continue
+            if role == "system" and not system_instruction:
+                system_instruction = text
+                continue
+            mapped_role = "model" if role == "assistant" else "user"
+            contents.append({"role": mapped_role, "parts": [{"text": text}]})
+        if not contents:
+            contents.append({"role": "user", "parts": [{"text": ""}]})
+
         url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
         payload: Dict[str, Any] = {"contents": contents}
         if system_instruction:
@@ -225,7 +278,17 @@ class WritingAiAssistant:
             raise RuntimeError(_("Configure a chave da API OpenRouter em Preferências."))
 
         model = config.get("model", "").strip() or self.DEFAULT_OPENROUTER_MODEL
-        payload_messages = self._build_openai_messages(messages)
+
+        # Normalise roles for the OpenAI-compatible endpoint.
+        payload_messages = [
+            {
+                "role": m.get("role") if m.get("role") in {"system", "user", "assistant"} else "user",
+                "content": m.get("content", ""),
+            }
+            for m in messages
+            if isinstance(m.get("content"), str) and m.get("content")
+        ]
+
         url = "https://openrouter.ai/api/v1/chat/completions"
         payload: Dict[str, Any] = {"model": model, "messages": payload_messages}
 
@@ -275,89 +338,9 @@ class WritingAiAssistant:
             raise RuntimeError(_("O provedor de IA não retornou conteúdo utilizável."))
         return content.strip()
 
-    def _parse_response_payload(
-        self, content: str
-    ) -> Tuple[str, List[Dict[str, str]]]:
-        reply_text = self._clean_response(content)
-        suggestions: List[Dict[str, str]] = []
-
-        payload = None
-        try:
-            payload = json.loads(reply_text)
-        except json.JSONDecodeError:
-            payload = self._extract_json_object(reply_text)
-
-        if isinstance(payload, dict):
-            reply_candidate = payload.get("reply")
-            if isinstance(reply_candidate, str) and reply_candidate.strip():
-                reply_text = reply_candidate.strip()
-            suggestions = self._normalize_suggestions(
-                payload.get("suggestions") or payload.get("commands")
-            )
-
-        return reply_text, suggestions
-
-    def _build_gemini_conversation(
-        self, messages: List[Dict[str, str]]
-    ) -> Tuple[str, List[Dict[str, Any]]]:
-        system_instruction = ""
-        contents: List[Dict[str, Any]] = []
-        for message in messages:
-            role = message.get("role", "user")
-            text = message.get("content", "")
-            if not text:
-                continue
-            if role == "system" and not system_instruction:
-                system_instruction = text
-                continue
-            mapped_role = "model" if role == "assistant" else "user"
-            contents.append({
-                "role": mapped_role,
-                "parts": [{"text": text}],
-            })
-        if not contents:
-            contents.append({"role": "user", "parts": [{"text": ""}]})
-        return system_instruction, contents
-
-    def _build_openai_messages(
-        self, messages: List[Dict[str, str]]
-    ) -> List[Dict[str, str]]:
-        formatted: List[Dict[str, str]] = []
-        for message in messages:
-            role = message.get("role", "user")
-            content = message.get("content", "")
-            if not isinstance(content, str) or not content:
-                continue
-            role_mapped = role if role in {"system", "user", "assistant"} else "user"
-            formatted.append({"role": role_mapped, "content": content})
-        return formatted
-
-    def _normalize_suggestions(self, value: Any) -> List[Dict[str, str]]:
-        suggestions: List[Dict[str, str]] = []
-        if isinstance(value, list):
-            for item in value:
-                if isinstance(item, str) and item.strip():
-                    suggestions.append({
-                        "title": "",
-                        "text": item.strip(),
-                        "description": "",
-                    })
-                elif isinstance(item, dict):
-                    text = (
-                        item.get("text")
-                        or item.get("content")
-                        or item.get("command")
-                        or ""
-                    )
-                    text = text.strip()
-                    if not text:
-                        continue
-                    suggestions.append({
-                        "title": item.get("title", "").strip(),
-                        "text": text,
-                        "description": (item.get("description") or "").strip(),
-                    })
-        return suggestions
+    # ------------------------------------------------------------------ #
+    # Response helpers                                                     #
+    # ------------------------------------------------------------------ #
 
     def _clean_response(self, raw_content: str) -> str:
         clean = (raw_content or "").strip()
@@ -367,29 +350,23 @@ class WritingAiAssistant:
                 clean = "\n".join(lines[1:-1]).strip()
         return clean
 
-    def _extract_json_object(self, text: str) -> Optional[Dict[str, Any]]:
-        start = text.find("{")
-        while start != -1:
-            brace_level = 0
-            for end in range(start, len(text)):
-                char = text[end]
-                if char == "{":
-                    brace_level += 1
-                elif char == "}":
-                    brace_level -= 1
-                    if brace_level == 0:
-                        candidate = text[start : end + 1]
-                        try:
-                            return json.loads(candidate)
-                        except json.JSONDecodeError:
-                            break
-            start = text.find("{", start + 1)
-        return None
+    # ------------------------------------------------------------------ #
+    # UI callbacks                                                         #
+    # ------------------------------------------------------------------ #
 
-    def _display_reply(self, reply: str, suggestions: List[Dict[str, str]]) -> bool:
+    def _display_pdf_result(self, result_text: str) -> bool:
         window = self._window_ref()
-        if window and hasattr(window, "show_ai_response_dialog"):
-            window.show_ai_response_dialog(reply, suggestions)
+        if window and hasattr(window, "show_ai_pdf_result_dialog"):
+            window.show_ai_pdf_result_dialog(result_text)
+        return False
+
+    def _notify_pdf_error(self, error_msg: str) -> bool:
+        """Notify the main window that PDF processing failed."""
+        window = self._window_ref()
+        if window and hasattr(window, "handle_ai_pdf_error"):
+            window.handle_ai_pdf_error(error_msg)
+        elif window:
+            self._queue_toast(_("Erro IA: {}").format(error_msg))
         return False
 
     def _queue_toast(self, message: str) -> None:
@@ -431,102 +408,3 @@ class WritingAiAssistant:
         return _("OpenRouter respondeu com HTTP {status}: {message}{detail}").format(
             status=status, message=message, detail=suffix
         )
-
-
-    def request_pdf_review(self, pdf_path: str) -> bool:
-        """
-        Lê um PDF, extrai o texto e envia para análise com o prompt específico.
-        """
-        if not PDF_AVAILABLE:
-            self._queue_toast(_("Biblioteca pypdf não instalada."))
-            return False
-
-        if not pdf_path or not os.path.exists(pdf_path):
-            return False
-
-        with self._lock:
-            if self._inflight:
-                self._queue_toast(_("O assistente já está processando uma solicitação."))
-                return False
-            self._inflight = True
-
-        # Runs in a separate thread to avoid crashing the UI
-        worker = threading.Thread(
-            target=self._process_pdf_thread,
-            args=(pdf_path,),
-            daemon=True,
-        )
-        worker.start()
-        return True
-
-    def _process_pdf_thread(self, pdf_path: str) -> None:
-        try:
-            # 1. Text Extraction from PDF
-            text_content = ""
-            try:
-                reader = PdfReader(pdf_path)
-                for page in reader.pages:
-                    extracted = page.extract_text()
-                    if extracted:
-                        text_content += extracted + "\n"
-            except Exception as e:
-                raise RuntimeError(_("Erro ao ler PDF: {}").format(str(e)))
-
-            if not text_content.strip():
-                raise RuntimeError(_("Não foi possível extrair texto do PDF (pode ser uma imagem ou vazio)."))
-
-            # 2. Prompt Assembly
-            fixed_prompt = (
-                "Check the spelling, grammar, and semantics of the attached text. "
-                "Look for words that, even if spelled correctly, may not make sense "
-                "in the context of a sentence. Identify excessive word repetitions in small "
-                "sections of text. Present your considerations in Brazilian Portuguese.\n\n"
-                "--- INÍCIO DO TEXTO ---\n"
-                f"{text_content}\n"
-                "--- FIM DO TEXTO ---"
-            )
-            
-            messages = [
-                {
-                    "role": "system", 
-                    "content": "You are an expert in proofreading academic texts in Portuguese. Please respond only with the requested proofreading, without JSON."
-                },
-                {
-                    "role": "user", 
-                    "content": fixed_prompt
-                }
-            ]
-
-            config = self._load_configuration()
-            
-            content = self._perform_request(config, messages)
-            clean_reply = self._clean_response(content)
-            
-            GLib.idle_add(self._display_pdf_result, clean_reply)
-
-        except Exception as exc:
-            self.logger.error("AI PDF review failed: %s", exc)
-            # Call the specific error notification
-            GLib.idle_add(self._notify_pdf_error, str(exc))
-        finally:
-            with self._lock:
-                self._inflight = False
-
-    # ADD THIS NEW METHOD
-    def _notify_pdf_error(self, error_msg: str) -> bool:
-        """Notifica a janela principal que houve um erro no processamento do PDF"""
-        window = self._window_ref()
-        # Checks if the window has the error handling method
-        if window and hasattr(window, "handle_ai_pdf_error"):
-            window.handle_ai_pdf_error(error_msg)
-        # Fallback to the old toast if the method does not exist
-        elif window: 
-            self._queue_toast(_("Erro IA: {}").format(error_msg))
-        return False
-
-
-    def _display_pdf_result(self, result_text: str) -> bool:
-        window = self._window_ref()
-        if window and hasattr(window, "show_ai_pdf_result_dialog"):
-            window.show_ai_pdf_result_dialog(result_text)
-        return False
