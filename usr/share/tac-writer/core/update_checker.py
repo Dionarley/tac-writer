@@ -249,6 +249,43 @@ class UpdateChecker:
             print(f"[UpdateChecker] Error reading version.txt: {e}")
         return None
 
+    @staticmethod
+    def write_version_txt(version: str) -> bool:
+        """
+        Write the newly installed version to version.txt so that subsequent
+        update checks reflect the current installation and the update
+        notification does not reappear.
+
+        Linux: ~/.local/share/tac-writer/version.txt
+        Windows: %LOCALAPPDATA%/tac/version.txt
+
+        Called by the app after a successful deb/rpm/exe installation,
+        since those installers run as root/UAC and cannot write to the
+        user's home directory on their own.
+
+        Returns True on success, False on error.
+        """
+        if IS_WINDOWS:
+            localappdata = os.environ.get('LOCALAPPDATA', '')
+            if localappdata:
+                path = os.path.join(localappdata, 'tac', 'version.txt')
+            else:
+                path = os.path.join(
+                    os.path.expanduser('~'), 'AppData', 'Local', 'tac', 'version.txt'
+                )
+        else:
+            path = os.path.expanduser("~/.local/share/tac-writer/version.txt")
+
+        try:
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as f:
+                f.write(version.lstrip("v"))
+            print(f"[UpdateChecker] Wrote version.txt: '{version}'")
+            return True
+        except Exception as e:
+            print(f"[UpdateChecker] Error writing version.txt: {e}")
+            return False
+
     # ── Network helpers ───────────────────────────────────────
 
     @staticmethod

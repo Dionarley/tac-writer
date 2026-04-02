@@ -3291,6 +3291,13 @@ class MainWindow(Adw.ApplicationWindow):
         progress_win.destroy()
 
         if success:
+            # Pre-emptively update version.txt so the update notification
+            # does not reappear after the installer runs and the app restarts.
+            # The NSIS/Inno installer runs as a separate process (UAC-elevated)
+            # and cannot write to the user home directory on its own.
+            from core.update_checker import UpdateChecker
+            UpdateChecker.write_version_txt(version)
+
             dialog = Adw.MessageDialog.new(
                 self,
                 _("Instalador Iniciado"),
@@ -3475,6 +3482,12 @@ read
         if success:
             self.config.set('skipped_version', '')
             self.config.save()
+
+            # Persist the new version so the update checker won't re-trigger.
+            # deb/rpm installers run as root (pkexec) and cannot write to the
+            # user's home directory, so the app must update version.txt itself.
+            from core.update_checker import UpdateChecker
+            UpdateChecker.write_version_txt(version)
 
             dialog = Adw.MessageDialog.new(
                 self,
