@@ -144,7 +144,9 @@ A **Técnica de Argumentação Contínua** segue esta estrutura:
 | `Ctrl+Alt+I` | Inserir Imagem | Abrir o diálogo de inserção de imagem |
 | `Ctrl+Shift+I` | Revisão de texto por IA | Abrir o diálogo de prompt de IA |
 | `Ctrl+Q` | Sair | Sair do aplicativo |
-| `F11` | Modo Foco | Alternar escrita livre de distrações |
+| `F11` | Modo Foco | Tela Cheia |
+| `F9` | Lista de Projetos | Oculta/mostra lista de projetos |
+
 
 ## Configuração
 
