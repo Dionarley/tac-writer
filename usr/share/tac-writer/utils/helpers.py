@@ -297,14 +297,14 @@ class FormatHelper:
         if format_type == 'short':
             return dt.strftime('%d/%m/%Y')
         elif format_type == 'long':
-            return dt.strftime('%B %d, %Y at %I:%M %p')
+            return dt.strftime('%d/%m/%Y %H:%M')
         elif format_type == 'time':
-            return dt.strftime('%I:%M %p')
+            return dt.strftime('%H:%M')
         elif format_type == 'iso':
             return dt.isoformat()
         else:  # default
-            return dt.strftime('%Y-%m-%d %H:%M')
-    
+            return dt.strftime('%d/%m/%Y %H:%M')
+            
     @staticmethod
     def format_file_size(size_bytes: int) -> str:
         """Format file size in human-readable format"""
