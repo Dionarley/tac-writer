@@ -943,7 +943,7 @@ class PreferencesDialog(Adw.PreferencesWindow):
         ai_group = Adw.PreferencesGroup()
         ai_group.set_title(_("Configurações do Assistente"))
         ai_group.set_description(
-            _("Configure o provedor e credenciais para gerar sugestões.")
+            _("Configure o provedor e credenciais para gerar revisões.")
         )
         ai_page.add(ai_group)
 

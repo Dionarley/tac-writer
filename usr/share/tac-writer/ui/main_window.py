@@ -101,7 +101,7 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _setup_window(self):
         """Setup basic window properties"""
-        self.set_title(_("TAC - Técnica da Argumentação Contínua"))
+        self.set_title(_("Tac Writer"))
         self.set_icon_name("tac-writer")
 
         # Set default size
@@ -310,6 +310,7 @@ class MainWindow(Adw.ApplicationWindow):
 
         # Help section
         help_section = Gio.Menu()
+        help_section.append(_("Ajuda e Tutoriais"), "win.open_wiki")
         help_section.append(_("Guia de Boas-vindas"), "win.show_welcome")
         help_section.append(_("Versão do Apoiador 💖"), "win.supporter")
         help_section.append(_("Sobre o Tac Writer"), "app.about")
@@ -386,6 +387,7 @@ class MainWindow(Adw.ApplicationWindow):
             ('backup_manager', self._action_backup_manager),
             ('new_project', self._action_new_project, 's'),
             ('supporter', self._action_supporter),
+            ('open_wiki', self._action_open_wiki),
         ]
 
         for action_data in actions:
@@ -2735,8 +2737,8 @@ class MainWindow(Adw.ApplicationWindow):
         """Update header bar for current view"""
         title_widget = self.header_bar.get_title_widget()
         if view_name == "welcome":
-            title_widget.set_title("TAC")
-            title_widget.set_subtitle(_("Técnica da Argumentação Contínua"))
+            title_widget.set_title("Tac Writer")
+            title_widget.set_subtitle(_("Assistente de Escrita Acadêmica"))
             self.save_button.set_sensitive(False)
             self.pomodoro_button.set_sensitive(False)
             self.references_button.set_sensitive(False)
@@ -3039,6 +3041,21 @@ class MainWindow(Adw.ApplicationWindow):
             self.fullscreen()
             # hide headbar
             self.header_bar.set_visible(False)
+
+    def _action_open_wiki(self, action, param):
+        """Open wiki in external browser"""
+        wiki_url = "https://github.com/narayanls/tac-writer/wiki"
+    
+        try:
+            launcher = Gtk.UriLauncher.new(uri=wiki_url)
+            launcher.launch(self.get_root(), None, None)
+        except AttributeError:
+            try:
+                Gio.AppInfo.launch_default_for_uri(wiki_url, None)
+            except Exception as e:
+                print(_("Não foi possível abrir URL da wiki: {}").format(e))
+        except Exception as e:
+            print(_("Erro ao lançar navegador: {}").format(e))
 
     def _action_supporter(self, action, param):
         """Action trigger via Menu Principal"""

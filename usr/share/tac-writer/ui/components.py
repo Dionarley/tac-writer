@@ -838,7 +838,7 @@ class WelcomeView(Gtk.Box):
 
         # Title
         title = Gtk.Label()
-        title.set_markup("<span size='x-large' weight='bold'>" + _("Bem-vindo ao TAC") + "</span>")
+        title.set_markup("<span size='x-large' weight='bold'>" + _("Bem-vindo a TAC") + "</span>")
         title.set_halign(Gtk.Align.CENTER)
         content_box.append(title)
 
@@ -879,14 +879,14 @@ class WelcomeView(Gtk.Box):
     def _create_template_section(self):
         """Create template selection section"""
         template_group = Adw.PreferencesGroup()
-        template_group.set_title(_("Começar a Escrever"))
+        template_group.set_title(_("Comece a Escrever"))
         template_group.set_description(_("Escolha um modelo para começar"))
 
         # Template cards
         # 1. Deafult
         row_std = Adw.ActionRow()
         row_std.set_title(_("Ensaio Acadêmico"))
-        row_std.set_subtitle(_("Estrutura padrão (Humanas, Biológicas, etc)"))
+        row_std.set_subtitle(_("Estrutura padrão (Humanas, Biológicas, etc.)"))
 
         btn_std = Gtk.Button()
         btn_std.set_label(_("Iniciar"))
