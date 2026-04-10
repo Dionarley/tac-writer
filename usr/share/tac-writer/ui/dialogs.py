@@ -736,22 +736,22 @@ class TacColorPickerButton(Gtk.Button):
         super().__init__(**kwargs)
         self.parent_window = parent_window
         self.add_css_class("flat")
-        
-        # Área de desenho (DrawingArea) para exibir a cor com performance
-        self.color_area = Gtk.DrawingArea()
+
+        self.color_area = Gtk.Box()
         self.color_area.set_size_request(32, 16)
-        self.color_area.set_draw_func(self._draw_color)
-        
-        # Moldura suave nativa do GTK em volta da cor
+        self._css_provider = Gtk.CssProvider()
+        self.color_area.get_style_context().add_provider(
+            self._css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
+
         frame = Gtk.Frame()
         frame.set_child(self.color_area)
         self.set_child(frame)
-        
-        # Inicialização
+
         default_rgba = Gdk.RGBA()
         default_rgba.parse("#ffffff")
         self.set_property("rgba", default_rgba)
-        
+
         self.connect("clicked", self._on_clicked)
         self.connect("notify::rgba", self._on_rgba_changed)
 
@@ -762,25 +762,17 @@ class TacColorPickerButton(Gtk.Button):
         return self.get_property("rgba")
 
     def _on_rgba_changed(self, obj, pspec):
-        # Redesenha a cor quando a propriedade muda
-        self.color_area.queue_draw()
-
-    def _draw_color(self, area, cr, width, height):
-        # Desenha o retângulo preenchido com a cor selecionada
         rgba = self.get_rgba()
         if rgba:
-            cr.set_source_rgba(rgba.red, rgba.green, rgba.blue, rgba.alpha)
-        else:
-            cr.set_source_rgb(1, 1, 1)
-        cr.rectangle(0, 0, width, height)
-        cr.fill()
+            r, g, b = int(rgba.red*255), int(rgba.green*255), int(rgba.blue*255)
+            self._css_provider.load_from_string(f"box {{ background-color: rgb({r},{g},{b}); }}")
 
+    
     def _on_clicked(self, btn):
         # Função de callback para quando o usuário clicar em "Selecionar"
         def on_selected(rgba):
             self.set_rgba(rgba)
             
-        # AGORA SIM: Chama a nossa nova janela customizada!
         dialog = TacColorChooserWindow(
             parent_window=self.parent_window, 
             initial_rgba=self.get_rgba(),
