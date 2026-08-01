@@ -299,14 +299,11 @@ class ProjectManager:
         except sqlite3.Error as e:
             print(_("Erro de banco de dados ao salvar projeto {}: {}").format(project.name, e))
             return False
-
+   
     def save_project(self, project: Project, is_migration: bool = False) -> bool:
         """Save project to the database (UPSERT)"""
         if is_migration:
             return True
-        
-        # Create database backup before saving
-        self._create_database_backup()
             
         try:
             with self._get_db_connection() as conn:
@@ -318,6 +315,9 @@ class ProjectManager:
                     if success:
                         conn.commit()
                         print(_("Projeto salvo no banco de dados: {}").format(project.name))
+                        # Create database backup after saving, so the backup
+                        # reflects the changes that were just committed
+                        self._create_database_backup()
                         return True
                     else:
                         conn.rollback()
