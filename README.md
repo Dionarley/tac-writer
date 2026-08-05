@@ -36,6 +36,8 @@
 
 ## Visão Geral
 
+**_OBS.: Por conta da manutenção dos devs do Arch Linux no AUR, não é possível enviar atualização do pacote. Para quem estiver usando esta versão e quer atualizar para o último release, recomendo usar a versão flatpak por enquanto. Assim que o AUR normalizar a build 1.4.4-4 será upada._**
+
 **Tac Writer** é um assistente de escrita acadêmica moderno projetado para ajudar estudantes e pesquisadores a criar textos acadêmicos estruturados usando a **Técnica da Argumentação Contínua (TAC)**. Construído com GTK4 e libadwaita, o aplicativo oferece uma interface intuitiva para organizar pensamentos, gerenciar a estrutura do documento e produzir conteúdo acadêmico de alta qualidade.
 
 A Técnica da Argumentação Contínua enfatiza parágrafos interconectados que se baseiam uns nos outros, tornando tópicos complexos mais fáceis de entender e argumentos mais convincentes.
