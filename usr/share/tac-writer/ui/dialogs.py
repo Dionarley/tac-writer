@@ -3620,6 +3620,7 @@ class GoalsDialog(Adw.Window):
         self.target_spin = Gtk.SpinButton.new_with_range(1, 99999, 1)
         self.target_spin.set_value(10)
         self.target_spin.set_valign(Gtk.Align.CENTER)
+        self._apply_spin_button_icons(self.target_spin)
         target_row.add_suffix(self.target_spin)
         new_group.add(target_row)
 
@@ -3643,6 +3644,26 @@ class GoalsDialog(Adw.Window):
         create_btn.set_margin_top(4)
         create_btn.connect('clicked', self._on_create_goal)
         self.goals_page_box.append(create_btn)
+
+    def _apply_spin_button_icons(self, spin_button):
+        """
+        Substitui os ícones internos do Gtk.SpinButton pelos ícones empacotados
+        do Tac Writer.
+
+        Por padrão o GTK cria os dois botões com 'value-decrease-symbolic' e
+        'value-increase-symbolic', que vêm do tema de ícones do sistema. Em
+        temas incompletos o botão fica em branco — foi o que aconteceu com o
+        de diminuir. Os botões internos são filhos diretos do SpinButton e
+        carregam as classes CSS 'down' e 'up'.
+        """
+        child = spin_button.get_first_child()
+        while child is not None:
+            if isinstance(child, Gtk.Button):
+                if child.has_css_class('down'):
+                    child.set_icon_name('tac-list-remove-symbolic')
+                elif child.has_css_class('up'):
+                    child.set_icon_name('tac-list-add-symbolic')
+            child = child.get_next_sibling()
 
     # ── Lista de metas ────────────────────────────────────────────
 
@@ -3689,16 +3710,33 @@ class GoalsDialog(Adw.Window):
         metric   = goal['metric']
         target   = goal['target']
         deadline = date.fromisoformat(goal['deadline'])
-        baseline = (goal['baseline_paragraphs'] if metric == 'paragraphs'
-                    else goal['baseline_words'])
-        current  = cur_paragraphs if metric == 'paragraphs' else cur_words
-
-        progress = max(0, current - baseline)
-        pct      = min(1.0, progress / target) if target > 0 else 0.0
         m_label  = _("parágrafos") if metric == 'paragraphs' else _("palavras")
 
-        is_achieved = progress >= target
-        is_expired  = (today > deadline) and not is_achieved
+        status = goal.get('status')
+
+        if status in ('achieved', 'failed'):
+            # Meta já encerrada: o resultado é definitivo e nunca é recalculado.
+            progress = goal.get('final_progress', 0)
+        else:
+            # Só conta o que existia até a data limite — nunca a contagem de hoje.
+            ref_date = min(today, deadline)
+            progress = self._progress_at(goal, ref_date, cur_paragraphs, cur_words)
+            if progress is None:
+                progress = 0
+
+            if today > deadline:
+                # Prazo vencido: congela o veredito agora.
+                status = 'achieved' if progress >= target else 'failed'
+                self._freeze_goal(goal['id'], status, progress)
+            elif progress >= target:
+                # Alcançada dentro do prazo: congela a conquista para que
+                # apagar parágrafos depois não a desfaça.
+                status = 'achieved'
+                self._freeze_goal(goal['id'], status, progress)
+
+        pct         = min(1.0, progress / target) if target > 0 else 0.0
+        is_achieved = (status == 'achieved')
+        is_expired  = (status == 'failed') or ((today > deadline) and not is_achieved)
 
         # ── Header do ExpanderRow ─────────────────────────────────
         exp_row = Adw.ExpanderRow()
@@ -3757,6 +3795,56 @@ class GoalsDialog(Adw.Window):
         exp_row.add_row(inner_row)
 
         self.goals_list_group.add(exp_row)
+
+    def _progress_at(self, goal, ref_date, cur_paragraphs, cur_words):
+        """
+        Retorna o progresso da meta considerando apenas o que existia em ref_date.
+
+        Se ref_date for hoje (ou depois), usa a contagem atual do projeto, que é
+        a informação mais precisa disponível. Para datas passadas, consulta o
+        histórico de snapshots gravado pelo main_window e usa a última medição
+        feita até aquela data. Retorna None se não houver nenhum snapshot
+        utilizável — nesse caso o chamador assume progresso zero.
+        """
+        from datetime import date
+
+        metric   = goal['metric']
+        baseline = (goal['baseline_paragraphs'] if metric == 'paragraphs'
+                    else goal['baseline_words'])
+
+        if ref_date >= date.today():
+            current = cur_paragraphs if metric == 'paragraphs' else cur_words
+            return max(0, current - baseline)
+
+        history = self.config.get(f'stats_history_{self.project.id}', {}) or {}
+        usable  = [d for d in history.keys() if d <= ref_date.isoformat()]
+        if not usable:
+            return None
+
+        snap  = history[max(usable)] or {}
+        value = snap.get('paragraphs' if metric == 'paragraphs' else 'words', 0)
+        return max(0, value - baseline)
+
+    def _freeze_goal(self, goal_id, status, final_progress):
+        """
+        Persiste o resultado definitivo de uma meta no config.
+
+        A partir daí a meta vira somente-leitura: nenhuma escrita posterior,
+        de nenhuma outra meta, altera o que ela mostra.
+        """
+        goals   = self.config.get(f'goals_{self.project.id}', [])
+        changed = False
+
+        for g in goals:
+            if g.get('id') == goal_id and g.get('status') != status:
+                g['status']         = status
+                g['final_progress'] = final_progress
+                changed = True
+                break
+
+        if changed:
+            self.config.set(f'goals_{self.project.id}', goals)
+            self.config.save()
 
     def _get_encouragement(self, is_achieved, is_expired, pct,
                             progress, target, m_label):
@@ -3893,6 +3981,8 @@ class GoalsDialog(Adw.Window):
             'created_at':           today.isoformat(),
             'baseline_paragraphs':  stats.get('total_paragraphs', 0),
             'baseline_words':       stats.get('total_words', 0),
+            'status':               'active',   # 'active' | 'achieved' | 'failed'
+            'final_progress':       0,
         }
 
         goals = self.config.get(f'goals_{self.project.id}', [])
@@ -4286,7 +4376,7 @@ class ChartDialog(Adw.Window):
             self._add_data_row(row[0], str(row[1]))
 
         # Botão de Adicionar Linha
-        add_btn = Gtk.Button(label=_("Adicionar Novo Dado"), icon_name="list-add-symbolic")
+        add_btn = Gtk.Button(label=_("Adicionar Novo Dado"), icon_name="tac-list-add-symbolic")
         add_btn.set_halign(Gtk.Align.CENTER)
         add_btn.add_css_class("flat")
         add_btn.connect("clicked", lambda b: self._add_data_row("", ""))
@@ -4303,7 +4393,7 @@ class ChartDialog(Adw.Window):
         entry_value.set_text(value_text)
         entry_value.set_placeholder_text(_("Ex: 150.5"))
         
-        del_btn = Gtk.Button(icon_name="user-trash-symbolic")
+        del_btn = Gtk.Button(icon_name="tac-user-trash-symbolic")
         del_btn.add_css_class("destructive-action")
         del_btn.add_css_class("flat")
         del_btn.connect("clicked", lambda b: self._remove_data_row(row_box))
@@ -4453,7 +4543,7 @@ class MapDataRow(Gtk.Box):
         self.entry_value.set_text(value)
         self.append(self.entry_value)
 
-        del_btn = Gtk.Button.new_from_icon_name("user-trash-symbolic")
+        del_btn = Gtk.Button.new_from_icon_name("tac-user-trash-symbolic")
         del_btn.add_css_class("destructive-action")
         del_btn.add_css_class("flat")
         del_btn.connect("clicked", self._on_delete)

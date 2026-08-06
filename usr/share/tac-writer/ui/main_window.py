@@ -1283,6 +1283,8 @@ class MainWindow(Adw.ApplicationWindow):
             return
         if not self.current_project:
             return
+        # Garante que o snapshot de hoje existe antes de avaliar as metas
+        self._record_stats_snapshot()
         dialog = GoalsDialog(self, self.current_project, self.config)
         dialog.present()
 
@@ -1312,6 +1314,49 @@ class MainWindow(Adw.ApplicationWindow):
             dates = dates[-365:]
             self.config.set('usage_dates', dates)
             self.config.save()
+
+    def _record_stats_snapshot(self):
+        """
+        Grava (ou atualiza) o snapshot de estatísticas do projeto atual para a
+        data de hoje, em config['stats_history_{project_id}'].
+
+        As metas usam esse histórico para saber quantos parágrafos/palavras o
+        projeto tinha NA DATA LIMITE de cada meta. Sem isso, uma meta vencida
+        continuaria somando texto escrito depois do prazo — inclusive texto
+        pertencente a metas criadas posteriormente.
+        """
+        if not self.current_project:
+            return
+
+        from datetime import date
+
+        try:
+            stats = self.current_project.get_statistics()
+        except Exception:
+            return
+
+        key     = f'stats_history_{self.current_project.id}'
+        history = self.config.get(key, {}) or {}
+        today   = date.today().isoformat()
+
+        entry = {
+            'paragraphs': stats.get('total_paragraphs', 0),
+            'words':      stats.get('total_words', 0),
+        }
+
+        # Nada mudou desde a última gravação de hoje: evita I/O desnecessário
+        if history.get(today) == entry:
+            return
+
+        history[today] = entry
+
+        # Mantém só os últimos 365 dias para não inflar o config.json
+        if len(history) > 365:
+            for old_date in sorted(history.keys())[:-365]:
+                del history[old_date]
+
+        self.config.set(key, history)
+        self.config.save()
 
     # Action handlers
 
@@ -2034,6 +2079,7 @@ class MainWindow(Adw.ApplicationWindow):
                     if project:
                         self.current_project = project
                         self._record_usage_date()
+                        self._record_stats_snapshot()
                         # Show editor optimized
                         self._show_editor_view_optimized()
                         self._show_toast(_("Projeto aberto: {}").format(project.name))
@@ -2054,6 +2100,7 @@ class MainWindow(Adw.ApplicationWindow):
             self._show_toast(_("Projeto salvo com sucesso"))
             self.project_list.refresh_projects()
             self.config.add_recent_project(self.current_project.id)
+            self._record_stats_snapshot()
         else:
             self._show_toast(_("Falha ao salvar projeto"), Adw.ToastPriority.HIGH)
 
@@ -2097,6 +2144,7 @@ class MainWindow(Adw.ApplicationWindow):
             # Silent save - no toast for auto-save to avoid interrupting user
             self.project_list.refresh_projects()
             self.config.add_recent_project(self.current_project.id)
+            self._record_stats_snapshot()
             
             # Update header to show saved state (remove asterisk if you have one)
             self._update_header_for_view("editor")
@@ -2873,6 +2921,7 @@ class MainWindow(Adw.ApplicationWindow):
         if project:
             self.current_project = project
             self._record_usage_date()
+            self._record_stats_snapshot()
             # Show editor optimized
             self._show_editor_view_optimized()
             self._show_toast(_("Projeto aberto: {}").format(project.name))
