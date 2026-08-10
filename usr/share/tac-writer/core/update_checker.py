@@ -37,7 +37,7 @@ class UpdateChecker:
         return os.environ.get("FLATPAK_ID") is not None or os.path.exists("/.flatpak-info")
 
     @staticmethod
-    def _flatpak_host_command(args: List[str]) -> List[str]:
+    def _flatpak_host_command(args: List[str], force_c_locale: bool = False) -> List[str]:
         """
         Build a command that reaches the HOST's `flatpak` binary.
 
@@ -46,9 +46,19 @@ class UpdateChecker:
         doesn't exist inside the sandbox — it must be reached via
         `flatpak-spawn --host`. Outside the sandbox (deb/rpm/AUR/dev
         environments), the plain command is used directly.
+
+        If *force_c_locale* is True, the spawned host process's LC_ALL/LANG
+        are forced to "C" via `flatpak-spawn --env=...`. This matters for
+        any caller that parses `flatpak`'s human-readable text output
+        (e.g. the "Version:" label), since on a host configured with a
+        non-English locale (e.g. pt_BR) that label is translated (e.g.
+        "Versão:") and silently breaks naive string matching.
         """
         if UpdateChecker._running_inside_flatpak_sandbox():
-            return ["flatpak-spawn", "--host"] + args
+            cmd = ["flatpak-spawn", "--host"]
+            if force_c_locale:
+                cmd += ["--env=LC_ALL=C", "--env=LANG=C"]
+            return cmd + args
         return args
 
     # ── Public API ────────────────────────────────────────────
@@ -184,13 +194,29 @@ class UpdateChecker:
         }
 
     def _get_flatpak_version(self):
-        """Return the installed app version via flatpak info."""
+        """
+        Return the installed app version via `flatpak info`.
+
+        Forces the C locale on the command: on a host configured with a
+        non-English locale (e.g. pt_BR), `flatpak info` prints translated
+        field labels ("Versão:" instead of "Version:"), which would
+        silently break the line-matching below and make this function
+        always return None — masking a real "flatpak" install as
+        undetectable and pushing the caller into the wrong fallback path.
+        """
         try:
-            cmd = self._flatpak_host_command(["flatpak", "info", self.FLATPAK_APP_ID])
-            r = subprocess.run(
-                cmd,
-                capture_output=True, text=True, timeout=5,
+            cmd = self._flatpak_host_command(
+                ["flatpak", "info", self.FLATPAK_APP_ID], force_c_locale=True
             )
+            run_kwargs = dict(capture_output=True, text=True, timeout=5)
+            if not self._running_inside_flatpak_sandbox():
+                # No flatpak-spawn hop happening here, so force the C
+                # locale directly via the subprocess environment instead.
+                env = dict(os.environ)
+                env["LC_ALL"] = "C"
+                env["LANG"] = "C"
+                run_kwargs["env"] = env
+            r = subprocess.run(cmd, **run_kwargs)
             if r.returncode != 0:
                 return None
             for line in r.stdout.splitlines():
