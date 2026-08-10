@@ -29,6 +29,28 @@ class UpdateChecker:
     def __init__(self, current_version: str):
         self.current_version = current_version
 
+    # ── Sandbox helpers ───────────────────────────────────────
+
+    @staticmethod
+    def _running_inside_flatpak_sandbox() -> bool:
+        """True if this process itself is running inside a Flatpak sandbox."""
+        return os.environ.get("FLATPAK_ID") is not None or os.path.exists("/.flatpak-info")
+
+    @staticmethod
+    def _flatpak_host_command(args: List[str]) -> List[str]:
+        """
+        Build a command that reaches the HOST's `flatpak` binary.
+
+        When Tac Writer itself runs inside the Flatpak sandbox, a bare
+        `flatpak` call fails with FileNotFoundError because that binary
+        doesn't exist inside the sandbox — it must be reached via
+        `flatpak-spawn --host`. Outside the sandbox (deb/rpm/AUR/dev
+        environments), the plain command is used directly.
+        """
+        if UpdateChecker._running_inside_flatpak_sandbox():
+            return ["flatpak-spawn", "--host"] + args
+        return args
+
     # ── Public API ────────────────────────────────────────────
 
     def check_async(self, callback: Callable[[Optional[Dict]], None]):
@@ -164,8 +186,9 @@ class UpdateChecker:
     def _get_flatpak_version(self):
         """Return the installed app version via flatpak info."""
         try:
+            cmd = self._flatpak_host_command(["flatpak", "info", self.FLATPAK_APP_ID])
             r = subprocess.run(
-                ["flatpak", "info", self.FLATPAK_APP_ID],
+                cmd,
                 capture_output=True, text=True, timeout=5,
             )
             if r.returncode != 0:
@@ -444,10 +467,17 @@ class UpdateChecker:
         if IS_WINDOWS:
             return "windows"
 
-        # Flatpak tem prioridade sobre gestores nativos
+        # Flatpak tem prioridade sobre gestores nativos.
+        # Se o próprio app estiver rodando dentro do sandbox, `flatpak`
+        # não existe ali dentro — precisa ser alcançado via
+        # `flatpak-spawn --host`, senão isso sempre falha com
+        # FileNotFoundError e o método cai (errado) em "unknown".
         try:
+            cmd = UpdateChecker._flatpak_host_command(
+                ["flatpak", "info", UpdateChecker.FLATPAK_APP_ID]
+            )
             r = subprocess.run(
-                ["flatpak", "info", UpdateChecker.FLATPAK_APP_ID],
+                cmd,
                 capture_output=True, text=True, timeout=5,
             )
             if r.returncode == 0:
