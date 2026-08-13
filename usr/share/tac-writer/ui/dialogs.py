@@ -5424,8 +5424,18 @@ class MindMapPreviewDialog(Adw.Window):
         cancel_btn.connect('clicked', self._on_cancel)
         header.pack_start(cancel_btn)
 
+        # Volta ao formulário mantendo tudo o que já foi preenchido
+        edit_btn = Gtk.Button()
+        edit_btn.set_icon_name('tac-edit-symbolic')
+        edit_btn.set_tooltip_text(_("Editar respostas"))
+        edit_btn.connect('clicked', self._on_edit)
+        header.pack_start(edit_btn)
+
         # Theme toggle (icon + label inside a box)
-        insert_btn = Gtk.Button(label=_("Inserir este tema"))
+        is_edit = getattr(self._planner, 'edit_mode', False)
+        insert_btn = Gtk.Button(
+            label=_("Atualizar Mapa Mental") if is_edit else _("Inserir este tema")
+        )
         insert_btn.add_css_class('suggested-action')
         insert_btn.connect('clicked', self._on_insert)
         header.pack_end(insert_btn)
@@ -5508,18 +5518,36 @@ class MindMapPreviewDialog(Adw.Window):
         meta = dict(self._base_meta)
         meta['image_path'] = str(chosen)
 
+        # A limpeza da imagem anterior (em caso de edição) fica a cargo de
+        # quem trata o sinal 'mindmap-generated' (ele já compara com o
+        # mapa mental salvo anteriormente no projeto).
         self._planner.emit('mindmap-generated', meta)
+
         self._planner.destroy()
         self.destroy()
 
-    def _on_cancel(self, _btn):
-        # Delete both generated images since the user cancelled
+    def _on_edit(self, _btn):
+        # Volta para o formulário sem apagar as respostas já digitadas,
+        # apenas descartando as duas imagens recém-geradas (serão refeitas
+        # quando o usuário gerar novamente após ajustar o texto).
         for p in (self._path_dark, self._path_light):
             try:
                 if p.exists():
                     p.unlink()
             except OSError:
                 pass
+        self._planner.present()
+        self.destroy()
+
+    def _on_cancel(self, _btn):
+        # Delete both generated images since the user cancelled everything
+        for p in (self._path_dark, self._path_light):
+            try:
+                if p.exists():
+                    p.unlink()
+            except OSError:
+                pass
+        self._planner.destroy()
         self.destroy()
 
 class MindMapPlannerDialog(Adw.Window):
@@ -5574,13 +5602,29 @@ class MindMapPlannerDialog(Adw.Window):
         },
     ]
 
-    def __init__(self, parent, project, **kwargs):
+    def __init__(self, parent, project, existing_meta: dict = None, **kwargs):
         super().__init__(**kwargs)
 
         self.project = project
         self.config = parent.config
 
-        self.set_title(_("Mapa Mental e Plano Guiado"))
+        # Quando existing_meta é fornecido, o formulário é pré-preenchido
+        # com o mapa mental já salvo no projeto (edição), em vez de começar
+        # em branco (criação).
+        self.edit_mode             = existing_meta is not None
+        self._existing_image_path  = (existing_meta or {}).get('image_path', '')
+        self._edit_values = {}
+        if self.edit_mode:
+            meta = existing_meta
+            self._edit_values = {
+                'theme':     meta.get('theme', ''),
+                'questions': "\n".join(meta.get('questions', [])),
+                'arguments': "\n".join(meta.get('arguments', [])),
+                'sources':   "\n".join(meta.get('sources', [])),
+                'goal':      meta.get('goal', ''),
+            }
+
+        self.set_title(_("Editar Mapa Mental") if self.edit_mode else _("Mapa Mental e Plano Guiado"))
         self.set_transient_for(parent)
         self.set_modal(True)
         self.set_default_size(640, 680)
@@ -5608,7 +5652,9 @@ class MindMapPlannerDialog(Adw.Window):
         cancel_btn.connect('clicked', lambda _b: self.destroy())
         header_bar.pack_start(cancel_btn)
 
-        generate_btn = Gtk.Button(label=_("Gerar Mapa Mental"))
+        generate_btn = Gtk.Button(
+            label=_("Atualizar Mapa Mental") if self.edit_mode else _("Gerar Mapa Mental")
+        )
         generate_btn.add_css_class('suggested-action')
         generate_btn.connect('clicked', self._on_generate_clicked)
         header_bar.pack_end(generate_btn)
@@ -5688,10 +5734,15 @@ class MindMapPlannerDialog(Adw.Window):
                 # Placeholder: escreve em cinza, limpa ao focar (GTK4)
                 buf = tv.get_buffer()
                 placeholder = q['placeholder']
+                existing = self._edit_values.get(q['key'], '') if self.edit_mode else ''
 
-                buf.set_text(placeholder)
-                ph_tag = buf.create_tag('placeholder', foreground='gray')
-                buf.apply_tag(ph_tag, buf.get_start_iter(), buf.get_end_iter())
+                if existing:
+                    # Modo edição: mostra o texto já preenchido anteriormente
+                    buf.set_text(existing)
+                else:
+                    buf.set_text(placeholder)
+                    ph_tag = buf.create_tag('placeholder', foreground='gray')
+                    buf.apply_tag(ph_tag, buf.get_start_iter(), buf.get_end_iter())
 
                 focus_ctrl = Gtk.EventControllerFocus()
 
@@ -5711,6 +5762,9 @@ class MindMapPlannerDialog(Adw.Window):
                 # Single-line: use Adw.EntryRow
                 entry_row = Adw.EntryRow(title='')
                 entry_row.set_show_apply_button(False)
+                existing = self._edit_values.get(q['key'], '') if self.edit_mode else ''
+                if existing:
+                    entry_row.set_text(existing)
                 group.add(entry_row)
                 self._text_widgets[q['key']] = entry_row
 
