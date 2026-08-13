@@ -1665,12 +1665,18 @@ class MainWindow(Adw.ApplicationWindow):
         else:
             self._open_mindmap_dialog()
 
-    def _open_mindmap_dialog(self):
-        """Instancia e apresenta o MindMapPlannerDialog."""
+    def _open_mindmap_dialog(self, existing_meta: dict = None):
+        """Instancia e apresenta o MindMapPlannerDialog.
+
+        Se existing_meta for passado, o formulário abre pré-preenchido com
+        as respostas do mapa mental já salvo (edição); caso contrário,
+        abre em branco (criação).
+        """
         from ui.dialogs import MindMapPlannerDialog
         dialog = MindMapPlannerDialog(
             parent=self,
             project=self.current_project,
+            existing_meta=existing_meta,
         )
         dialog.connect('mindmap-generated', self._on_mindmap_generated)
         dialog.present()
@@ -1692,6 +1698,15 @@ class MainWindow(Adw.ApplicationWindow):
         # Header bar
         hbar = Adw.HeaderBar()
         hbar.set_show_end_title_buttons(True)
+
+        edit_btn = Gtk.Button()
+        edit_btn.set_icon_name('tac-edit-symbolic')
+        edit_btn.set_tooltip_text(_("Editar respostas deste mapa mental"))
+        def _on_edit(_b, w=win, m=meta):
+            w.destroy()
+            self._open_mindmap_dialog(existing_meta=m)
+        edit_btn.connect('clicked', _on_edit)
+        hbar.pack_start(edit_btn)
 
         regen_btn = Gtk.Button(label=_("Refazer Mapa"))
         regen_btn.set_icon_name('tac-view-refresh-symbolic')
