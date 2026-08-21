@@ -801,12 +801,14 @@ class MainWindow(Adw.ApplicationWindow):
         else:
             image_container.set_halign(Gtk.Align.START)
         
-        img_path_str = metadata.get('path', '')
+        from utils.helpers import ImageHelper
+
         img_filename = metadata.get('filename', 'desconhecido.jpg')
-        img_path = Path(img_path_str)
+        project_id = self.current_project.id if self.current_project else None
+        img_path = ImageHelper.resolve(metadata, project_id)
 
         # Display image logic
-        if img_path.exists():
+        if img_path:
             # If image exist
             try:
                 texture = Gdk.Texture.new_from_filename(str(img_path))
@@ -2132,8 +2134,8 @@ class MainWindow(Adw.ApplicationWindow):
             GLib.source_remove(self.auto_save_timeout_id)
             self.auto_save_timeout_id = None
         
-        # Get auto-save interval (default 120 seconds = 2 minutes)
-        interval_seconds = self.config.get('auto_save_interval', 120)
+        # Get auto-save interval (default 30 seconds)
+        interval_seconds = self.config.get('auto_save_interval', 30)
         interval_ms = interval_seconds * 1000
         
         # Mark that auto-save is pending
@@ -2992,8 +2994,67 @@ class MainWindow(Adw.ApplicationWindow):
 
     def _on_cloud_sync_clicked(self, button):
         """Handle cloud sync button click"""
+        # Grava qualquer edição pendente ANTES de sincronizar.
+        if self.current_project and self.auto_save_pending:
+            self.project_manager.save_project(self.current_project)
+ 
+        # Cancela o timer
+        if self.auto_save_timeout_id is not None:
+            GLib.source_remove(self.auto_save_timeout_id)
+            self.auto_save_timeout_id = None
+        self.auto_save_pending = False
+ 
         dialog = CloudSyncDialog(self)
         dialog.present()
+
+    def reload_current_project(self):
+        """
+        Recarrega do banco o projeto que está aberto.
+ 
+        Chamado após a sincronização.
+        """
+        if not self.current_project:
+            return
+ 
+        project_id = self.current_project.id
+ 
+        # 1. Silencia o auto-save enquanto trocamos o objeto em memória.
+        if self.auto_save_timeout_id is not None:
+            GLib.source_remove(self.auto_save_timeout_id)
+            self.auto_save_timeout_id = None
+        self.auto_save_pending = False
+ 
+        # 2. Interrompe um carregamento em lote que ainda esteja em curso.
+        self._paragraphs_to_add = []
+        self._is_loading_paragraphs = False
+ 
+        # 3. Reconstrução completa a partir dos dados novos.
+        if hasattr(self, 'paragraphs_box') and self.paragraphs_box:
+            child = self.paragraphs_box.get_first_child()
+            while child:
+                next_child = child.get_next_sibling()
+                self.paragraphs_box.remove(child)
+                child = next_child
+        self._existing_widgets = {}
+ 
+        # 4. Recarrega do banco.
+        try:
+            project = self.project_manager.load_project(project_id)
+        except Exception as e:
+            print(f"Falha ao recarregar projeto após sincronização: {e}")
+            return
+ 
+        if not project:
+            # O projeto pode ter deixado de existir. Volta para a lista.
+            self.current_project = None
+            self._show_welcome_view()
+            return
+ 
+        self.current_project = project
+        self._show_editor_view_optimized()
+ 
+        stats = project.get_statistics()
+        self.project_list.update_project_statistics(project.id, stats)
 
     def _on_references_clicked(self, button):
         """Handle references to be used for quotes"""

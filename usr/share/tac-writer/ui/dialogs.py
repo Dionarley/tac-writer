@@ -2923,17 +2923,24 @@ class CloudSyncDialog(Adw.Window):
         """
         Execute sync
         Download -> Merge -> Upload
+
+        O upload usa um snapshot gerado por sqlite3.Connection.backup().
+        Ler o arquivo .db diretamente deixaria de fora os commits que
+        ainda estão no arquivo -wal (a conexão do app usa WAL), enviando
+        para a nuvem uma versão desatualizada do banco.
         """
         if not DROPBOX_AVAILABLE:
             return
 
+        local_db_path = self.config.database_path
+        temp_db_path = local_db_path.with_suffix('.temp_sync.db')
+        snapshot_path = local_db_path.with_suffix('.snapshot.db')
+
         try:
             dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=DROPBOX_APP_KEY)
-            
-            local_db_path = self.config.database_path
+
             remote_path = "/tac_writer.db"
-            temp_db_path = local_db_path.with_suffix('.temp_sync.db')
-            
+
             sync_msg = ""
             stats = None
 
@@ -2956,43 +2963,91 @@ class CloudSyncDialog(Adw.Window):
             if remote_exists:
                 # Use ProjectManager to access merge logic
                 stats = self.parent_window.project_manager.merge_database(str(temp_db_path))
-                
+
                 # Remove temporary file
                 if temp_db_path.exists():
                     os.remove(temp_db_path)
-                
-                if stats['projects_added'] > 0 or stats['projects_updated'] > 0:
-                    sync_msg = _("Sincronizado: +{} novos, {} atualizados.").format(
-                        stats['projects_added'], stats['projects_updated']
-                    )
+
+                paragraphs_added = stats.get('paragraphs_added', 0)
+                paragraphs_updated = stats.get('paragraphs_updated', 0)
+                projects_added = stats.get('projects_added', 0)
+                projects_updated = stats.get('projects_updated', 0)
+
+                if paragraphs_added or paragraphs_updated or projects_added or projects_updated:
+                    if projects_added:
+                        sync_msg = _("Sincronizado: {} projeto(s) novo(s), "
+                                     "+{} parágrafos, {} atualizados.").format(
+                            projects_added, paragraphs_added, paragraphs_updated
+                        )
+                    else:
+                        sync_msg = _("Sincronizado: +{} parágrafos novos, "
+                                     "{} atualizados.").format(
+                            paragraphs_added, paragraphs_updated
+                        )
                 else:
                     sync_msg = _("Sincronização concluída (sem alterações remotas).")
             else:
                 sync_msg = _("Primeiro upload para a nuvem realizado.")
 
-            # 3. Upload from local (Overwrite)
-            with open(local_db_path, "rb") as f:
+            # 3. Sincroniza os arquivos de imagem.
+            try:
+                from core.cloud_files import sync_images
+                downloaded, uploaded = sync_images(dbx, self.config.data_dir / 'images')
+                if downloaded or uploaded:
+                    sync_msg = _("{} Imagens: {} baixadas, {} enviadas.").format(
+                        sync_msg, downloaded, uploaded
+                    )
+            except Exception as img_error:
+                print(f"Aviso: sincronização de imagens falhou: {img_error}")
+
+            # 4. Upload from local (Overwrite)
+            source_conn = sqlite3.connect(str(local_db_path))
+            destination_conn = sqlite3.connect(str(snapshot_path))
+            try:
+                with destination_conn:
+                    source_conn.backup(destination_conn)
+            finally:
+                destination_conn.close()
+                source_conn.close()
+
+            with open(snapshot_path, "rb") as f:
                 dbx.files_upload(
-                    f.read(), 
-                    remote_path, 
+                    f.read(),
+                    remote_path,
                     mode=WriteMode('overwrite')
                 )
+
+            if snapshot_path.exists():
+                os.remove(snapshot_path)
+
             print("Upload para o Dropbox concluído.")
 
             # Finalize with sucess
             GLib.idle_add(self._on_sync_finished, btn, True, sync_msg)
-            
+
         except Exception as e:
             print(f"Erro de Sync: {e}")
-            
-            try:
-                temp_path = self.config.database_path.with_suffix('.temp_sync.db')
-                if temp_path.exists():
-                    os.remove(temp_path)
-            except:
-                pass
-                
-            GLib.idle_add(self._on_sync_finished, btn, False, str(e))
+
+            # Erros 5xx são falhas momentâneas do servidor do Dropbox
+            if isinstance(e, dropbox.exceptions.InternalServerError):
+                mensagem = _("O Dropbox está instável no momento. "
+                             "Aguarde alguns minutos e tente sincronizar novamente.")
+            elif isinstance(e, dropbox.exceptions.AuthError):
+                mensagem = _("A conexão com o Dropbox expirou. "
+                             "Desvincule e vincule a conta novamente.")
+            else:
+                mensagem = str(e)
+
+            GLib.idle_add(self._on_sync_finished, btn, False, mensagem)
+
+        finally:
+            # Limpeza dos arquivos temporários, aconteça o que acontecer
+            for leftover in (temp_db_path, snapshot_path):
+                try:
+                    if leftover.exists():
+                        os.remove(leftover)
+                except OSError:
+                    pass
 
     def _on_sync_finished(self, btn, success, message):
         """Callback de finalização do sync"""
@@ -3007,6 +3062,9 @@ class CloudSyncDialog(Adw.Window):
             # Reload project list in main window
             if hasattr(self.parent_window, 'project_list'):
                 self.parent_window.project_list.refresh_projects()
+
+            if hasattr(self.parent_window, 'reload_current_project'):
+                self.parent_window.reload_current_project()
                 
             
         else:
