@@ -46,7 +46,7 @@ try:
 except ImportError:
     DROPBOX_AVAILABLE = False
 
-DROPBOX_APP_KEY = "x3h06acjg6fhbmq"
+DROPBOX_APP_KEY = Config.DROPBOX_APP_KEY
 
 def get_system_fonts():
     """Get list of system fonts using multiple fallback methods"""
@@ -2635,6 +2635,7 @@ class CloudSyncDialog(Adw.Window):
         
         # Estado inicial
         self.is_connected = False
+        self._logout_dialog = None
         
         self._create_ui()
         self._check_existing_connection()
@@ -2734,6 +2735,19 @@ class CloudSyncDialog(Adw.Window):
         
         sync_group.add(self.sync_row)
 
+        # Interruptor da sincronização automática.
+        # Fica desabilitado enquanto não houver conta vinculada, já que
+        # sem token não há o que automatizar.
+        self.auto_sync_row = Adw.SwitchRow()
+        self.auto_sync_row.set_title(_("Sincronizar automaticamente"))
+        self.auto_sync_row.set_subtitle(
+            _("Ao abrir e ao fechar o aplicativo.")
+        )
+        self.auto_sync_row.set_active(self.config.get('dropbox_auto_sync', True))
+        self.auto_sync_row.set_sensitive(False)
+        self.auto_sync_row.connect("notify::active", self._on_auto_sync_toggled)
+        sync_group.add(self.auto_sync_row)
+
         # Big Sync Button
         self.sync_button = Gtk.Button(label=_("Sincronizar Agora"))
         self.sync_button.set_icon_name("tac-emblem-synchronizing-symbolic")
@@ -2769,8 +2783,9 @@ class CloudSyncDialog(Adw.Window):
         
         if refresh_token:
             self.is_connected = True
+            # O subtítulo é definido por _update_ui_state, que conhece o
+            # estado da sincronização automática.
             self._update_ui_state(connected=True)
-            self.sync_row.set_subtitle(_("Pronto para sincronizar."))
 
     def _update_ui_state(self, connected: bool):
         """Atualiza a UI baseada no estado de conexão"""
@@ -2787,6 +2802,18 @@ class CloudSyncDialog(Adw.Window):
             self.connect_btn.set_sensitive(False)
             
             self.logout_button.set_visible(True)
+
+            self.auto_sync_row.set_sensitive(True)
+            if self.config.get('dropbox_auto_sync', True):
+                self.sync_row.set_subtitle(
+                    _("Sincroniza sozinho ao abrir e ao fechar o app. "
+                      "Use o botão abaixo para sincronizar agora.")
+                )
+            else:
+                self.sync_row.set_subtitle(
+                    _("Sincronização automática desligada. "
+                      "Use o botão abaixo para sincronizar.")
+                )
         else:
             self.sync_row.set_title(_("Estado: Não conectado"))
             self.status_icon.set_from_icon_name("tac-dialog-warning-symbolic")
@@ -2800,6 +2827,12 @@ class CloudSyncDialog(Adw.Window):
             self.connect_btn.set_sensitive(True)
             
             self.logout_button.set_visible(False)
+
+            self.auto_sync_row.set_sensitive(False)
+            self.sync_row.set_subtitle(
+                _("Vincule uma conta para sincronizar seus projetos "
+                  "entre computadores.")
+            )
 
     def _on_open_browser_clicked(self, btn):
         """Inicia o fluxo OAuth PKCE e abre o navegador"""
@@ -2892,11 +2925,56 @@ class CloudSyncDialog(Adw.Window):
         btn.set_label(_("Conectar"))
         self._show_toast(_("Código inválido ou expirado."))
 
-    def _on_logout_clicked(self, btn):
-        """Remove as credenciais salvas"""
-        self.config.set('dropbox_refresh_token', None)
+    def _on_auto_sync_toggled(self, row, _pspec):
+        """Liga ou desliga a sincronização automática"""
+        ativo = row.get_active()
+
+        if ativo == self.config.get('dropbox_auto_sync', True):
+            return  # nada mudou de fato
+
+        self.config.set('dropbox_auto_sync', ativo)
         self.config.save()
-        
+
+        if self.is_connected:
+            self._update_ui_state(connected=True)
+
+        self._show_toast(
+            _("Sincronização automática ativada.") if ativo
+            else _("Sincronização automática desativada.")
+        )
+
+    def _on_logout_clicked(self, btn):
+        """Pede confirmação antes de remover as credenciais"""
+        self._logout_dialog = Adw.MessageDialog.new(
+            self,
+            _("Desvincular conta do Dropbox?"),
+            _("A sincronização automática ao abrir e ao fechar o app será "
+              "desativada. Seus projetos continuam salvos neste computador, "
+              "e o que já foi enviado permanece na sua conta do Dropbox.")
+        )
+        self._logout_dialog.add_response("cancel", _("Cancelar"))
+        self._logout_dialog.add_response("unlink", _("Desvincular"))
+        self._logout_dialog.set_response_appearance(
+            "unlink", Adw.ResponseAppearance.DESTRUCTIVE
+        )
+        self._logout_dialog.set_default_response("cancel")
+        self._logout_dialog.set_close_response("cancel")
+        self._logout_dialog.connect("response", self._on_logout_confirmed)
+        self._logout_dialog.present()
+
+    def _on_logout_confirmed(self, dialog, response):
+        """Remove as credenciais salvas"""
+        self._logout_dialog = None
+
+        if response != "unlink":
+            return
+
+        self.config.set('dropbox_refresh_token', None)
+        # Limpa o marcador da última sincronização. Sem isso, uma futura
+        # revinculação compararia a data do banco com a de outra sessão.
+        self.config.set('dropbox_last_sync_mtime', None)
+        self.config.save()
+
         self.is_connected = False
         self._update_ui_state(connected=False)
         self._show_toast(_("Conta desconectada."))
@@ -2921,133 +2999,23 @@ class CloudSyncDialog(Adw.Window):
 
     def _perform_sync(self, refresh_token, btn):
         """
-        Execute sync
-        Download -> Merge -> Upload
+        Executa a sincronização.
 
-        O upload usa um snapshot gerado por sqlite3.Connection.backup().
-        Ler o arquivo .db diretamente deixaria de fora os commits que
-        ainda estão no arquivo -wal (a conexão do app usa WAL), enviando
-        para a nuvem uma versão desatualizada do banco.
+        A lógica vive em core/cloud_sync.py, para que a sincronização
+        automática (ao abrir e ao fechar o app) use exatamente o mesmo
+        caminho. sync_now não levanta exceção: devolve um dicionário com
+        'ok' e 'message' já pronta para exibição.
         """
-        if not DROPBOX_AVAILABLE:
-            return
+        from core.cloud_sync import sync_now
 
-        local_db_path = self.config.database_path
-        temp_db_path = local_db_path.with_suffix('.temp_sync.db')
-        snapshot_path = local_db_path.with_suffix('.snapshot.db')
+        resultado = sync_now(self.config, self.parent_window.project_manager)
 
-        try:
-            dbx = dropbox.Dropbox(oauth2_refresh_token=refresh_token, app_key=DROPBOX_APP_KEY)
-
-            remote_path = "/tac_writer.db"
-
-            sync_msg = ""
-            stats = None
-
-            # 1. Try to download remote file
-            remote_exists = False
-            try:
-                # Download to temp. file
-                dbx.files_download_to_file(str(temp_db_path), remote_path)
-                remote_exists = True
-                print("Download do Dropbox concluído.")
-            except ApiError as e:
-                # If "file not found", proceed to initial upload
-                if e.error.is_path() and e.error.get_path().is_not_found():
-                    print("Arquivo não encontrado no Dropbox. Iniciando primeiro upload.")
-                    remote_exists = False
-                else:
-                    raise e
-
-            # 2. Execute Merge (if something was downloaded)
-            if remote_exists:
-                # Use ProjectManager to access merge logic
-                stats = self.parent_window.project_manager.merge_database(str(temp_db_path))
-
-                # Remove temporary file
-                if temp_db_path.exists():
-                    os.remove(temp_db_path)
-
-                paragraphs_added = stats.get('paragraphs_added', 0)
-                paragraphs_updated = stats.get('paragraphs_updated', 0)
-                projects_added = stats.get('projects_added', 0)
-                projects_updated = stats.get('projects_updated', 0)
-
-                if paragraphs_added or paragraphs_updated or projects_added or projects_updated:
-                    if projects_added:
-                        sync_msg = _("Sincronizado: {} projeto(s) novo(s), "
-                                     "+{} parágrafos, {} atualizados.").format(
-                            projects_added, paragraphs_added, paragraphs_updated
-                        )
-                    else:
-                        sync_msg = _("Sincronizado: +{} parágrafos novos, "
-                                     "{} atualizados.").format(
-                            paragraphs_added, paragraphs_updated
-                        )
-                else:
-                    sync_msg = _("Sincronização concluída (sem alterações remotas).")
-            else:
-                sync_msg = _("Primeiro upload para a nuvem realizado.")
-
-            # 3. Sincroniza os arquivos de imagem.
-            try:
-                from core.cloud_files import sync_images
-                downloaded, uploaded = sync_images(dbx, self.config.data_dir / 'images')
-                if downloaded or uploaded:
-                    sync_msg = _("{} Imagens: {} baixadas, {} enviadas.").format(
-                        sync_msg, downloaded, uploaded
-                    )
-            except Exception as img_error:
-                print(f"Aviso: sincronização de imagens falhou: {img_error}")
-
-            # 4. Upload from local (Overwrite)
-            source_conn = sqlite3.connect(str(local_db_path))
-            destination_conn = sqlite3.connect(str(snapshot_path))
-            try:
-                with destination_conn:
-                    source_conn.backup(destination_conn)
-            finally:
-                destination_conn.close()
-                source_conn.close()
-
-            with open(snapshot_path, "rb") as f:
-                dbx.files_upload(
-                    f.read(),
-                    remote_path,
-                    mode=WriteMode('overwrite')
-                )
-
-            if snapshot_path.exists():
-                os.remove(snapshot_path)
-
-            print("Upload para o Dropbox concluído.")
-
-            # Finalize with sucess
-            GLib.idle_add(self._on_sync_finished, btn, True, sync_msg)
-
-        except Exception as e:
-            print(f"Erro de Sync: {e}")
-
-            # Erros 5xx são falhas momentâneas do servidor do Dropbox
-            if isinstance(e, dropbox.exceptions.InternalServerError):
-                mensagem = _("O Dropbox está instável no momento. "
-                             "Aguarde alguns minutos e tente sincronizar novamente.")
-            elif isinstance(e, dropbox.exceptions.AuthError):
-                mensagem = _("A conexão com o Dropbox expirou. "
-                             "Desvincule e vincule a conta novamente.")
-            else:
-                mensagem = str(e)
-
-            GLib.idle_add(self._on_sync_finished, btn, False, mensagem)
-
-        finally:
-            # Limpeza dos arquivos temporários, aconteça o que acontecer
-            for leftover in (temp_db_path, snapshot_path):
-                try:
-                    if leftover.exists():
-                        os.remove(leftover)
-                except OSError:
-                    pass
+        GLib.idle_add(
+            self._on_sync_finished,
+            btn,
+            resultado['ok'],
+            resultado['message']
+        )
 
     def _on_sync_finished(self, btn, success, message):
         """Callback de finalização do sync"""

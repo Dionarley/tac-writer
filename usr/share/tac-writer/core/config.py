@@ -17,7 +17,8 @@ class Config:
     """Application configuration manager"""
 
     # Application version and metadata
-    APP_VERSION = "1.42.13"
+    APP_VERSION = "1.42.14"
+    DROPBOX_APP_KEY = "x3h06acjg6fhbmq"
     APP_NAME = "TAC"
     APP_FULL_NAME = "TAC - Continuous Argumentation Technique"
     APP_DESCRIPTION = "Academic Writing Assistant"

@@ -78,6 +78,11 @@ class MainWindow(Adw.ApplicationWindow):
         self.auto_save_timeout_id = None
         self.auto_save_pending = False
 
+        # Sincronização automática com a nuvem
+        self._closing_after_sync = False
+        self._sync_overlay = None
+        self._startup_sync_running = False
+
         # UI components
         self.header_bar = None
         self.toast_overlay = None
@@ -98,6 +103,8 @@ class MainWindow(Adw.ApplicationWindow):
         GLib.timeout_add(500, self._maybe_show_welcome_dialog)
         # Schedule update check (5 s after startup for smooth UX)
         GLib.timeout_add(5000, self._maybe_check_for_updates)
+        # Sincronização automática de abertura (1 s depois, com a janela já montada)
+        GLib.timeout_add(1000, self._sync_on_startup)
 
     def _setup_window(self):
         """Setup basic window properties"""
@@ -1248,23 +1255,174 @@ class MainWindow(Adw.ApplicationWindow):
             self._refresh_paragraphs()
 
     def _on_close_request(self, window):
-        """Handle window close request"""
+        """
+        Fechamento da janela, com sincronização automática.
+
+        Ordem obrigatória: gravar a edição pendente ANTES de tirar o
+        snapshot do banco, senão o último parágrafo digitado não sobe.
+
+        Se houver o que sincronizar, o fechamento é SEGURADO (return True)
+        enquanto a thread trabalha. Sem isso o processo encerra e a thread
+        daemon morre no meio do upload, sem erro nenhum na tela.
+        """
         # Cancel any pending auto-save timer
         if self.auto_save_timeout_id is not None:
             GLib.source_remove(self.auto_save_timeout_id)
             self.auto_save_timeout_id = None
-        
+
         # If there's a pending auto-save, perform final save now
         if self.auto_save_pending and self.current_project:
             self.project_manager.save_project(self.current_project)
-        
+            self.auto_save_pending = False
+
         # Save window state
         self._save_window_state()
-        
-        # Check if project needs saving (optional confirmation)
-        if self.current_project and self.config.get('confirm_on_close', True):
-            pass
-        
+
+        # Segunda passagem: a sincronização já rodou, pode fechar.
+        if self._closing_after_sync:
+            return False
+
+        try:
+            from core.cloud_sync import is_linked, auto_sync_enabled, has_local_changes
+        except Exception as error:
+            print(f"[sync] módulo indisponível no fechamento: {error}")
+            return False
+
+        if not is_linked(self.config):
+            return False
+        if not auto_sync_enabled(self.config):
+            return False
+        if not has_local_changes(self.config):
+            print("[sync] nada mudou desde o último envio; fechando direto.")
+            return False
+
+        self._closing_after_sync = True
+        self._show_sync_overlay()
+        threading.Thread(target=self._sync_then_close, daemon=True).start()
+        return True          # segura o fechamento
+
+    def _show_sync_overlay(self):
+        """Janelinha de aviso enquanto o app sincroniza para fechar."""
+        try:
+            overlay = Adw.Window()
+            overlay.set_transient_for(self)
+            overlay.set_modal(True)
+            overlay.set_deletable(False)
+            overlay.set_default_size(320, 120)
+            overlay.set_title(_("Sincronizando"))
+
+            box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+            box.set_margin_top(24)
+            box.set_margin_bottom(24)
+            box.set_margin_start(24)
+            box.set_margin_end(24)
+            box.set_valign(Gtk.Align.CENTER)
+
+            spinner = Gtk.Spinner()
+            spinner.set_size_request(32, 32)
+            spinner.start()
+            box.append(spinner)
+
+            label = Gtk.Label(label=_("Enviando alterações para a nuvem..."))
+            label.set_wrap(True)
+            label.set_justify(Gtk.Justification.CENTER)
+            box.append(label)
+
+            overlay.set_content(box)
+            overlay.present()
+            self._sync_overlay = overlay
+        except Exception as error:
+            print(f"[sync] não foi possível exibir o aviso de fechamento: {error}")
+            self._sync_overlay = None
+
+    def _sync_then_close(self):
+        """Roda em thread. Sincroniza e devolve o controle ao GTK."""
+        try:
+            from core.cloud_sync import sync_now
+            resultado = sync_now(self.config, self.project_manager)
+            if resultado['ok']:
+                print(f"[sync] fechamento: {resultado['message']}")
+            else:
+                print(f"[sync] falha ao fechar: {resultado['message']}")
+        except Exception as error:
+            print(f"[sync] erro inesperado ao fechar: {type(error).__name__}: {error}")
+        finally:
+            GLib.idle_add(self._finish_close)
+
+    def _finish_close(self):
+        """Fecha de verdade. Reentra em _on_close_request, mas a flag deixa passar."""
+        if self._sync_overlay is not None:
+            try:
+                self._sync_overlay.destroy()
+            except Exception:
+                pass
+            self._sync_overlay = None
+
+        self.close()
+        return False
+
+    def _sync_on_startup(self):
+        """
+        Sincronização automática ao abrir o app.
+
+        Roda em thread para não travar a janela. O merge acontece no
+        banco; a interface é recarregada depois, na thread principal.
+        """
+        if self._startup_sync_running:
+            return False
+
+        try:
+            from core.cloud_sync import is_linked, auto_sync_enabled, sync_now
+        except Exception as error:
+            print(f"[sync] módulo indisponível na abertura: {error}")
+            return False
+
+        if not (is_linked(self.config) and auto_sync_enabled(self.config)):
+            return False
+
+        self._startup_sync_running = True
+
+        def worker():
+            try:
+                resultado = sync_now(self.config, self.project_manager)
+            except Exception as error:
+                resultado = {
+                    'ok': False,
+                    'message': f"{type(error).__name__}: {error}",
+                    'error': error,
+                    'stats': None,
+                }
+            GLib.idle_add(self._after_startup_sync, resultado)
+
+        threading.Thread(target=worker, daemon=True).start()
+        return False         # não repete o timeout
+
+    def _after_startup_sync(self, resultado):
+        """Recarrega a interface com o que veio da nuvem."""
+        self._startup_sync_running = False
+
+        if not resultado['ok']:
+            print(f"[sync] falha na abertura: {resultado['message']}")
+            return False
+
+        print(f"[sync] abertura: {resultado['message']}")
+
+        stats = resultado.get('stats') or {}
+        houve_mudanca = any(
+            stats.get(chave, 0)
+            for chave in ('projects_added', 'projects_updated', 'projects_deleted',
+                          'paragraphs_added', 'paragraphs_updated', 'paragraphs_deleted')
+        )
+
+        try:
+            self.project_list.refresh_projects()
+            self.reload_current_project()
+        except Exception as error:
+            print(f"[sync] falha ao recarregar a interface: {error}")
+
+        if houve_mudanca:
+            self._show_toast(resultado['message'])
+
         return False
 
     def _on_window_state_changed(self, window, pspec):
