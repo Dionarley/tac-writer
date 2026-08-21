@@ -101,7 +101,10 @@ class ProjectManager:
         try:
             with self._get_db_connection() as conn:
                 cursor = conn.cursor()
-                cursor.execute("SELECT 1 FROM projects WHERE id = ?", (project_id,))
+                cursor.execute(
+                    "SELECT 1 FROM projects WHERE id = ? AND deleted_at IS NULL",
+                    (project_id,)
+                )
                 return cursor.fetchone() is not None
         except sqlite3.Error as e:
             print(_("Erro ao verificar existência do projeto: {}").format(e))
@@ -502,6 +505,7 @@ class ProjectManager:
                 cursor.execute("""
                     SELECT p.id, p.name, p.created_at, p.modified_at
                     FROM projects p
+                    WHERE p.deleted_at IS NULL
                     ORDER BY p.modified_at DESC;
                 """)
                 projects = cursor.fetchall()
@@ -583,7 +587,7 @@ class ProjectManager:
                 cursor = conn.cursor()
                 
                 # Get table sizes
-                cursor.execute("SELECT COUNT(*) as project_count FROM projects;")
+                cursor.execute("SELECT COUNT(*) as project_count FROM projects WHERE deleted_at IS NULL;")
                 project_count = cursor.fetchone()['project_count']
                 
                 cursor.execute("SELECT COUNT(*) as paragraph_count FROM paragraphs WHERE deleted_at IS NULL;")
@@ -657,6 +661,13 @@ class ProjectManager:
                     cursor.execute("ALTER TABLE paragraphs ADD COLUMN deleted_at TEXT")
                 except sqlite3.OperationalError:
                     pass
+
+                # O mesmo para projetos: sem registro da exclusão, o
+                # projeto volta da outra máquina na sincronização.
+                try:
+                    cursor.execute("ALTER TABLE projects ADD COLUMN deleted_at TEXT")
+                except sqlite3.OperationalError:
+                    pass
  
                 cursor.execute("""
                     CREATE INDEX IF NOT EXISTS idx_paragraphs_project_alive
@@ -691,6 +702,11 @@ class ProjectManager:
                     (cutoff,)
                 )
                 removed = cursor.rowcount
+                cursor.execute(
+                    "DELETE FROM projects WHERE deleted_at IS NOT NULL AND deleted_at < ?",
+                    (cutoff,)
+                )
+                removed += cursor.rowcount
                 conn.commit()
                 if removed:
                     print(_("Limpeza: {} parágrafo(s) excluído(s) removido(s) em definitivo.").format(removed))
@@ -722,7 +738,10 @@ class ProjectManager:
             with self._get_db_connection() as conn:
                 cursor = conn.cursor()
                 
-                cursor.execute("SELECT * FROM projects WHERE id = ?", (project_id,))
+                cursor.execute(
+                    "SELECT * FROM projects WHERE id = ? AND deleted_at IS NULL",
+                    (project_id,)
+                )
                 project_row = cursor.fetchone()
                 
                 if not project_row:
@@ -779,7 +798,22 @@ class ProjectManager:
         try:
             with self._get_db_connection() as conn:
                 cursor = conn.cursor()
-                cursor.execute("DELETE FROM projects WHERE id = ?", (project_id,))
+                # Marca em vez de apagar. A linha continua existindo e
+                # viaja na sincronização, informando à outra máquina que
+                # o projeto foi excluído. Um DELETE não deixaria rastro e
+                # o projeto reapareceria no próximo merge.
+                agora = datetime.now().isoformat()
+                cursor.execute(
+                    "UPDATE projects SET deleted_at = ?, modified_at = ? WHERE id = ?",
+                    (agora, agora, project_id)
+                )
+                # Os parágrafos acompanham, para que a exclusão se propague
+                # mesmo se o projeto for tratado isoladamente.
+                cursor.execute(
+                    "UPDATE paragraphs SET deleted_at = ?, modified_at = ? "
+                    "WHERE project_id = ? AND deleted_at IS NULL",
+                    (agora, agora, project_id)
+                )
                 conn.commit()
                 
                 print(_("Projeto excluído do banco de dados: {}").format(project_id))
