@@ -17,7 +17,7 @@ class Config:
     """Application configuration manager"""
 
     # Application version and metadata
-    APP_VERSION = "1.42.10"
+    APP_VERSION = "1.42.11"
     APP_NAME = "TAC"
     APP_FULL_NAME = "TAC - Continuous Argumentation Technique"
     APP_DESCRIPTION = "Academic Writing Assistant"
@@ -102,7 +102,7 @@ class Config:
             'word_wrap': True,
             'highlight_current_line': True,
             'auto_save': True,
-            'auto_save_interval': 5,
+            'auto_save_interval': 30,
 
             # Spell checking settings
             'spell_check_enabled': True,

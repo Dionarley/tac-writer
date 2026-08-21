@@ -101,7 +101,7 @@ class ProjectManager:
         try:
             with self._get_db_connection() as conn:
                 cursor = conn.cursor()
-                cursor.execute("SELECT 1 FROM projects WHERE id = ? LIMIT 1", (project_id,))
+                cursor.execute("SELECT 1 FROM projects WHERE id = ?", (project_id,))
                 return cursor.fetchone() is not None
         except sqlite3.Error as e:
             print(_("Erro ao verificar existência do projeto: {}").format(e))
@@ -269,8 +269,26 @@ class ProjectManager:
                 formatting_json
             ))
 
-            # Delete existing paragraphs for this project
-            cursor.execute("DELETE FROM paragraphs WHERE project_id = ?", (project.id,))
+            # Parágrafos excluídos pelo user.
+            now_iso = datetime.now().isoformat()
+ 
+            cursor.execute(
+                "SELECT id FROM paragraphs WHERE project_id = ? AND deleted_at IS NULL",
+                (project.id,)
+            )
+            db_ids = {row[0] for row in cursor.fetchall()}
+            current_ids = {p.id for p in project.paragraphs}
+ 
+            for removed_id in (db_ids - current_ids):
+                cursor.execute(
+                    "UPDATE paragraphs SET deleted_at = ?, modified_at = ? WHERE id = ?",
+                    (now_iso, now_iso, removed_id)
+                )
+ 
+            cursor.execute(
+                "DELETE FROM paragraphs WHERE project_id = ? AND deleted_at IS NULL",
+                (project.id,)
+            )
 
             # Insert paragraphs
             paragraphs_data = []
@@ -290,7 +308,8 @@ class ProjectManager:
 
             if paragraphs_data:
                 cursor.executemany("""
-                    INSERT INTO paragraphs (id, project_id, type, content, created_at, modified_at, "order", formatting, footnotes)
+                    INSERT OR REPLACE INTO paragraphs
+                        (id, project_id, type, content, created_at, modified_at, "order", formatting, footnotes)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
                 """, paragraphs_data)
             
@@ -492,8 +511,9 @@ class ProjectManager:
                     
                     # Get paragraphs for this project in correct order
                     cursor.execute("""
-                        SELECT type, content FROM paragraphs 
-                        WHERE project_id = ? ORDER BY "order" ASC
+                        SELECT type, content FROM paragraphs
+                        WHERE project_id = ? AND deleted_at IS NULL
+                        ORDER BY "order" ASC
                     """, (project_id,))
                     paragraphs_rows = cursor.fetchall()
                     
@@ -566,7 +586,7 @@ class ProjectManager:
                 cursor.execute("SELECT COUNT(*) as project_count FROM projects;")
                 project_count = cursor.fetchone()['project_count']
                 
-                cursor.execute("SELECT COUNT(*) as paragraph_count FROM paragraphs;")
+                cursor.execute("SELECT COUNT(*) as paragraph_count FROM paragraphs WHERE deleted_at IS NULL;")
                 paragraph_count = cursor.fetchone()['paragraph_count']
                 
                 # Get database file size
@@ -631,11 +651,53 @@ class ProjectManager:
                 except sqlite3.OperationalError:
                     # Column already exists
                     pass
-                    
+ 
+                # Migração: coluna de exclusão lógica (tombstone).
+                try:
+                    cursor.execute("ALTER TABLE paragraphs ADD COLUMN deleted_at TEXT")
+                except sqlite3.OperationalError:
+                    pass
+ 
+                cursor.execute("""
+                    CREATE INDEX IF NOT EXISTS idx_paragraphs_project_alive
+                    ON paragraphs (project_id, deleted_at);
+                """)
+ 
                 conn.commit()
         except sqlite3.Error as e:
             print(_("Erro de inicialização do banco de dados: {}").format(e))
             raise
+
+    def purge_tombstones(self, days: int = 90) -> int:
+        """
+        Remove definitivamente parágrafos excluídos há mais de N dias.
+
+        Tombstones crescem para sempre se ninguém os remover, e viajam no
+        arquivo enviado à nuvem a cada sincronização. Noventa dias é folga
+        suficiente para qualquer máquina sincronizar e tomar conhecimento
+        da exclusão.
+
+        Atenção: um computador que fique offline por mais tempo que isso
+        não verá as exclusões purgadas, e os parágrafos dele reaparecerão.
+        """
+        from datetime import timedelta
+
+        cutoff = (datetime.now() - timedelta(days=days)).isoformat()
+        try:
+            with self._get_db_connection() as conn:
+                cursor = conn.cursor()
+                cursor.execute(
+                    "DELETE FROM paragraphs WHERE deleted_at IS NOT NULL AND deleted_at < ?",
+                    (cutoff,)
+                )
+                removed = cursor.rowcount
+                conn.commit()
+                if removed:
+                    print(_("Limpeza: {} parágrafo(s) excluído(s) removido(s) em definitivo.").format(removed))
+                return removed
+        except sqlite3.Error as e:
+            print(_("Erro ao limpar tombstones: {}").format(e))
+            return 0
 
     def create_project(self, name: str, template: str = "academic_essay") -> Project:
         """Create a new project"""
@@ -671,7 +733,11 @@ class ProjectManager:
                 project_data['metadata'] = json.loads(project_data['metadata'])
                 project_data['document_formatting'] = json.loads(project_data['document_formatting'])
                 
-                cursor.execute("SELECT * FROM paragraphs WHERE project_id = ? ORDER BY \"order\" ASC", (project_id,))
+                cursor.execute(
+                    'SELECT * FROM paragraphs WHERE project_id = ? '
+                    'AND deleted_at IS NULL ORDER BY "order" ASC',
+                    (project_id,)
+                )
                 paragraphs_rows = cursor.fetchall()
 
                 paragraphs_data = []

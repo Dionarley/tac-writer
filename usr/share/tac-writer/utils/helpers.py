@@ -6,6 +6,7 @@ General utility functions for file operations, validation, and common tasks
 import os
 import re
 import mimetypes
+import unicodedata
 from pathlib import Path
 from typing import Optional, Dict, Any, Tuple
 from datetime import datetime
@@ -369,3 +370,105 @@ class DebugHelper:
         """Log performance information"""
         duration = (end_time - start_time).total_seconds()
         print(_("Performance: {} levou {:.3f} segundos").format(func_name, duration))
+
+class ImageHelper:
+    """Resolve o caminho real de uma imagem, independente da máquina."""
+ 
+    _images_root: Optional[Path] = None
+    _index: Optional[Dict[str, Path]] = None
+ 
+    # ------------------------------------------------------------------
+ 
+    @staticmethod
+    def _fold(name: str) -> str:
+        """Chave de comparação: normaliza acentos e ignora maiúsculas."""
+        return unicodedata.normalize("NFC", name).casefold()
+ 
+    @staticmethod
+    def get_images_root() -> Path:
+        """Raiz das imagens: <data_dir>/images"""
+        if ImageHelper._images_root is None:
+            from core.config import Config
+            ImageHelper._images_root = Config().data_dir / 'images'
+        return ImageHelper._images_root
+ 
+    @staticmethod
+    def refresh() -> None:
+        """
+        Reconstrói o índice da pasta de imagens.
+ 
+        Chamar após a sincronização, quando arquivos novos chegaram ao
+        disco. O resolve() também refaz o índice sozinho num miss, então
+        esta chamada é apenas uma otimização.
+        """
+        index: Dict[str, Path] = {}
+        root = ImageHelper.get_images_root()
+ 
+        if root.exists():
+            for path in root.rglob("*"):
+                if not path.is_file():
+                    continue
+ 
+                relative = path.relative_to(root).as_posix()
+ 
+                # Chave completa (<project_id>/<filename>) e chave só pelo
+                # nome, para quando o project_id não estiver disponível.
+                index.setdefault(ImageHelper._fold(relative), path)
+                index.setdefault(ImageHelper._fold(path.name), path)
+ 
+        ImageHelper._index = index
+ 
+    @staticmethod
+    def _lookup(keys) -> Optional[Path]:
+        """Consulta o índice, reconstruindo-o uma vez se houver miss."""
+        for attempt in range(2):
+            if ImageHelper._index is None:
+                ImageHelper.refresh()
+ 
+            for key in keys:
+                found = ImageHelper._index.get(key)
+                if found is not None and found.exists():
+                    return found
+ 
+            if attempt == 0:
+                # Índice pode estar velho: arquivos novos chegaram pela
+                # sincronização depois da última varredura.
+                ImageHelper.refresh()
+ 
+        return None
+ 
+    # ------------------------------------------------------------------
+ 
+    @staticmethod
+    def resolve(metadata: Dict[str, Any], project_id: Optional[str] = None) -> Optional[Path]:
+        """
+        Devolve o Path da imagem, ou None se ela realmente não existir.
+        """
+        if not metadata:
+            return None
+ 
+        filename = metadata.get('filename')
+ 
+        if filename:
+            keys = []
+            if project_id:
+                keys.append(ImageHelper._fold(f"{project_id}/{filename}"))
+            keys.append(ImageHelper._fold(filename))
+ 
+            found = ImageHelper._lookup(keys)
+            if found is not None:
+                return found
+ 
+        # Último recurso: o caminho absoluto gravado na inserção, que
+        # ainda funciona na máquina onde a imagem foi escolhida.
+        legacy_path = metadata.get('path')
+        if legacy_path:
+            candidate = Path(legacy_path)
+            if candidate.exists():
+                return candidate
+ 
+        return None
+ 
+    @staticmethod
+    def exists(metadata: Dict[str, Any], project_id: Optional[str] = None) -> bool:
+        return ImageHelper.resolve(metadata, project_id) is not None
