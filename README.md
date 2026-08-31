@@ -66,12 +66,10 @@ A Técnica da Argumentação Contínua enfatiza parágrafos interconectados que 
 - **GTK4 + libadwaita**: Integração nativa com desktop Linux
 - **Design Adaptativo**: Layout responsivo que funciona em vários tamanhos de tela
 - **Suporte a Modo Escuro**: Troca automática de tema com as preferências do sistema
-- **Acessibilidade**: Navegação completa por teclado e suporte a leitor de tela
 
 ### 📊 **Análises em Tempo Real**
 - **Estatísticas ao Vivo**: Contagem de palavras, contagem de parágrafos
 - **Acompanhamento de Progresso**: Monitore seu progresso de escrita em tempo real
-- **Tempo de Leitura**: Cálculo estimado do tempo de leitura
 
 ### 💾 **Gerenciamento de Projetos**
 - **Salvamento Automático**: Nunca perca seu trabalho com o salvamento automático
@@ -88,7 +86,7 @@ A Técnica da Argumentação Contínua enfatiza parágrafos interconectados que 
 - **Verificação Ortográfica**: Suporte à verificação ortográfica em tempo real
 - **Atalhos de Teclado**: Fluxo de trabalho eficiente com atalhos personalizáveis
 - **Modo Livre de Distrações**: Foque na escrita com interface mínima
-- **Assistente de IA**: Conecte-se ao Gemini ou OpenRouter para reescrever, resumir ou sugerir parágrafos diretamente do editor (`Ctrl+Shift+I`)
+- **Assistente de IA**: Conecte-se ao Gemini ou OpenRouter para revisar o texto, a partir da procura de erros gramaticais e semânticos. (`Ctrl+Shift+I`)
 
 ## Requisitos do Sistema
 
