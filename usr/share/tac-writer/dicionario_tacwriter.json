@@ -6178,5 +6178,133 @@
       "separar",
       "dispersar"
     ]
+  },
+  "sucinto": {
+    "categoria": "adjetivos_estruturais",
+    "sinonimos": [
+      "conciso",
+      "breve",
+      "resumido",
+      "sumário",
+      "condensado",
+      "direto",
+      "compendiado"
+    ],
+    "antonimos": [
+      "prolixo",
+      "extenso",
+      "detalhado",
+      "verboso",
+      "longo",
+      "minucioso"
+    ]
+  },
+  "forma": {
+    "categoria": "substantivos_atributo",
+    "sinonimos": [
+      "formato",
+      "modo",
+      "maneira",
+      "configuração",
+      "estrutura",
+      "feitio",
+      "molde"
+    ],
+    "antonimos": [
+      "conteúdo",
+      "substância",
+      "essência",
+      "fundo"
+    ]
+  },
+  "relatar": {
+    "categoria": "verbos_citacao",
+    "sinonimos": [
+      "narrar",
+      "descrever",
+      "expor",
+      "contar",
+      "relacionar",
+      "reportar",
+      "historiar"
+    ],
+    "antonimos": [
+      "omitir",
+      "silenciar",
+      "calar",
+      "ocultar"
+    ]
+  },
+  "assegurar": {
+    "categoria": "verbos_argumentacao",
+    "sinonimos": [
+      "garantir",
+      "afiançar",
+      "certificar",
+      "confirmar",
+      "afirmar",
+      "atestar",
+      "assentar"
+    ],
+    "antonimos": [
+      "negar",
+      "contestar",
+      "duvidar",
+      "desmentir",
+      "questionar"
+    ]
+  },
+  "estipular": {
+    "categoria": "verbos_metodologia",
+    "sinonimos": [
+      "determinar",
+      "estabelecer",
+      "fixar",
+      "definir",
+      "convencionar",
+      "instituir",
+      "prescrever"
+    ],
+    "antonimos": [
+      "anular",
+      "revogar",
+      "invalidar",
+      "desfazer"
+    ]
+  },
+  "ligeiramente": {
+    "categoria": "adverbios_modalizacao",
+    "sinonimos": [
+      "levemente",
+      "sutilmente",
+      "moderadamente",
+      "brandamente",
+      "suavemente",
+      "parcialmente"
+    ],
+    "antonimos": [
+      "intensamente",
+      "drasticamente",
+      "profundamente",
+      "consideravelmente",
+      "substancialmente"
+    ]
+  },
+  "intersecção": {
+    "categoria": "substantivos_atributo",
+    "sinonimos": [
+      "cruzamento",
+      "convergência",
+      "encontro",
+      "confluência",
+      "sobreposição",
+      "junção"
+    ],
+    "antonimos": [
+      "divergência",
+      "separação",
+      "afastamento",
+      "disjunção"
+    ]
   }
 }
