@@ -48,6 +48,62 @@ except ImportError:
 
 DROPBOX_APP_KEY = Config.DROPBOX_APP_KEY
 
+
+def _apply_destructive_action_contrast_fix():
+    """
+    Corrige o baixo contraste da classe padrão '.destructive-action' do
+    GTK/libadwaita sobre o fundo escuro customizado do Tac Writer.
+
+    Por padrão, essa classe usa a cor de destaque "destructive" do tema do
+    sistema, que em muitos temas escuros é renderizada como um vermelho
+    dessaturado/translúcido — texto vermelho sobre fundo vermelho escuro,
+    difícil de ler. Isso afeta tanto botões de ação (cancelar, parar,
+    excluir, logout) quanto os chips de antônimos do dicionário.
+
+    Aqui fixamos cores sólidas e com contraste garantido, independente do
+    tema/esquema de cores do sistema operacional.
+    """
+    css = """
+    button.destructive-action,
+    button.destructive-action:hover,
+    button.destructive-action:active,
+    button.pill.destructive-action,
+    button.pill.destructive-action:hover,
+    button.pill.destructive-action:active {
+        background-color: #c01c28;
+        color: #ffffff;
+    }
+
+    button.destructive-action:disabled,
+    button.pill.destructive-action:disabled {
+        background-color: alpha(#c01c28, 0.35);
+        color: alpha(#ffffff, 0.55);
+    }
+
+    button.destructive-action:checked,
+    button.pill.destructive-action:checked {
+        background-color: #a51d2d;
+        color: #ffffff;
+    }
+    """
+    try:
+        provider = Gtk.CssProvider()
+        provider.load_from_string(css)
+        display = Gdk.Display.get_default()
+        if display is not None:
+            Gtk.StyleContext.add_provider_for_display(
+                display,
+                provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1,
+            )
+    except Exception as e:
+        print(_("Erro ao aplicar correção de contraste dos botões destrutivos: {}").format(e))
+
+
+# Aplica a correção assim que o módulo é carregado, antes de qualquer
+# diálogo (incluindo o Dicionário de Sinônimos e Antônimos) ser criado.
+_apply_destructive_action_contrast_fix()
+
 def get_system_fonts():
     """Get list of system fonts using multiple fallback methods"""
     font_names = []
@@ -2496,9 +2552,10 @@ class AiPdfDialog(Adw.Window):
 
         # Instructions
         label = Gtk.Label(
-            label=_("Select a PDF file of your text for review.\n"
-                    "The AI ​​will perform a spelling, grammar, and semantic analysis.\n"
-                    "IMPORTANT: Consider the 10,000 character limit for free APIs. Splitting your text into multiple files may be an alternative to paid API."),
+            label=_("Selecione um arquivo PDF para revisão.\n"
+                    "A IA irá performar uma análise ortográfica, gramatical e semântica,\n" 
+                    "respeitando a Portaria nº 2.664/2026 do CNPq.\n"
+                    "(Modelos gratuitos podem ter limite de 10 mil caracteres)."),
             justify=Gtk.Justification.CENTER,
             wrap=True
         )
@@ -2508,7 +2565,7 @@ class AiPdfDialog(Adw.Window):
         files_group = Adw.PreferencesGroup()
         main_box.append(files_group)
 
-        self.file_row = Adw.ActionRow(title=_("No file selected"))
+        self.file_row = Adw.ActionRow(title=_("Nenhum arquivo selecionado"))
         
         select_btn = Gtk.Button(label=_("Escolher PDF..."))
         select_btn.connect("clicked", self._on_choose_file)
@@ -2577,7 +2634,6 @@ class AiResultDialog(Adw.Window):
         self.set_title(_("Resultados da Análise"))
         self.set_transient_for(parent)
         self.set_modal(True)
-        # I increased the default size a little for comfortable reading
         self.set_default_size(900, 700)
 
         # Container Principal
